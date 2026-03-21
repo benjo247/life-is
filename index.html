@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life is…</title>
+  <meta name="description" content="A collective reflection. Complete the thought." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #faf9f7; color: #1a1a1a; font-family: 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+    header { padding: 60px 0 48px; text-align: center; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #aaa; margin-bottom: 20px; }
+    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(52px, 10vw, 96px); font-weight: 400; line-height: 1; letter-spacing: -0.02em; }
+    .ellipsis { color: #c8c4bc; }
+
+    .input-section { max-width: 640px; margin: 0 auto; padding: 0 24px 72px; }
+    .prefix { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 3vw, 24px); font-style: italic; color: #c8c4bc; display: block; margin-bottom: 2px; }
+    textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #d0cdc8; outline: none; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 3vw, 24px); font-style: italic; color: #1a1a1a; resize: none; line-height: 1.6; padding: 8px 0 12px; transition: border-color 0.3s; display: block; }
+    textarea:focus { border-bottom-color: #1a1a1a; }
+    textarea::placeholder { color: #c8c4bc; }
+    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+    .counter { font-size: 13px; color: #bbb; transition: color 0.2s; }
+    .counter.warn { color: #c0392b; }
+    .submit-btn { background: #1a1a1a; color: #faf9f7; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 15px; letter-spacing: 0.08em; padding: 11px 32px; transition: background 0.2s, transform 0.1s; }
+    .submit-btn:hover { background: #333; }
+    .submit-btn:disabled { opacity: 0.4; cursor: default; }
+    .confirmation { margin-top: 20px; font-size: 14px; color: #aaa; font-style: italic; text-align: right; display: none; }
+
+    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px 120px; }
+    .voice-count { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #bbb; margin-bottom: 32px; text-align: center; }
+    .empty { font-family: 'Playfair Display', serif; text-align: center; color: #bbb; font-style: italic; font-size: 18px; padding: 40px 0; }
+
+    .entry-card { padding: 28px 0; }
+    .entry-card.new { animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px, 2.5vw, 21px); font-weight: 400; line-height: 1.55; margin-bottom: 14px; }
+    .entry-prefix { color: #bbb; }
+    .entry-meta { display: flex; align-items: center; justify-content: space-between; }
+    .timestamp { font-size: 12px; color: #c8c4bc; letter-spacing: 0.03em; }
+    .actions { display: flex; gap: 20px; align-items: center; }
+    .like-btn, .share-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 13px; font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; }
+    .like-btn { color: #999; }
+    .like-btn:hover, .like-btn.liked { color: #c0392b; }
+    .share-btn { color: #bbb; }
+    .share-btn:hover { color: #555; }
+    .divider { border: none; border-top: 1px solid #e8e4df; }
+    footer { text-align: center; padding: 40px 24px; border-top: 1px solid #e8e4df; font-size: 12px; color: #ccc; letter-spacing: 0.1em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">A collective reflection</p>
+    <h1>Life is<span class="ellipsis">…</span></h1>
+  </header>
+
+  <section class="input-section">
+    <span class="prefix">Life is…</span>
+    <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
+    <div class="input-footer">
+      <span class="counter" id="counter">200 left</span>
+      <button class="submit-btn" id="submitBtn" disabled>Publish</button>
+    </div>
+    <p class="confirmation" id="confirmation">Your words are now part of the stream ↓</p>
+  </section>
+
+  <section class="feed" id="feed">
+    <p class="voice-count" id="voiceCount" style="display:none"></p>
+    <p class="empty" id="emptyMsg">Be the first to complete the thought.</p>
+    <div id="entries"></div>
+  </section>
+
+  <footer>
+    <p>Life is… · A shared thought</p>
+  </footer>
+
+  <script>
+    // ─── CONFIG ───────────────────────────────────────────────
+    const SUPABASE_URL  = 'https://acdiodygerxvxewiqpox.supabase.co'
+    const SUPABASE_KEY  = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
+    const MAX_CHARS     = 200
+    // ──────────────────────────────────────────────────────────
+
+    const { createClient } = supabase
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+    let entries   = []
+    let likedIds  = new Set(JSON.parse(localStorage.getItem('life-is-liked') || '[]'))
+
+    const inputEl     = document.getElementById('input')
+    const counterEl   = document.getElementById('counter')
+    const submitBtn   = document.getElementById('submitBtn')
+    const confirmation= document.getElementById('confirmation')
+    const entriesEl   = document.getElementById('entries')
+    const voiceCount  = document.getElementById('voiceCount')
+    const emptyMsg    = document.getElementById('emptyMsg')
+    const feedEl      = document.getElementById('feed')
+
+    function timeAgo(ts) {
+      const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 1000)
+      if (diff < 60)    return 'just now'
+      if (diff < 3600)  return `${Math.floor(diff/60)}m ago`
+      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`
+      return `${Math.floor(diff/86400)}d ago`
+    }
+
+    function saveLiked() {
+      localStorage.setItem('life-is-liked', JSON.stringify([...likedIds]))
+    }
+
+    function renderEntries(animate = null) {
+      entriesEl.innerHTML = ''
+      emptyMsg.style.display = entries.length ? 'none' : 'block'
+      voiceCount.style.display = entries.length ? 'block' : 'none'
+      voiceCount.textContent = `${entries.length} ${entries.length === 1 ? 'voice' : 'voices'}`
+
+      entries.forEach((entry, i) => {
+        const card = document.createElement('div')
+        card.className = 'entry-card' + (entry.id === animate ? ' new' : '')
+        card.innerHTML = `
+          <p class="entry-text"><span class="entry-prefix">Life is… </span>${escHtml(entry.text)}</p>
+          <div class="entry-meta">
+            <span class="timestamp">${timeAgo(entry.created_at)}</span>
+            <div class="actions">
+              <button class="like-btn ${likedIds.has(entry.id) ? 'liked' : ''}" data-id="${entry.id}">
+                <svg width="15" height="15" viewBox="0 0 24 24"
+                  fill="${likedIds.has(entry.id) ? 'currentColor' : 'none'}"
+                  stroke="currentColor" stroke-width="1.5">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+                ${entry.likes > 0 ? `<span>${entry.likes}</span>` : ''}
+              </button>
+              <button class="share-btn" data-id="${entry.id}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+              </button>
+            </div>
+          </div>`
+
+        entriesEl.appendChild(card)
+        if (i < entries.length - 1) {
+          const hr = document.createElement('hr')
+          hr.className = 'divider'
+          entriesEl.appendChild(hr)
+        }
+      })
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    }
+
+    // Load initial entries
+    async function loadEntries() {
+      const { data } = await db.from('entries').select('*').order('created_at', { ascending: false }).limit(100)
+      entries = data || []
+      renderEntries()
+    }
+
+    // Realtime
+    db.channel('entries-stream')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'entries' }, payload => {
+        if (entries.find(e => e.id === payload.new.id)) return
+        entries = [payload.new, ...entries]
+        renderEntries(payload.new.id)
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'entries' }, payload => {
+        entries = entries.map(e => e.id === payload.new.id ? payload.new : e)
+        renderEntries()
+      })
+      .subscribe()
+
+    // Input
+    inputEl.addEventListener('input', () => {
+      const len = inputEl.value.length
+      const left = MAX_CHARS - len
+      counterEl.textContent = `${left} left`
+      counterEl.classList.toggle('warn', left < 30)
+      submitBtn.disabled = len === 0
+    })
+
+    // Submit
+    submitBtn.addEventListener('click', async () => {
+      const text = inputEl.value.trim()
+      if (!text) return
+      submitBtn.disabled = true
+      submitBtn.textContent = 'Publishing…'
+      await db.from('entries').insert({ text, likes: 0 })
+      inputEl.value = ''
+      counterEl.textContent = `${MAX_CHARS} left`
+      counterEl.classList.remove('warn')
+      submitBtn.textContent = 'Publish'
+      confirmation.style.display = 'block'
+      feedEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+
+    // Like & Share (event delegation)
+    entriesEl.addEventListener('click', async e => {
+      const likeBtn  = e.target.closest('.like-btn')
+      const shareBtn = e.target.closest('.share-btn')
+
+      if (likeBtn) {
+        const id = likeBtn.dataset.id
+        const entry = entries.find(e => e.id === id)
+        if (!entry) return
+        const liked = likedIds.has(id)
+        const newCount = liked ? Math.max(0, entry.likes - 1) : entry.likes + 1
+        liked ? likedIds.delete(id) : likedIds.add(id)
+        saveLiked()
+        entries = entries.map(e => e.id === id ? { ...e, likes: newCount } : e)
+        renderEntries()
+        await db.from('entries').update({ likes: newCount }).eq('id', id)
+      }
+
+      if (shareBtn) {
+        const id = shareBtn.dataset.id
+        const entry = entries.find(e => e.id === id)
+        if (!entry) return
+        const text = `Life is… ${entry.text}`
+        if (navigator.share) {
+          navigator.share({ title: 'Life is…', text, url: window.location.href })
+        } else {
+          navigator.clipboard.writeText(`${text}\n${window.location.href}`)
+          shareBtn.innerHTML = '<span style="font-size:12px;color:#888">Copied</span>'
+          setTimeout(() => shareBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`, 2000)
+        }
+      }
+    })
+
+    loadEntries()
+  </script>
+</body>
+</html>
