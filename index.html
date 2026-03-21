@@ -1,139 +1,401 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Life is…</title>
-  <meta name="description" content="A collective reflection. Complete the thought." />
+  <meta name="description" content="Eine kollektive Reflexion. Vervollständige den Gedanken." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
+    :root {
+      --bg: #faf9f7;
+      --bg2: #f2f0ec;
+      --text: #1a1a1a;
+      --text-muted: #aaa;
+      --text-faint: #c8c4bc;
+      --border: #e8e4df;
+      --border-input: #d0cdc8;
+      --accent: #c0392b;
+      --btn-bg: #1a1a1a;
+      --btn-text: #faf9f7;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    [data-theme="dark"] {
+      --bg: #111110;
+      --bg2: #1a1917;
+      --text: #f0ede8;
+      --text-muted: #666;
+      --text-faint: #444;
+      --border: #2a2825;
+      --border-input: #333;
+      --accent: #e05a4a;
+      --btn-bg: #f0ede8;
+      --btn-text: #111110;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #faf9f7; color: #1a1a1a; font-family: 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'EB Garamond', Georgia, serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
     ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    header { padding: 60px 0 48px; text-align: center; }
-    .eyebrow { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #aaa; margin-bottom: 20px; }
-    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(52px, 10vw, 96px); font-weight: 400; line-height: 1; letter-spacing: -0.02em; }
-    .ellipsis { color: #c8c4bc; }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .topbar-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px; font-style: italic;
+      color: var(--text); text-decoration: none; cursor: pointer;
+    }
+    .topbar-logo span { color: var(--text-faint); }
+    .dark-toggle {
+      background: none; border: 1px solid var(--border);
+      cursor: pointer; color: var(--text-muted);
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; font-size: 16px;
+    }
+    .dark-toggle:hover { border-color: var(--text-muted); color: var(--text); }
 
-    .input-section { max-width: 640px; margin: 0 auto; padding: 0 24px 72px; }
-    .prefix { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 3vw, 24px); font-style: italic; color: #c8c4bc; display: block; margin-bottom: 2px; }
-    textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #d0cdc8; outline: none; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 3vw, 24px); font-style: italic; color: #1a1a1a; resize: none; line-height: 1.6; padding: 8px 0 12px; transition: border-color 0.3s; display: block; }
-    textarea:focus { border-bottom-color: #1a1a1a; }
-    textarea::placeholder { color: #c8c4bc; }
-    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
-    .counter { font-size: 13px; color: #bbb; transition: color 0.2s; }
-    .counter.warn { color: #c0392b; }
-    .submit-btn { background: #1a1a1a; color: #faf9f7; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 15px; letter-spacing: 0.08em; padding: 11px 32px; transition: background 0.2s, transform 0.1s; }
-    .submit-btn:hover { background: #333; }
-    .submit-btn:disabled { opacity: 0.4; cursor: default; }
-    .confirmation { margin-top: 20px; font-size: 14px; color: #aaa; font-style: italic; text-align: right; display: none; }
+    .page { display: none; animation: fadeIn 0.4s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px 120px; }
-    .voice-count { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #bbb; margin-bottom: 32px; text-align: center; }
-    .empty { font-family: 'Playfair Display', serif; text-align: center; color: #bbb; font-style: italic; font-size: 18px; padding: 40px 0; }
+    header {
+      padding: clamp(40px, 8vw, 80px) 0 clamp(32px, 6vw, 56px);
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 11px; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;
+      opacity: 0; animation: riseUp 0.8s 0.1s ease forwards;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(48px, 10vw, 96px);
+      font-weight: 400; line-height: 1; letter-spacing: -0.02em; color: var(--text);
+      opacity: 0; animation: riseUp 0.8s 0.2s ease forwards;
+    }
+    .ellipsis { color: var(--text-faint); }
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-    .entry-card { padding: 28px 0; }
+    .input-section {
+      max-width: 640px; margin: 0 auto;
+      padding: 0 24px clamp(48px, 8vw, 72px);
+      opacity: 0; animation: riseUp 0.8s 0.35s ease forwards;
+    }
+    .input-wrapper {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px 24px 16px;
+      transition: background 0.3s, border-color 0.3s;
+      box-shadow: var(--card-shadow);
+    }
+    .prefix {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(16px, 3vw, 22px); font-style: italic;
+      color: var(--text-faint); display: block; margin-bottom: 4px;
+    }
+    textarea {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid var(--border-input); outline: none;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(16px, 3vw, 22px); font-style: italic; color: var(--text);
+      resize: none; line-height: 1.6; padding: 6px 0 10px;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    textarea:focus { border-bottom-color: var(--text); }
+    textarea::placeholder { color: var(--text-faint); }
+    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+    .counter { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+    .counter.warn { color: var(--accent); }
+    .submit-btn {
+      background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer;
+      font-family: 'EB Garamond', Georgia, serif; font-size: 14px;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 28px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .submit-btn:hover { opacity: 0.8; }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.35; cursor: default; }
+    .confirmation { margin-top: 12px; font-size: 13px; color: var(--text-muted); font-style: italic; text-align: right; display: none; }
+
+    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(60px, 10vw, 120px); }
+    .voice-count { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; text-align: center; display: none; }
+    .empty { font-family: 'Playfair Display', serif; text-align: center; color: var(--text-faint); font-style: italic; font-size: 18px; padding: 40px 0; }
+
+    .entry-card { padding: 24px 0; }
     .entry-card.new { animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
-    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px, 2.5vw, 21px); font-weight: 400; line-height: 1.55; margin-bottom: 14px; }
-    .entry-prefix { color: #bbb; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: translateY(0); } }
+    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(16px, 2.5vw, 20px); font-weight: 400; line-height: 1.6; margin-bottom: 12px; color: var(--text); }
+    .entry-prefix { color: var(--text-faint); }
     .entry-meta { display: flex; align-items: center; justify-content: space-between; }
-    .timestamp { font-size: 12px; color: #c8c4bc; letter-spacing: 0.03em; }
-    .actions { display: flex; gap: 20px; align-items: center; }
-    .like-btn, .share-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 13px; font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; }
-    .like-btn { color: #999; }
-    .like-btn:hover, .like-btn.liked { color: #c0392b; }
-    .share-btn { color: #bbb; }
-    .share-btn:hover { color: #555; }
-    .divider { border: none; border-top: 1px solid #e8e4df; }
-    footer { text-align: center; padding: 40px 24px; border-top: 1px solid #e8e4df; font-size: 12px; color: #ccc; letter-spacing: 0.1em; text-transform: uppercase; }
+    .timestamp { font-size: 12px; color: var(--text-faint); letter-spacing: 0.03em; }
+    .actions { display: flex; gap: 18px; align-items: center; }
+    .like-btn, .share-btn {
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 5px; font-size: 13px;
+      font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; color: var(--text-muted);
+    }
+    .like-btn:hover, .like-btn.liked { color: var(--accent); }
+    .share-btn:hover { color: var(--text); }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    footer {
+      text-align: center; padding: 32px 24px; border-top: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px;
+    }
+    footer span {
+      font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer; transition: color 0.2s;
+    }
+    footer span:hover { color: var(--text); }
+
+    .legal-page { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
+    .legal-back {
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); cursor: pointer; background: none; border: none;
+      display: flex; align-items: center; gap: 6px; margin-bottom: 40px;
+      transition: color 0.2s; font-family: 'EB Garamond', serif;
+    }
+    .legal-back:hover { color: var(--text); }
+    .legal-page h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; margin-bottom: 32px; color: var(--text); }
+    .legal-page h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 400; margin: 32px 0 12px; color: var(--text); }
+    .legal-page p { font-size: 16px; line-height: 1.8; color: var(--text-muted); margin-bottom: 16px; }
+    .legal-page ul { list-style: none; padding: 0; margin-bottom: 16px; }
+    .legal-page ul li { font-size: 16px; line-height: 1.8; color: var(--text-muted); padding-left: 16px; position: relative; margin-bottom: 6px; }
+    .legal-page ul li::before { content: '—'; position: absolute; left: 0; color: var(--text-faint); }
+    .legal-page a { color: var(--text-muted); }
+    .legal-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+    .placeholder { background: var(--bg2); border: 1px dashed var(--border); padding: 2px 8px; color: var(--accent); font-size: 14px; }
+
+    @media (max-width: 480px) {
+      .topbar { padding: 12px 16px; }
+      .input-section, .feed, .legal-page { padding-left: 16px; padding-right: 16px; }
+      .input-wrapper { padding: 16px 16px 12px; }
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <p class="eyebrow">A collective reflection</p>
-    <h1>Life is<span class="ellipsis">…</span></h1>
-  </header>
+  <nav class="topbar">
+    <span class="topbar-logo" onclick="showPage('home')">Life is<span>…</span></span>
+    <button class="dark-toggle" id="darkToggle" title="Dark Mode">🌙</button>
+  </nav>
 
-  <section class="input-section">
-    <span class="prefix">Life is…</span>
-    <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
-    <div class="input-footer">
-      <span class="counter" id="counter">200 left</span>
-      <button class="submit-btn" id="submitBtn" disabled>Publish</button>
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <header>
+      <p class="eyebrow">Eine kollektive Reflexion</p>
+      <h1>Life is<span class="ellipsis">…</span></h1>
+    </header>
+    <section class="input-section">
+      <div class="input-wrapper">
+        <span class="prefix">Life is…</span>
+        <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
+        <div class="input-footer">
+          <span class="counter" id="counter">200</span>
+          <button class="submit-btn" id="submitBtn" disabled>Publish</button>
+        </div>
+      </div>
+      <p class="confirmation" id="confirmation">Deine Worte sind jetzt Teil des Streams ↓</p>
+    </section>
+    <section class="feed" id="feed">
+      <p class="voice-count" id="voiceCount"></p>
+      <p class="empty" id="emptyMsg">Sei der Erste, der den Gedanken vervollständigt.</p>
+      <div id="entries"></div>
+    </section>
+    <footer>
+      <span onclick="showPage('impressum')">Impressum</span>
+      <span onclick="showPage('datenschutz')">Datenschutz</span>
+      <span onclick="showPage('nutzung')">Nutzungsbedingungen</span>
+      <span onclick="showPage('guidelines')">Community Guidelines</span>
+    </footer>
+  </div>
+
+  <!-- IMPRESSUM -->
+  <div class="page" id="page-impressum">
+    <div class="legal-page">
+      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <h2>Impressum</h2>
+      <p>Angaben gemäß § 5 TMG:</p>
+      <h3>Verantwortlich</h3>
+      <p>
+        <span class="placeholder">[Dein vollständiger Name]</span><br/><br/>
+        <span class="placeholder">[Straße und Hausnummer]</span><br/><br/>
+        <span class="placeholder">[PLZ und Ort]</span><br/><br/>
+        Deutschland
+      </p>
+      <h3>Kontakt</h3>
+      <p>E-Mail: <span class="placeholder">[deine@email.de]</span></p>
+      <hr class="legal-divider"/>
+      <h3>Haftung für Inhalte</h3>
+      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
+      <h3>Urheberrecht</h3>
+      <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
     </div>
-    <p class="confirmation" id="confirmation">Your words are now part of the stream ↓</p>
-  </section>
+  </div>
 
-  <section class="feed" id="feed">
-    <p class="voice-count" id="voiceCount" style="display:none"></p>
-    <p class="empty" id="emptyMsg">Be the first to complete the thought.</p>
-    <div id="entries"></div>
-  </section>
+  <!-- DATENSCHUTZ -->
+  <div class="page" id="page-datenschutz">
+    <div class="legal-page">
+      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <h2>Datenschutzerklärung</h2>
+      <h3>1. Verantwortlicher</h3>
+      <p>Verantwortlicher im Sinne der DSGVO ist: <span class="placeholder">[Dein Name, Adresse]</span></p>
+      <h3>2. Welche Daten wir erfassen</h3>
+      <ul>
+        <li>Von dir verfasste Texte (deine Vervollständigungen von „Life is…")</li>
+        <li>Anzahl der Likes pro Eintrag</li>
+        <li>Technische Zugriffsdaten durch unseren Hosting-Anbieter Vercel</li>
+      </ul>
+      <h3>3. Zweck der Verarbeitung</h3>
+      <p>Deine Texte werden gespeichert, um sie im öffentlichen Feed anzuzeigen. Es findet keine Verknüpfung mit deiner Identität statt.</p>
+      <h3>4. Anonymität</h3>
+      <p>Beiträge werden ohne Nutzernamen, E-Mail oder sonstige personenbezogene Daten gespeichert. Wir empfehlen, keine persönlichen Informationen in deinen Beiträgen zu teilen.</p>
+      <h3>5. Drittanbieter</h3>
+      <ul>
+        <li><strong>Supabase</strong> (Datenbank, EU) – <a href="https://supabase.com/privacy" target="_blank">Datenschutz</a></li>
+        <li><strong>Vercel</strong> (Hosting) – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Datenschutz</a></li>
+        <li><strong>Google Fonts</strong> (Schriftarten) – <a href="https://policies.google.com/privacy" target="_blank">Datenschutz</a></li>
+      </ul>
+      <h3>6. Deine Rechte</h3>
+      <p>Du hast das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Kontakt: <span class="placeholder">[deine@email.de]</span></p>
+      <h3>7. Cookies</h3>
+      <p>Diese Seite verwendet keine Tracking-Cookies. Im localStorage deines Browsers werden lediglich die von dir geliketen Beiträge gespeichert – ausschließlich lokal auf deinem Gerät.</p>
+    </div>
+  </div>
 
-  <footer>
-    <p>Life is… · A shared thought</p>
-  </footer>
+  <!-- NUTZUNGSBEDINGUNGEN -->
+  <div class="page" id="page-nutzung">
+    <div class="legal-page">
+      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <h2>Nutzungsbedingungen</h2>
+      <h3>1. Geltungsbereich</h3>
+      <p>Diese Nutzungsbedingungen gelten für die Nutzung der Plattform „Life is…" unter <span class="placeholder">[deine-url.vercel.app]</span>.</p>
+      <h3>2. Nutzung der Plattform</h3>
+      <p>Die Plattform steht allen Nutzern kostenfrei zur Verfügung. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
+      <h3>3. Inhalte der Nutzer</h3>
+      <p>Du bist für die von dir veröffentlichten Inhalte selbst verantwortlich. Mit dem Veröffentlichen räumst du dem Betreiber ein einfaches, weltweites Nutzungsrecht zur Darstellung des Inhalts auf der Plattform ein.</p>
+      <h3>4. Verbotene Inhalte</h3>
+      <ul>
+        <li>Hassrede, Diskriminierung oder Beleidigungen</li>
+        <li>Inhalte, die Minderjährige gefährden</li>
+        <li>Spam, Werbung oder irrelevante Inhalte</li>
+        <li>Inhalte, die gegen geltendes Recht verstoßen</li>
+      </ul>
+      <h3>5. Haftungsausschluss</h3>
+      <p>Der Betreiber übernimmt keine Haftung für die Richtigkeit oder Vollständigkeit der von Nutzern veröffentlichten Inhalte.</p>
+      <h3>6. Änderungen</h3>
+      <p>Der Betreiber behält sich das Recht vor, diese Bedingungen jederzeit zu ändern.</p>
+    </div>
+  </div>
+
+  <!-- COMMUNITY GUIDELINES -->
+  <div class="page" id="page-guidelines">
+    <div class="legal-page">
+      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <h2>Community Guidelines</h2>
+      <p>„Life is…" ist ein Ort der Reflexion, Offenheit und Poesie. Damit das so bleibt:</p>
+      <h3>✦ Sei ehrlich</h3>
+      <p>Teile echte Gedanken. Dieser Raum lebt von Authentizität – nicht von Perfektion.</p>
+      <h3>✦ Sei respektvoll</h3>
+      <p>Andere Perspektiven bereichern den Stream. Beiträge, die Menschen herabsetzen, werden entfernt.</p>
+      <h3>✦ Halte es poetisch</h3>
+      <p>Kein Spam, keine Werbung, keine Links. Dieser Feed ist kein Marktplatz – er ist ein Gedicht.</p>
+      <h3>✦ Teile nichts Persönliches</h3>
+      <p>Veröffentliche keine Namen, Adressen oder andere persönliche Daten.</p>
+      <h3>✦ Kein Schaden</h3>
+      <p>Inhalte, die zur Selbstverletzung aufrufen oder andere gefährden, werden sofort entfernt.</p>
+      <hr class="legal-divider"/>
+      <p>Verstöße melden: <span class="placeholder">[deine@email.de]</span></p>
+    </div>
+  </div>
 
   <script>
-    // ─── CONFIG ───────────────────────────────────────────────
-    const SUPABASE_URL  = 'https://acdiodygerxvxewiqpox.supabase.co'
-    const SUPABASE_KEY  = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
-    const MAX_CHARS     = 200
-    // ──────────────────────────────────────────────────────────
+    const SUPABASE_URL = 'https://acdiodygerxvxewiqpox.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
+    const MAX_CHARS    = 200
 
     const { createClient } = supabase
     const db = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-    let entries   = []
-    let likedIds  = new Set(JSON.parse(localStorage.getItem('life-is-liked') || '[]'))
+    let entries  = []
+    let likedIds = new Set(JSON.parse(localStorage.getItem('life-is-liked') || '[]'))
 
-    const inputEl     = document.getElementById('input')
-    const counterEl   = document.getElementById('counter')
-    const submitBtn   = document.getElementById('submitBtn')
-    const confirmation= document.getElementById('confirmation')
-    const entriesEl   = document.getElementById('entries')
-    const voiceCount  = document.getElementById('voiceCount')
-    const emptyMsg    = document.getElementById('emptyMsg')
-    const feedEl      = document.getElementById('feed')
+    // Dark mode
+    const darkToggle = document.getElementById('darkToggle')
+    const saved = localStorage.getItem('life-is-theme')
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark')
+      darkToggle.textContent = '☀️'
+    }
+    darkToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark')
+      darkToggle.textContent = isDark ? '🌙' : '☀️'
+      localStorage.setItem('life-is-theme', isDark ? 'light' : 'dark')
+    })
+
+    // Navigation
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+      document.getElementById('page-' + name).classList.add('active')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     function timeAgo(ts) {
       const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 1000)
-      if (diff < 60)    return 'just now'
-      if (diff < 3600)  return `${Math.floor(diff/60)}m ago`
-      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`
-      return `${Math.floor(diff/86400)}d ago`
+      if (diff < 60)    return 'gerade eben'
+      if (diff < 3600)  return `vor ${Math.floor(diff/60)}m`
+      if (diff < 86400) return `vor ${Math.floor(diff/3600)}h`
+      return `vor ${Math.floor(diff/86400)}d`
     }
-
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    }
     function saveLiked() {
       localStorage.setItem('life-is-liked', JSON.stringify([...likedIds]))
     }
 
-    function renderEntries(animate = null) {
-      entriesEl.innerHTML = ''
-      emptyMsg.style.display = entries.length ? 'none' : 'block'
-      voiceCount.style.display = entries.length ? 'block' : 'none'
-      voiceCount.textContent = `${entries.length} ${entries.length === 1 ? 'voice' : 'voices'}`
+    function renderEntries(animateId = null) {
+      const el    = document.getElementById('entries')
+      const empty = document.getElementById('emptyMsg')
+      const vc    = document.getElementById('voiceCount')
+      el.innerHTML = ''
+      empty.style.display = entries.length ? 'none' : 'block'
+      vc.style.display    = entries.length ? 'block' : 'none'
+      vc.textContent      = `${entries.length} ${entries.length === 1 ? 'Stimme' : 'Stimmen'}`
 
       entries.forEach((entry, i) => {
-        const card = document.createElement('div')
-        card.className = 'entry-card' + (entry.id === animate ? ' new' : '')
+        const liked = likedIds.has(entry.id)
+        const card  = document.createElement('div')
+        card.className = 'entry-card' + (entry.id === animateId ? ' new' : '')
         card.innerHTML = `
           <p class="entry-text"><span class="entry-prefix">Life is… </span>${escHtml(entry.text)}</p>
           <div class="entry-meta">
             <span class="timestamp">${timeAgo(entry.created_at)}</span>
             <div class="actions">
-              <button class="like-btn ${likedIds.has(entry.id) ? 'liked' : ''}" data-id="${entry.id}">
-                <svg width="15" height="15" viewBox="0 0 24 24"
-                  fill="${likedIds.has(entry.id) ? 'currentColor' : 'none'}"
-                  stroke="currentColor" stroke-width="1.5">
+              <button class="like-btn ${liked ? 'liked' : ''}" data-id="${entry.id}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
                 ${entry.likes > 0 ? `<span>${entry.likes}</span>` : ''}
@@ -147,74 +409,68 @@
               </button>
             </div>
           </div>`
-
-        entriesEl.appendChild(card)
+        el.appendChild(card)
         if (i < entries.length - 1) {
           const hr = document.createElement('hr')
           hr.className = 'divider'
-          entriesEl.appendChild(hr)
+          el.appendChild(hr)
         }
       })
     }
 
-    function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-    }
-
-    // Load initial entries
     async function loadEntries() {
       const { data } = await db.from('entries').select('*').order('created_at', { ascending: false }).limit(100)
       entries = data || []
       renderEntries()
     }
 
-    // Realtime
     db.channel('entries-stream')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'entries' }, payload => {
-        if (entries.find(e => e.id === payload.new.id)) return
-        entries = [payload.new, ...entries]
-        renderEntries(payload.new.id)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'entries' }, p => {
+        if (entries.find(e => e.id === p.new.id)) return
+        entries = [p.new, ...entries]
+        renderEntries(p.new.id)
       })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'entries' }, payload => {
-        entries = entries.map(e => e.id === payload.new.id ? payload.new : e)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'entries' }, p => {
+        entries = entries.map(e => e.id === p.new.id ? p.new : e)
         renderEntries()
       })
       .subscribe()
 
-    // Input
+    const inputEl   = document.getElementById('input')
+    const counterEl = document.getElementById('counter')
+    const submitBtn = document.getElementById('submitBtn')
+    const confirm   = document.getElementById('confirmation')
+
     inputEl.addEventListener('input', () => {
-      const len = inputEl.value.length
-      const left = MAX_CHARS - len
-      counterEl.textContent = `${left} left`
+      const left = MAX_CHARS - inputEl.value.length
+      counterEl.textContent = left
       counterEl.classList.toggle('warn', left < 30)
-      submitBtn.disabled = len === 0
+      submitBtn.disabled = inputEl.value.trim().length === 0
     })
 
-    // Submit
     submitBtn.addEventListener('click', async () => {
       const text = inputEl.value.trim()
       if (!text) return
       submitBtn.disabled = true
-      submitBtn.textContent = 'Publishing…'
+      submitBtn.textContent = '…'
       await db.from('entries').insert({ text, likes: 0 })
       inputEl.value = ''
-      counterEl.textContent = `${MAX_CHARS} left`
+      counterEl.textContent = MAX_CHARS
       counterEl.classList.remove('warn')
       submitBtn.textContent = 'Publish'
-      confirmation.style.display = 'block'
-      feedEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      confirm.style.display = 'block'
+      document.getElementById('feed').scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
 
-    // Like & Share (event delegation)
-    entriesEl.addEventListener('click', async e => {
+    document.getElementById('entries').addEventListener('click', async e => {
       const likeBtn  = e.target.closest('.like-btn')
       const shareBtn = e.target.closest('.share-btn')
 
       if (likeBtn) {
-        const id = likeBtn.dataset.id
+        const id    = likeBtn.dataset.id
         const entry = entries.find(e => e.id === id)
         if (!entry) return
-        const liked = likedIds.has(id)
+        const liked    = likedIds.has(id)
         const newCount = liked ? Math.max(0, entry.likes - 1) : entry.likes + 1
         liked ? likedIds.delete(id) : likedIds.add(id)
         saveLiked()
@@ -224,7 +480,7 @@
       }
 
       if (shareBtn) {
-        const id = shareBtn.dataset.id
+        const id    = shareBtn.dataset.id
         const entry = entries.find(e => e.id === id)
         if (!entry) return
         const text = `Life is… ${entry.text}`
@@ -232,8 +488,10 @@
           navigator.share({ title: 'Life is…', text, url: window.location.href })
         } else {
           navigator.clipboard.writeText(`${text}\n${window.location.href}`)
-          shareBtn.innerHTML = '<span style="font-size:12px;color:#888">Copied</span>'
-          setTimeout(() => shareBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`, 2000)
+          shareBtn.innerHTML = '<span style="font-size:12px">Kopiert</span>'
+          setTimeout(() => {
+            shareBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`
+          }, 2000)
         }
       }
     })
