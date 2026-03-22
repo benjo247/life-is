@@ -83,7 +83,7 @@
     .entry-meta{display:flex;align-items:center;justify-content:space-between}
     .entry-meta-left{display:flex;align-items:center;gap:10px}
     .timestamp{font-size:12px;color:var(--faint);letter-spacing:.03em}
-    .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6}
+    .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .actions{display:flex;gap:18px;align-items:center}
     .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
@@ -92,7 +92,7 @@
 
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
     .footer-support{width:100%;text-align:center;margin-top:8px}
-    footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none}
+    footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     footer span:hover,footer a:hover{color:var(--text)}
 
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -137,6 +137,7 @@
 
   <nav class="topbar">
     <span class="logo" onclick="showPage('home')">Life is<span>…</span></span>
+    <span id="t-about-link" onclick="showPage('about')" style="font-family:'EB Garamond',serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">About</span>
     <div class="topbar-right">
       <div class="lang-toggle">
         <button class="lang-btn active" id="btnDE" onclick="setLang('de')">DE</button>
@@ -166,6 +167,7 @@
 
     <div class="filters">
       <button class="filter-btn active" onclick="setFilter('all',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>All</button>
+      <button class="filter-btn" onclick="setFilter('top10',this)"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="currentColor" stroke="currentColor" stroke-width="0.5"/></svg>Top 10</button>
       <button class="filter-btn" onclick="setFilter('encouraging',this)"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Encouraging</button>
       <button class="filter-btn" onclick="setFilter('self-love',this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Self-love</button>
       <button class="filter-btn" onclick="setFilter('joy',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Joy</button>
@@ -190,6 +192,19 @@
       <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="t-sup" class="footer-support">☕ Projekt unterstützen</a>
       <span style="width:100%;text-align:center;margin-top:8px;font-size:10px;color:var(--faint);letter-spacing:.08em;text-transform:none;cursor:default">© 2025 Life is… All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
     </footer>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="page-about">
+    <div class="legal-page" style="max-width:580px">
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-ba">Zurück</span></button>
+      <h2 style="font-family:'Meow Script',cursive;font-size:clamp(42px,8vw,72px);color:var(--accent);font-weight:400;margin-bottom:40px">Life is…</h2>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;line-height:1.8;color:var(--text);margin-bottom:24px" id="t-about1">A sentence no one can finish alone.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about2">Life is… was built on a simple belief: that the most honest things we say about life are often unfinished. A thought left open. A sentence that invites someone else in.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about3">This is not a social network. There are no profiles, no followers, no algorithms. Just people — from anywhere — completing a sentence together. Anonymously. Honestly.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:40px" id="t-about4">Every entry is a small truth. And together, they become something larger than any one of us could say alone.</p>
+      <p style="font-family:'Meow Script',cursive;font-size:32px;color:var(--accent)" id="t-about5">Life is… what you make of it.</p>
+    </div>
   </div>
 
   <!-- IMPRESSUM -->
@@ -242,20 +257,25 @@
       <button class="legal-back" onclick="showPage('home')">← <span id="t-b3">Zurück</span></button>
       <h2 id="t-terms-h">Nutzungsbedingungen</h2>
       <h3>1. <span id="t-sh">Geltungsbereich</span></h3>
-      <p id="t-sc">Diese Bedingungen gelten für Life is…</p>
+      <p id="t-sc">Diese Bedingungen gelten für Life is… und alle damit verbundenen Dienste und Veröffentlichungen.</p>
       <h3>2. <span id="t-uh">Nutzung</span></h3>
-      <p id="t-us">Die Plattform ist kostenfrei.</p>
-      <h3>3. <span id="t-ch">Inhalte</span></h3>
-      <p id="t-cn">Du bist für deine Inhalte verantwortlich.</p>
+      <p id="t-us">Die Plattform ist kostenfrei zugänglich. Mit der Nutzung stimmst du diesen Bedingungen zu. Die Nutzung setzt voraus, dass du mindestens 16 Jahre alt bist.</p>
+      <h3>3. <span id="t-ch">Inhalte &amp; Nutzungsrechte</span></h3>
+      <p id="t-cn">Du bist für die von dir veröffentlichten Inhalte selbst verantwortlich und garantierst, dass diese keine Rechte Dritter verletzen.</p>
+      <p id="t-cn2">Mit der Veröffentlichung eines Beitrags räumst du dem Betreiber ein unwiderrufliches, weltweites, nicht-exklusives und kostenloses Nutzungsrecht ein. Dieses umfasst insbesondere das Recht zur Darstellung auf der Plattform sowie zur kommerziellen Zweitverwertung, einschließlich der Nutzung für Merchandise-Produkte, Printmedien, digitale Publikationen, Lizenzierungen an Dritte und sonstige kommerzielle Zwecke – in unveränderter oder bearbeiteter Form.</p>
+      <p id="t-cn3">Da Beiträge anonym eingereicht werden, verzichtest du mit der Veröffentlichung auf die Geltendmachung von Urheberpersönlichkeitsrechten gegenüber dem Betreiber, soweit dies gesetzlich zulässig ist.</p>
       <h3>4. <span id="t-fh">Verbotene Inhalte</span></h3>
       <ul>
-        <li id="t-f1">Hassrede oder Beleidigungen</li>
+        <li id="t-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
         <li id="t-f2">Inhalte die Minderjährige gefährden</li>
-        <li id="t-f3">Spam oder Werbung</li>
+        <li id="t-f3">Spam, Werbung oder kommerzielle Inhalte</li>
         <li id="t-f4">Inhalte gegen geltendes Recht</li>
+        <li id="t-f5">Personenbezogene Daten Dritter</li>
       </ul>
       <h3>5. <span id="t-lh">Haftung</span></h3>
-      <p id="t-li">Der Betreiber haftet nicht für Nutzerinhalte.</p>
+      <p id="t-li">Der Betreiber haftet nicht für die Richtigkeit, Vollständigkeit oder Rechtmäßigkeit der von Nutzern veröffentlichten Inhalte. Der Betreiber behält sich das Recht vor, Inhalte ohne Angabe von Gründen zu entfernen.</p>
+      <h3>6. Änderungen</h3>
+      <p>Der Betreiber behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Die aktuelle Version ist stets auf dieser Seite einsehbar. Die fortgesetzte Nutzung nach einer Änderung gilt als Zustimmung.</p>
     </div>
   </div>
 
@@ -325,12 +345,12 @@
         ah:'Anonymität', an:'Beiträge werden ohne Nutzernamen gespeichert.',
         th:'Drittanbieter', rh:'Deine Rechte', ri:'Anfragen per Post an die Adresse im Impressum.',
         co:'Keine Tracking-Cookies.',
-        sh:'Geltungsbereich', sc:'Diese Bedingungen gelten für Life is…',
-        uh:'Nutzung', us:'Die Plattform ist kostenfrei.',
-        ch:'Inhalte', cn:'Du bist für deine Inhalte verantwortlich.',
+        sh:'Geltungsbereich', sc:'Diese Bedingungen gelten für Life is… und alle damit verbundenen Dienste.',
+        uh:'Nutzung', us:'Die Plattform ist kostenfrei. Nutzung setzt Mindestalter 16 Jahre voraus.',
+        ch:'Inhalte & Nutzungsrechte', cn:'Du bist für deine Inhalte verantwortlich.',
         fh:'Verbotene Inhalte',
-        f1:'Hassrede oder Beleidigungen', f2:'Inhalte die Minderjährige gefährden',
-        f3:'Spam oder Werbung', f4:'Inhalte gegen geltendes Recht',
+        f1:'Hassrede, Diskriminierung oder Beleidigungen', f2:'Inhalte die Minderjährige gefährden',
+        f3:'Spam, Werbung oder kommerzielle Inhalte', f4:'Inhalte gegen geltendes Recht',
         lh:'Haftung', li:'Der Betreiber haftet nicht für Nutzerinhalte.',
         g0:'Life is… ist ein Ort der Reflexion und Poesie.',
         g1h:'Sei ehrlich', g1:'Teile echte Gedanken.',
@@ -338,7 +358,13 @@
         g3h:'Halte es poetisch', g3:'Kein Spam, keine Werbung.',
         g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
         g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
-        gr:'Verstöße per Post an die Adresse im Impressum.'
+        gr:'Verstöße per Post an die Adresse im Impressum.',
+        ba:'Zurück',
+        about1:'Ein Satz den niemand alleine beenden kann.',
+        about2:'Life is… wurde mit einer einfachen Überzeugung gebaut: dass die ehrlichsten Dinge die wir über das Leben sagen oft unfertig sind. Ein offener Gedanke. Ein Satz der jemand anderen einlädt.',
+        about3:'Das ist kein soziales Netzwerk. Keine Profile, keine Follower, keine Algorithmen. Nur Menschen – von überall – die gemeinsam einen Satz vervollständigen. Anonym. Ehrlich.',
+        about4:'Jeder Beitrag ist eine kleine Wahrheit. Und zusammen werden sie zu etwas Größerem als jeder von uns alleine sagen könnte.',
+        about5:'Life is… was du daraus machst.'
       },
       en: {
         ey:'A collective reflection', ph:'what you make of it',
@@ -356,12 +382,12 @@
         ah:'Anonymity', an:'Entries are stored without usernames.',
         th:'Third parties', rh:'Your rights', ri:'Contact via post to the address in the imprint.',
         co:'No tracking cookies.',
-        sh:'Scope', sc:'These terms apply to Life is…',
-        uh:'Usage', us:'The platform is free.',
-        ch:'Content', cn:'You are responsible for content you submit.',
+        sh:'Scope', sc:'These terms apply to Life is… and all related services and publications.',
+        uh:'Usage', us:'The platform is free. Usage requires a minimum age of 16.',
+        ch:'Content & Usage Rights', cn:'You are responsible for content you submit.',
         fh:'Prohibited content',
-        f1:'Hate speech or harassment', f2:'Content endangering minors',
-        f3:'Spam or advertising', f4:'Content violating applicable law',
+        f1:'Hate speech, discrimination or harassment', f2:'Content endangering minors',
+        f3:'Spam, advertising or commercial content', f4:'Content violating applicable law',
         lh:'Liability', li:'The operator is not liable for user content.',
         g0:'Life is… is a space for reflection and poetry.',
         g1h:'Be honest', g1:'Share real thoughts.',
@@ -369,7 +395,13 @@
         g3h:'Keep it poetic', g3:'No spam, no ads.',
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
-        gr:'Report violations via post to the address in the imprint.'
+        gr:'Report violations via post to the address in the imprint.',
+        ba:'Back',
+        about1:'A sentence no one can finish alone.',
+        about2:'Life is… was built on a simple belief: that the most honest things we say about life are often unfinished. A thought left open. A sentence that invites someone else in.',
+        about3:'This is not a social network. There are no profiles, no followers, no algorithms. Just people — from anywhere — completing a sentence together. Anonymously. Honestly.',
+        about4:'Every entry is a small truth. And together, they become something larger than any one of us could say alone.',
+        about5:'Life is… what you make of it.'
       }
     };
 
@@ -395,6 +427,8 @@
       s('t-g3h',l.g3h);s('t-g3',l.g3);s('t-g4h',l.g4h);s('t-g4',l.g4);
       s('t-g5h',l.g5h);s('t-g5',l.g5);s('t-gr',l.gr);
       document.documentElement.lang=lang;
+      s('t-ba',l.ba);
+      s('t-about1',l.about1);s('t-about2',l.about2);s('t-about3',l.about3);s('t-about4',l.about4);s('t-about5',l.about5);
       renderEntries();
     }
 
@@ -470,7 +504,7 @@
       var em=document.getElementById('emptyMsg');
       var vc=document.getElementById('vcnt');
       el.innerHTML='';
-      var list=filter==='all'?allEntries:allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
+      var list=filter==='all'?allEntries:filter==='top10'?allEntries.slice().sort(function(a,b){return b.likes-a.likes;}).slice(0,10):allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
       em.style.display=list.length?'none':'block';
       em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
       vc.style.display=list.length?'block':'none';
