@@ -4,180 +4,127 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Life is…</title>
-  <meta name="description" content="Eine kollektive Reflexion. Vervollständige den Gedanken." />
+  <meta name="description" content="A collective reflection. Complete the thought." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
-      --bg: #faf9f7;
-      --bg2: #f2f0ec;
-      --text: #1a1a1a;
-      --text-muted: #aaa;
-      --text-faint: #c8c4bc;
-      --border: #e8e4df;
-      --border-input: #d0cdc8;
-      --accent: #c0392b;
-      --btn-bg: #1a1a1a;
-      --btn-text: #faf9f7;
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --bg: #faf9f7; --bg2: #f2f0ec; --text: #1a1a1a;
+      --text-muted: #aaa; --text-faint: #c8c4bc;
+      --border: #e8e4df; --border-input: #d0cdc8;
+      --accent: #2d5a40; --btn-bg: #1a1a1a; --btn-text: #faf9f7;
+      --toggle-bg: #e8e4df; --toggle-active: #2d5a40;
     }
     [data-theme="dark"] {
-      --bg: #111110;
-      --bg2: #1a1917;
-      --text: #f0ede8;
-      --text-muted: #666;
-      --text-faint: #444;
-      --border: #2a2825;
-      --border-input: #333;
-      --accent: #e05a4a;
-      --btn-bg: #f0ede8;
-      --btn-text: #111110;
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      --bg: #111110; --bg2: #1a1917; --text: #f0ede8;
+      --text-muted: #666; --text-faint: #3a3530;
+      --border: #2a2825; --border-input: #3a3228;
+      --accent: #3d6b50; --btn-bg: #f0ede8; --btn-text: #111110;
+      --toggle-bg: #2a2825; --toggle-active: #3d6b50;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'EB Garamond', Georgia, serif;
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.3s, color 0.3s;
-      min-height: 100vh;
-    }
+    body { background: var(--bg); color: var(--text); font-family: 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; min-height: 100vh; }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    .topbar {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 24px;
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .topbar-logo {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 18px; font-style: italic;
-      color: var(--text); text-decoration: none; cursor: pointer;
-    }
+    /* TOPBAR */
+    .topbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; transition: background 0.3s, border-color 0.3s; gap: 12px; }
+    .topbar-logo { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-style: italic; color: var(--text); cursor: pointer; flex-shrink: 0; }
     .topbar-logo span { color: var(--text-faint); }
-    .dark-toggle {
-      background: none; border: 1px solid var(--border);
-      cursor: pointer; color: var(--text-muted);
-      width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; font-size: 16px;
-    }
-    .dark-toggle:hover { border-color: var(--text-muted); color: var(--text); }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
 
+    /* LANG TOGGLE */
+    .lang-toggle { display: flex; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+    .lang-btn { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', serif; font-size: 12px; letter-spacing: 0.08em; padding: 5px 10px; color: var(--text-muted); transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+
+    /* DARK TOGGLE */
+    .toggle-wrap { width: 44px; height: 24px; border-radius: 12px; background: var(--toggle-bg); position: relative; cursor: pointer; transition: background 0.3s; flex-shrink: 0; }
+    .toggle-wrap.on { background: var(--toggle-active); }
+    .toggle-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: left 0.3s; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .toggle-wrap.on .toggle-knob { left: 22px; }
+
+    /* PAGES */
     .page { display: none; animation: fadeIn 0.4s ease; }
     .page.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    header {
-      padding: clamp(40px, 8vw, 80px) 0 clamp(32px, 6vw, 56px);
-      text-align: center;
-    }
-    .eyebrow {
-      font-size: 11px; letter-spacing: 0.25em;
-      text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;
-      opacity: 0; animation: riseUp 0.8s 0.1s ease forwards;
-    }
-    h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(48px, 10vw, 96px);
-      font-weight: 400; line-height: 1; letter-spacing: -0.02em; color: var(--text);
-      opacity: 0; animation: riseUp 0.8s 0.2s ease forwards;
-    }
-    .ellipsis { color: var(--text-faint); }
-    @keyframes riseUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* HEADER */
+    header { padding: clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px); text-align: center; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 22px; opacity: 0; animation: riseUp 0.8s 0.1s ease forwards; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(56px,11vw,100px); font-weight: 400; font-style: italic; line-height: 1; letter-spacing: -0.02em; color: var(--accent); opacity: 0; animation: riseUp 0.8s 0.2s ease forwards; transition: color 0.3s; }
+    @keyframes riseUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-    .input-section {
-      max-width: 640px; margin: 0 auto;
-      padding: 0 24px clamp(48px, 8vw, 72px);
-      opacity: 0; animation: riseUp 0.8s 0.35s ease forwards;
-    }
-    .input-wrapper {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 2px; padding: 20px 24px 16px;
-      transition: background 0.3s, border-color 0.3s;
-      box-shadow: var(--card-shadow);
-    }
-    .prefix {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(16px, 3vw, 22px); font-style: italic;
-      color: var(--text-faint); display: block; margin-bottom: 4px;
-    }
-    textarea {
-      width: 100%; background: transparent; border: none;
-      border-bottom: 1px solid var(--border-input); outline: none;
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(16px, 3vw, 22px); font-style: italic; color: var(--text);
-      resize: none; line-height: 1.6; padding: 6px 0 10px;
-      transition: border-color 0.3s, color 0.3s;
-    }
-    textarea:focus { border-bottom-color: var(--text); }
+    /* INPUT */
+    .input-section { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(48px,8vw,72px); opacity: 0; animation: riseUp 0.8s 0.35s ease forwards; }
+    .prefix { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px,3vw,22px); font-style: italic; color: var(--text-faint); display: block; margin-bottom: 4px; }
+    textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-input); outline: none; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px,3vw,22px); font-style: italic; color: var(--text); resize: none; line-height: 1.6; padding: 6px 0 10px; transition: border-color 0.3s, color 0.3s; }
+    textarea:focus { border-bottom-color: var(--accent); }
     textarea::placeholder { color: var(--text-faint); }
-    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
     .counter { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
-    .counter.warn { color: var(--accent); }
-    .submit-btn {
-      background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer;
-      font-family: 'EB Garamond', Georgia, serif; font-size: 14px;
-      letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 28px;
-      transition: opacity 0.2s, transform 0.1s;
-    }
-    .submit-btn:hover { opacity: 0.8; }
+    .counter.warn { color: #c0392b; }
+    .submit-btn { background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 28px; transition: opacity 0.2s, transform 0.1s; }
+    .submit-btn:hover { opacity: 0.75; }
     .submit-btn:active { transform: scale(0.98); }
-    .submit-btn:disabled { opacity: 0.35; cursor: default; }
+    .submit-btn:disabled { opacity: 0.3; cursor: default; }
     .confirmation { margin-top: 12px; font-size: 13px; color: var(--text-muted); font-style: italic; text-align: right; display: none; }
 
-    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(60px, 10vw, 120px); }
+    /* FEED */
+    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(60px,10vw,120px); }
     .voice-count { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; text-align: center; display: none; }
     .empty { font-family: 'Playfair Display', serif; text-align: center; color: var(--text-faint); font-style: italic; font-size: 18px; padding: 40px 0; }
-
     .entry-card { padding: 24px 0; }
     .entry-card.new { animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: translateY(0); } }
-    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(16px, 2.5vw, 20px); font-weight: 400; line-height: 1.6; margin-bottom: 12px; color: var(--text); }
-    .entry-prefix { color: var(--text-faint); }
+    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(16px,2.5vw,20px); font-weight: 400; line-height: 1.6; margin-bottom: 12px; color: var(--text); }
+    .entry-prefix { color: var(--text-faint); font-style: italic; }
     .entry-meta { display: flex; align-items: center; justify-content: space-between; }
     .timestamp { font-size: 12px; color: var(--text-faint); letter-spacing: 0.03em; }
     .actions { display: flex; gap: 18px; align-items: center; }
-    .like-btn, .share-btn {
-      background: none; border: none; cursor: pointer;
-      display: flex; align-items: center; gap: 5px; font-size: 13px;
-      font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; color: var(--text-muted);
-    }
+    .like-btn, .share-btn, .img-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 13px; font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; color: var(--text-muted); }
     .like-btn:hover, .like-btn.liked { color: var(--accent); }
-    .share-btn:hover { color: var(--text); }
+    .share-btn:hover, .img-btn:hover { color: var(--text); }
     .divider { border: none; border-top: 1px solid var(--border); }
 
-    footer {
-      text-align: center; padding: 32px 24px; border-top: 1px solid var(--border);
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px;
-    }
-    footer span {
-      font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em;
-      text-transform: uppercase; cursor: pointer; transition: color 0.2s;
-    }
-    footer span:hover { color: var(--text); }
+    /* FOOTER */
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; }
+    footer span, footer a { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.2s; text-decoration: none; }
+    footer span:hover, footer a:hover { color: var(--text); }
 
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--bg); border: 1px solid var(--border); padding: 28px 24px 24px; max-width: 460px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px; transform: translateY(16px); transition: transform 0.3s; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--text); }
+    .modal-close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 22px; line-height: 1; }
+    #shareCard { width: 100%; aspect-ratio: 1; max-width: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 48px 32px; background: #faf9f7; text-align: center; }
+    #shareCard.dark { background: #111110; }
+    #shareCard .sc-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    #shareCard .sc-prefix { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: #c8c4bc; }
+    #shareCard.dark .sc-prefix { color: #3a3530; }
+    #shareCard .sc-text { font-family: 'Playfair Display', serif; font-size: clamp(17px,4vw,22px); font-style: italic; line-height: 1.55; color: #1a1a1a; max-width: 280px; }
+    #shareCard.dark .sc-text { color: #f0ede8; }
+    #shareCard .sc-line { width: 28px; height: 1px; background: #2d5a40; margin: 16px auto 14px; }
+    #shareCard .sc-footer { font-family: 'EB Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #c8c4bc; }
+    #shareCard.dark .sc-footer { color: #3a3530; }
+    .modal-style-toggle { display: flex; gap: 8px; width: 100%; max-width: 380px; }
+    .modal-style-btn { flex: 1; padding: 8px; border: 1px solid var(--border); background: none; font-family: 'EB Garamond', serif; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; color: var(--text-muted); }
+    .modal-style-btn.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+    .modal-download-btn { background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 32px; transition: opacity 0.2s; width: 100%; max-width: 380px; }
+    .modal-download-btn:hover { opacity: 0.8; }
+
+    /* LEGAL */
     .legal-page { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
-    .legal-back {
-      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); cursor: pointer; background: none; border: none;
-      display: flex; align-items: center; gap: 6px; margin-bottom: 40px;
-      transition: color 0.2s; font-family: 'EB Garamond', serif;
-    }
+    .legal-back { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; background: none; border: none; display: flex; align-items: center; gap: 6px; margin-bottom: 40px; transition: color 0.2s; font-family: 'EB Garamond', serif; }
     .legal-back:hover { color: var(--text); }
-    .legal-page h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; margin-bottom: 32px; color: var(--text); }
+    .legal-page h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px,5vw,42px); font-weight: 400; margin-bottom: 32px; color: var(--text); }
     .legal-page h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 400; margin: 32px 0 12px; color: var(--text); }
     .legal-page p { font-size: 16px; line-height: 1.8; color: var(--text-muted); margin-bottom: 16px; }
     .legal-page ul { list-style: none; padding: 0; margin-bottom: 16px; }
@@ -185,12 +132,10 @@
     .legal-page ul li::before { content: '—'; position: absolute; left: 0; color: var(--text-faint); }
     .legal-page a { color: var(--text-muted); }
     .legal-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
-    .placeholder { background: var(--bg2); border: 1px dashed var(--border); padding: 2px 8px; color: var(--accent); font-size: 14px; }
+    .placeholder { background: var(--bg2); border: 1px dashed var(--border); padding: 2px 8px; color: #c0392b; font-size: 14px; }
 
     @media (max-width: 480px) {
-      .topbar { padding: 12px 16px; }
-      .input-section, .feed, .legal-page { padding-left: 16px; padding-right: 16px; }
-      .input-wrapper { padding: 16px 16px 12px; }
+      .topbar, .input-section, .feed, .legal-page { padding-left: 16px; padding-right: 16px; }
     }
   </style>
 </head>
@@ -198,135 +143,156 @@
 
   <nav class="topbar">
     <span class="topbar-logo" onclick="showPage('home')">Life is<span>…</span></span>
-    <button class="dark-toggle" id="darkToggle" title="Dark Mode">🌙</button>
+    <div class="topbar-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btnDE" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="toggle-wrap" id="darkToggle" onclick="toggleDark()">
+        <div class="toggle-knob" id="toggleKnob">☀️</div>
+      </div>
+    </div>
   </nav>
 
   <!-- HOME -->
   <div class="page active" id="page-home">
     <header>
-      <p class="eyebrow">Eine kollektive Reflexion</p>
-      <h1>Life is<span class="ellipsis">…</span></h1>
+      <p class="eyebrow" id="txt-eyebrow">Eine kollektive Reflexion</p>
+      <h1>Life is…</h1>
     </header>
     <section class="input-section">
-      <div class="input-wrapper">
-        <span class="prefix">Life is…</span>
-        <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
-        <div class="input-footer">
-          <span class="counter" id="counter">200</span>
-          <button class="submit-btn" id="submitBtn" disabled>Publish</button>
-        </div>
+      <span class="prefix">Life is…</span>
+      <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
+      <div class="input-footer">
+        <span class="counter" id="counter">200</span>
+        <button class="submit-btn" id="submitBtn" disabled>Let them know</button>
       </div>
-      <p class="confirmation" id="confirmation">Deine Worte sind jetzt Teil des Streams ↓</p>
+      <p class="confirmation" id="confirmation"></p>
     </section>
     <section class="feed" id="feed">
       <p class="voice-count" id="voiceCount"></p>
-      <p class="empty" id="emptyMsg">Sei der Erste, der den Gedanken vervollständigt.</p>
+      <p class="empty" id="emptyMsg"></p>
       <div id="entries"></div>
     </section>
     <footer>
       <span onclick="showPage('impressum')">Impressum</span>
-      <span onclick="showPage('datenschutz')">Datenschutz</span>
-      <span onclick="showPage('nutzung')">Nutzungsbedingungen</span>
+      <span onclick="showPage('datenschutz')" id="txt-privacy">Datenschutz</span>
+      <span onclick="showPage('nutzung')" id="txt-terms">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
+      <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="txt-support">☕ Support the project</a>
     </footer>
   </div>
 
   <!-- IMPRESSUM -->
   <div class="page" id="page-impressum">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back1">Zurück</span></button>
       <h2>Impressum</h2>
       <p>Angaben gemäß § 5 TMG:</p>
       <h3>Verantwortlich</h3>
-      <p>
-        <span class="placeholder">[Dein vollständiger Name]</span><br/><br/>
-        <span class="placeholder">[Straße und Hausnummer]</span><br/><br/>
-        <span class="placeholder">[PLZ und Ort]</span><br/><br/>
-        Deutschland
-      </p>
+      <p><span class="placeholder">[Dein vollständiger Name]</span><br/><br/><span class="placeholder">[Straße und Hausnummer]</span><br/><br/><span class="placeholder">[PLZ und Ort]</span><br/><br/>Deutschland</p>
       <h3>Kontakt</h3>
       <p>E-Mail: <span class="placeholder">[deine@email.de]</span></p>
       <hr class="legal-divider"/>
       <h3>Haftung für Inhalte</h3>
-      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
+      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
       <h3>Urheberrecht</h3>
-      <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+      <p>Die durch den Seitenbetreiber erstellten Inhalte unterliegen dem deutschen Urheberrecht.</p>
     </div>
   </div>
 
   <!-- DATENSCHUTZ -->
   <div class="page" id="page-datenschutz">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
-      <h2>Datenschutzerklärung</h2>
+      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back2">Zurück</span></button>
+      <h2 id="txt-privacy-title">Datenschutzerklärung</h2>
       <h3>1. Verantwortlicher</h3>
-      <p>Verantwortlicher im Sinne der DSGVO ist: <span class="placeholder">[Dein Name, Adresse]</span></p>
-      <h3>2. Welche Daten wir erfassen</h3>
+      <p><span class="placeholder">[Dein Name, Adresse]</span></p>
+      <h3 id="txt-data-h">2. Welche Daten wir erfassen</h3>
       <ul>
-        <li>Von dir verfasste Texte (deine Vervollständigungen von „Life is…")</li>
-        <li>Anzahl der Likes pro Eintrag</li>
-        <li>Technische Zugriffsdaten durch unseren Hosting-Anbieter Vercel</li>
+        <li id="txt-data-1">Von dir verfasste Texte</li>
+        <li id="txt-data-2">Anzahl der Likes pro Eintrag</li>
+        <li id="txt-data-3">Technische Zugriffsdaten durch Vercel</li>
       </ul>
-      <h3>3. Zweck der Verarbeitung</h3>
-      <p>Deine Texte werden gespeichert, um sie im öffentlichen Feed anzuzeigen. Es findet keine Verknüpfung mit deiner Identität statt.</p>
-      <h3>4. Anonymität</h3>
-      <p>Beiträge werden ohne Nutzernamen, E-Mail oder sonstige personenbezogene Daten gespeichert. Wir empfehlen, keine persönlichen Informationen in deinen Beiträgen zu teilen.</p>
-      <h3>5. Drittanbieter</h3>
+      <h3>3. <span id="txt-anon-h">Anonymität</span></h3>
+      <p id="txt-anon">Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.</p>
+      <h3>4. <span id="txt-third-h">Drittanbieter</span></h3>
       <ul>
-        <li><strong>Supabase</strong> (Datenbank, EU) – <a href="https://supabase.com/privacy" target="_blank">Datenschutz</a></li>
-        <li><strong>Vercel</strong> (Hosting) – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Datenschutz</a></li>
-        <li><strong>Google Fonts</strong> (Schriftarten) – <a href="https://policies.google.com/privacy" target="_blank">Datenschutz</a></li>
+        <li><strong>Supabase</strong> – <a href="https://supabase.com/privacy" target="_blank">Datenschutz</a></li>
+        <li><strong>Vercel</strong> – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Datenschutz</a></li>
+        <li><strong>Google Fonts</strong> – <a href="https://policies.google.com/privacy" target="_blank">Datenschutz</a></li>
       </ul>
-      <h3>6. Deine Rechte</h3>
-      <p>Du hast das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Kontakt: <span class="placeholder">[deine@email.de]</span></p>
-      <h3>7. Cookies</h3>
-      <p>Diese Seite verwendet keine Tracking-Cookies. Im localStorage deines Browsers werden lediglich die von dir geliketen Beiträge gespeichert – ausschließlich lokal auf deinem Gerät.</p>
+      <h3>5. <span id="txt-rights-h">Deine Rechte</span></h3>
+      <p id="txt-rights">Kontakt: <span class="placeholder">[deine@email.de]</span></p>
+      <h3>6. Cookies</h3>
+      <p id="txt-cookies">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
     </div>
   </div>
 
   <!-- NUTZUNGSBEDINGUNGEN -->
   <div class="page" id="page-nutzung">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
-      <h2>Nutzungsbedingungen</h2>
-      <h3>1. Geltungsbereich</h3>
-      <p>Diese Nutzungsbedingungen gelten für die Nutzung der Plattform „Life is…" unter <span class="placeholder">[deine-url.vercel.app]</span>.</p>
-      <h3>2. Nutzung der Plattform</h3>
-      <p>Die Plattform steht allen Nutzern kostenfrei zur Verfügung. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
-      <h3>3. Inhalte der Nutzer</h3>
-      <p>Du bist für die von dir veröffentlichten Inhalte selbst verantwortlich. Mit dem Veröffentlichen räumst du dem Betreiber ein einfaches, weltweites Nutzungsrecht zur Darstellung des Inhalts auf der Plattform ein.</p>
-      <h3>4. Verbotene Inhalte</h3>
+      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back3">Zurück</span></button>
+      <h2 id="txt-terms-title">Nutzungsbedingungen</h2>
+      <h3>1. <span id="txt-scope-h">Geltungsbereich</span></h3>
+      <p id="txt-scope">Diese Bedingungen gelten für „Life is…" unter <span class="placeholder">[deine-url]</span>.</p>
+      <h3>2. <span id="txt-use-h">Nutzung</span></h3>
+      <p id="txt-use">Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
+      <h3>3. <span id="txt-content-h">Inhalte</span></h3>
+      <p id="txt-content">Du bist für deine Inhalte verantwortlich.</p>
+      <h3>4. <span id="txt-forbidden-h">Verbotene Inhalte</span></h3>
       <ul>
-        <li>Hassrede, Diskriminierung oder Beleidigungen</li>
-        <li>Inhalte, die Minderjährige gefährden</li>
-        <li>Spam, Werbung oder irrelevante Inhalte</li>
-        <li>Inhalte, die gegen geltendes Recht verstoßen</li>
+        <li id="txt-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
+        <li id="txt-f2">Inhalte, die Minderjährige gefährden</li>
+        <li id="txt-f3">Spam, Werbung oder irrelevante Inhalte</li>
+        <li id="txt-f4">Inhalte gegen geltendes Recht</li>
       </ul>
-      <h3>5. Haftungsausschluss</h3>
-      <p>Der Betreiber übernimmt keine Haftung für die Richtigkeit oder Vollständigkeit der von Nutzern veröffentlichten Inhalte.</p>
-      <h3>6. Änderungen</h3>
-      <p>Der Betreiber behält sich das Recht vor, diese Bedingungen jederzeit zu ändern.</p>
+      <h3>5. <span id="txt-liability-h">Haftung</span></h3>
+      <p id="txt-liability">Der Betreiber haftet nicht für Nutzerinhalte.</p>
     </div>
   </div>
 
   <!-- COMMUNITY GUIDELINES -->
   <div class="page" id="page-guidelines">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← Zurück</button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back4">Zurück</span></button>
       <h2>Community Guidelines</h2>
-      <p>„Life is…" ist ein Ort der Reflexion, Offenheit und Poesie. Damit das so bleibt:</p>
-      <h3>✦ Sei ehrlich</h3>
-      <p>Teile echte Gedanken. Dieser Raum lebt von Authentizität – nicht von Perfektion.</p>
-      <h3>✦ Sei respektvoll</h3>
-      <p>Andere Perspektiven bereichern den Stream. Beiträge, die Menschen herabsetzen, werden entfernt.</p>
-      <h3>✦ Halte es poetisch</h3>
-      <p>Kein Spam, keine Werbung, keine Links. Dieser Feed ist kein Marktplatz – er ist ein Gedicht.</p>
-      <h3>✦ Teile nichts Persönliches</h3>
-      <p>Veröffentliche keine Namen, Adressen oder andere persönliche Daten.</p>
-      <h3>✦ Kein Schaden</h3>
-      <p>Inhalte, die zur Selbstverletzung aufrufen oder andere gefährden, werden sofort entfernt.</p>
+      <p id="txt-cg-intro">„Life is…" ist ein Ort der Reflexion und Poesie.</p>
+      <h3>✦ <span id="txt-cg1-h">Sei ehrlich</span></h3>
+      <p id="txt-cg1">Teile echte Gedanken. Dieser Raum lebt von Authentizität.</p>
+      <h3>✦ <span id="txt-cg2-h">Sei respektvoll</span></h3>
+      <p id="txt-cg2">Beiträge, die Menschen herabsetzen, werden entfernt.</p>
+      <h3>✦ <span id="txt-cg3-h">Halte es poetisch</span></h3>
+      <p id="txt-cg3">Kein Spam, keine Werbung, keine Links.</p>
+      <h3>✦ <span id="txt-cg4-h">Teile nichts Persönliches</span></h3>
+      <p id="txt-cg4">Keine Namen, Adressen oder persönliche Daten.</p>
+      <h3>✦ <span id="txt-cg5-h">Kein Schaden</span></h3>
+      <p id="txt-cg5">Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.</p>
       <hr class="legal-divider"/>
-      <p>Verstöße melden: <span class="placeholder">[deine@email.de]</span></p>
+      <p id="txt-report">Verstöße melden: <span class="placeholder">[deine@email.de]</span></p>
+    </div>
+  </div>
+
+  <!-- SHAREPIC MODAL -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal">
+      <div class="modal-top">
+        <span class="modal-title" id="txt-modal-title">Als Bild teilen</span>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div id="shareCard">
+        <div class="sc-content">
+          <span class="sc-prefix">Life is…</span>
+          <p class="sc-text" id="scText"></p>
+        </div>
+        <div class="sc-line"></div>
+        <span class="sc-footer">Created with Life is… · life-is-one.vercel.app</span>
+      </div>
+      <div class="modal-style-toggle">
+        <button class="modal-style-btn active" id="txt-light" onclick="setCardStyle('light', this)">Hell</button>
+        <button class="modal-style-btn" id="txt-dark-btn" onclick="setCardStyle('dark', this)">Dunkel</button>
+      </div>
+      <button class="modal-download-btn" onclick="downloadSharepic()" id="txt-download">⬇ Als Bild speichern</button>
     </div>
   </div>
 
@@ -340,20 +306,178 @@
 
     let entries  = []
     let likedIds = new Set(JSON.parse(localStorage.getItem('life-is-liked') || '[]'))
+    let currentLang = 'de'
+
+    // ── TRANSLATIONS ──
+    const i18n = {
+      de: {
+        eyebrow: 'Eine kollektive Reflexion',
+        placeholder: 'was du daraus machst',
+        submit: 'Let them know',
+        confirmation: 'Deine Worte sind jetzt Teil des Streams ↓',
+        empty: 'Sei der Erste, der den Gedanken vervollständigt.',
+        privacy: 'Datenschutz',
+        terms: 'Nutzungsbedingungen',
+        support: '☕ Projekt unterstützen',
+        back: 'Zurück',
+        voices: (n) => `${n} ${n === 1 ? 'Stimme' : 'Stimmen'}`,
+        timeAgo: (d) => d < 60 ? 'gerade eben' : d < 3600 ? `vor ${Math.floor(d/60)}m` : d < 86400 ? `vor ${Math.floor(d/3600)}h` : `vor ${Math.floor(d/86400)}d`,
+        modalTitle: 'Als Bild teilen',
+        light: 'Hell', dark: 'Dunkel',
+        download: '⬇ Als Bild speichern',
+        copied: 'Kopiert',
+        privacyTitle: 'Datenschutzerklärung',
+        termsTitle: 'Nutzungsbedingungen',
+        dataH: '2. Welche Daten wir erfassen',
+        data1: 'Von dir verfasste Texte', data2: 'Anzahl der Likes pro Eintrag', data3: 'Technische Zugriffsdaten durch Vercel',
+        anonH: 'Anonymität', anon: 'Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.',
+        thirdH: 'Drittanbieter', rightsH: 'Deine Rechte', rights: 'Kontakt: [deine@email.de]',
+        cookies: 'Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.',
+        scopeH: 'Geltungsbereich', scope: 'Diese Bedingungen gelten für „Life is…" unter [deine-url].',
+        useH: 'Nutzung', use: 'Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.',
+        contentH: 'Inhalte', content: 'Du bist für deine Inhalte verantwortlich.',
+        forbiddenH: 'Verbotene Inhalte',
+        f1: 'Hassrede, Diskriminierung oder Beleidigungen', f2: 'Inhalte, die Minderjährige gefährden',
+        f3: 'Spam, Werbung oder irrelevante Inhalte', f4: 'Inhalte gegen geltendes Recht',
+        liabilityH: 'Haftung', liability: 'Der Betreiber haftet nicht für Nutzerinhalte.',
+        cgIntro: '„Life is…" ist ein Ort der Reflexion und Poesie.',
+        cg1H: 'Sei ehrlich', cg1: 'Teile echte Gedanken. Dieser Raum lebt von Authentizität.',
+        cg2H: 'Sei respektvoll', cg2: 'Beiträge, die Menschen herabsetzen, werden entfernt.',
+        cg3H: 'Halte es poetisch', cg3: 'Kein Spam, keine Werbung, keine Links.',
+        cg4H: 'Teile nichts Persönliches', cg4: 'Keine Namen, Adressen oder persönliche Daten.',
+        cg5H: 'Kein Schaden', cg5: 'Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.',
+        report: 'Verstöße melden: [deine@email.de]',
+      },
+      en: {
+        eyebrow: 'A collective reflection',
+        placeholder: 'what you make of it',
+        submit: 'Let them know',
+        confirmation: 'Your words are now part of the stream ↓',
+        empty: 'Be the first to complete the thought.',
+        privacy: 'Privacy',
+        terms: 'Terms of Use',
+        support: '☕ Support the project',
+        back: 'Back',
+        voices: (n) => `${n} ${n === 1 ? 'voice' : 'voices'}`,
+        timeAgo: (d) => d < 60 ? 'just now' : d < 3600 ? `${Math.floor(d/60)}m ago` : d < 86400 ? `${Math.floor(d/3600)}h ago` : `${Math.floor(d/86400)}d ago`,
+        modalTitle: 'Share as image',
+        light: 'Light', dark: 'Dark',
+        download: '⬇ Save as image',
+        copied: 'Copied',
+        privacyTitle: 'Privacy Policy',
+        termsTitle: 'Terms of Use',
+        dataH: '2. Data we collect',
+        data1: 'Text you submit', data2: 'Number of likes per entry', data3: 'Technical access data via Vercel',
+        anonH: 'Anonymity', anon: 'Entries are stored without username or email.',
+        thirdH: 'Third parties', rightsH: 'Your rights', rights: 'Contact: [your@email.com]',
+        cookies: 'No tracking cookies. Only liked entries are stored locally in your browser.',
+        scopeH: 'Scope', scope: 'These terms apply to „Life is…" at [your-url].',
+        useH: 'Usage', use: 'The platform is free. By using it, you agree to these terms.',
+        contentH: 'Content', content: 'You are responsible for content you submit.',
+        forbiddenH: 'Prohibited content',
+        f1: 'Hate speech, discrimination or harassment', f2: 'Content that endangers minors',
+        f3: 'Spam, advertising or irrelevant content', f4: 'Content that violates applicable law',
+        liabilityH: 'Liability', liability: 'The operator is not liable for user-submitted content.',
+        cgIntro: '„Life is…" is a space for reflection, openness and poetry.',
+        cg1H: 'Be honest', cg1: 'Share real thoughts. This space thrives on authenticity.',
+        cg2H: 'Be respectful', cg2: 'Entries that demean people will be removed.',
+        cg3H: 'Keep it poetic', cg3: 'No spam, no ads, no links.',
+        cg4H: 'Don\'t share personal info', cg4: 'No names, addresses or personal data.',
+        cg5H: 'Do no harm', cg5: 'Content that encourages self-harm will be removed immediately.',
+        report: 'Report violations: [your@email.com]',
+      }
+    }
+
+    function t(key) { return i18n[currentLang][key] }
+
+    function applyLang() {
+      const l = i18n[currentLang]
+      document.getElementById('txt-eyebrow').textContent = l.eyebrow
+      document.getElementById('input').placeholder = l.placeholder
+      document.getElementById('submitBtn').textContent = l.submit
+      document.getElementById('txt-privacy').textContent = l.privacy
+      document.getElementById('txt-terms').textContent = l.terms
+      document.getElementById('txt-support').textContent = l.support
+      ;['txt-back1','txt-back2','txt-back3','txt-back4'].forEach(id => document.getElementById(id).textContent = l.back)
+      document.getElementById('txt-modal-title').textContent = l.modalTitle
+      document.getElementById('txt-light').textContent = l.light
+      document.getElementById('txt-dark-btn').textContent = l.dark
+      document.getElementById('txt-download').textContent = l.download
+      document.getElementById('txt-privacy-title').textContent = l.privacyTitle
+      document.getElementById('txt-terms-title').textContent = l.termsTitle
+      document.getElementById('txt-data-h').textContent = l.dataH
+      document.getElementById('txt-data-1').textContent = l.data1
+      document.getElementById('txt-data-2').textContent = l.data2
+      document.getElementById('txt-data-3').textContent = l.data3
+      document.getElementById('txt-anon-h').textContent = l.anonH
+      document.getElementById('txt-anon').textContent = l.anon
+      document.getElementById('txt-third-h').textContent = l.thirdH
+      document.getElementById('txt-rights-h').textContent = l.rightsH
+      document.getElementById('txt-cookies').textContent = l.cookies
+      document.getElementById('txt-scope-h').textContent = l.scopeH
+      document.getElementById('txt-scope').textContent = l.scope
+      document.getElementById('txt-use-h').textContent = l.useH
+      document.getElementById('txt-use').textContent = l.use
+      document.getElementById('txt-content-h').textContent = l.contentH
+      document.getElementById('txt-content').textContent = l.content
+      document.getElementById('txt-forbidden-h').textContent = l.forbiddenH
+      document.getElementById('txt-f1').textContent = l.f1
+      document.getElementById('txt-f2').textContent = l.f2
+      document.getElementById('txt-f3').textContent = l.f3
+      document.getElementById('txt-f4').textContent = l.f4
+      document.getElementById('txt-liability-h').textContent = l.liabilityH
+      document.getElementById('txt-liability').textContent = l.liability
+      document.getElementById('txt-cg-intro').textContent = l.cgIntro
+      document.getElementById('txt-cg1-h').textContent = l.cg1H
+      document.getElementById('txt-cg1').textContent = l.cg1
+      document.getElementById('txt-cg2-h').textContent = l.cg2H
+      document.getElementById('txt-cg2').textContent = l.cg2
+      document.getElementById('txt-cg3-h').textContent = l.cg3H
+      document.getElementById('txt-cg3').textContent = l.cg3
+      document.getElementById('txt-cg4-h').textContent = l.cg4H
+      document.getElementById('txt-cg4').textContent = l.cg4
+      document.getElementById('txt-cg5-h').textContent = l.cg5H
+      document.getElementById('txt-cg5').textContent = l.cg5
+      document.getElementById('txt-report').textContent = l.report
+      document.documentElement.lang = currentLang
+      renderEntries()
+    }
+
+    function setLang(lang) {
+      currentLang = lang
+      document.getElementById('btnDE').classList.toggle('active', lang === 'de')
+      document.getElementById('btnEN').classList.toggle('active', lang === 'en')
+      localStorage.setItem('life-is-lang', lang)
+      applyLang()
+    }
+
+    // Auto-detect language
+    const savedLang = localStorage.getItem('life-is-lang')
+    if (savedLang) {
+      currentLang = savedLang
+    } else {
+      const browserLang = navigator.language || navigator.userLanguage
+      currentLang = browserLang.startsWith('de') ? 'de' : 'en'
+    }
+    if (currentLang === 'en') {
+      document.getElementById('btnDE').classList.remove('active')
+      document.getElementById('btnEN').classList.add('active')
+    }
 
     // Dark mode
-    const darkToggle = document.getElementById('darkToggle')
-    const saved = localStorage.getItem('life-is-theme')
-    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'dark')
-      darkToggle.textContent = '☀️'
-    }
-    darkToggle.addEventListener('click', () => {
+    function toggleDark() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark')
-      darkToggle.textContent = isDark ? '🌙' : '☀️'
+      document.getElementById('darkToggle').classList.toggle('on', !isDark)
+      document.getElementById('toggleKnob').textContent = isDark ? '☀️' : '🌙'
       localStorage.setItem('life-is-theme', isDark ? 'light' : 'dark')
-    })
+    }
+    const savedTheme = localStorage.getItem('life-is-theme')
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark')
+      document.getElementById('darkToggle').classList.add('on')
+      document.getElementById('toggleKnob').textContent = '🌙'
+    }
 
     // Navigation
     function showPage(name) {
@@ -362,28 +486,48 @@
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
+    // Sharepic
+    function openSharepic(text) {
+      document.getElementById('scText').textContent = text
+      document.getElementById('shareCard').classList.remove('dark')
+      document.querySelectorAll('.modal-style-btn').forEach((b,i) => b.classList.toggle('active', i===0))
+      document.getElementById('shareModal').classList.add('open')
+    }
+    function closeModal() { document.getElementById('shareModal').classList.remove('open') }
+    document.getElementById('shareModal').addEventListener('click', e => { if (e.target === document.getElementById('shareModal')) closeModal() })
+    function setCardStyle(mode, btn) {
+      document.querySelectorAll('.modal-style-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      document.getElementById('shareCard').classList.toggle('dark', mode === 'dark')
+    }
+    function downloadSharepic() {
+      html2canvas(document.getElementById('shareCard'), { scale: 2, useCORS: true }).then(canvas => {
+        const link = document.createElement('a')
+        link.download = 'life-is.png'
+        link.href = canvas.toDataURL('image/png')
+        link.click()
+      })
+    }
+
+    // Helpers
     function timeAgo(ts) {
       const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 1000)
-      if (diff < 60)    return 'gerade eben'
-      if (diff < 3600)  return `vor ${Math.floor(diff/60)}m`
-      if (diff < 86400) return `vor ${Math.floor(diff/3600)}h`
-      return `vor ${Math.floor(diff/86400)}d`
+      return i18n[currentLang].timeAgo(diff)
     }
     function escHtml(s) {
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
     }
-    function saveLiked() {
-      localStorage.setItem('life-is-liked', JSON.stringify([...likedIds]))
-    }
+    function saveLiked() { localStorage.setItem('life-is-liked', JSON.stringify([...likedIds])) }
 
     function renderEntries(animateId = null) {
       const el    = document.getElementById('entries')
       const empty = document.getElementById('emptyMsg')
       const vc    = document.getElementById('voiceCount')
       el.innerHTML = ''
+      empty.textContent   = t('empty')
       empty.style.display = entries.length ? 'none' : 'block'
       vc.style.display    = entries.length ? 'block' : 'none'
-      vc.textContent      = `${entries.length} ${entries.length === 1 ? 'Stimme' : 'Stimmen'}`
+      vc.textContent      = i18n[currentLang].voices(entries.length)
 
       entries.forEach((entry, i) => {
         const liked = likedIds.has(entry.id)
@@ -400,8 +544,15 @@
                 </svg>
                 ${entry.likes > 0 ? `<span>${entry.likes}</span>` : ''}
               </button>
+              <button class="img-btn" data-text="${escHtml(entry.text)}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </button>
               <button class="share-btn" data-id="${entry.id}">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                   <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
                   <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
@@ -411,9 +562,7 @@
           </div>`
         el.appendChild(card)
         if (i < entries.length - 1) {
-          const hr = document.createElement('hr')
-          hr.className = 'divider'
-          el.appendChild(hr)
+          const hr = document.createElement('hr'); hr.className = 'divider'; el.appendChild(hr)
         }
       })
     }
@@ -421,25 +570,23 @@
     async function loadEntries() {
       const { data } = await db.from('entries').select('*').order('created_at', { ascending: false }).limit(100)
       entries = data || []
-      renderEntries()
+      applyLang()
     }
 
     db.channel('entries-stream')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'entries' }, p => {
         if (entries.find(e => e.id === p.new.id)) return
-        entries = [p.new, ...entries]
-        renderEntries(p.new.id)
+        entries = [p.new, ...entries]; renderEntries(p.new.id)
       })
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'entries' }, p => {
-        entries = entries.map(e => e.id === p.new.id ? p.new : e)
-        renderEntries()
+        entries = entries.map(e => e.id === p.new.id ? p.new : e); renderEntries()
       })
       .subscribe()
 
     const inputEl   = document.getElementById('input')
     const counterEl = document.getElementById('counter')
     const submitBtn = document.getElementById('submitBtn')
-    const confirm   = document.getElementById('confirmation')
+    const confirmEl = document.getElementById('confirmation')
 
     inputEl.addEventListener('input', () => {
       const left = MAX_CHARS - inputEl.value.length
@@ -451,26 +598,26 @@
     submitBtn.addEventListener('click', async () => {
       const text = inputEl.value.trim()
       if (!text) return
-      submitBtn.disabled = true
-      submitBtn.textContent = '…'
+      submitBtn.disabled = true; submitBtn.textContent = '…'
       await db.from('entries').insert({ text, likes: 0 })
-      inputEl.value = ''
-      counterEl.textContent = MAX_CHARS
+      inputEl.value = ''; counterEl.textContent = MAX_CHARS
       counterEl.classList.remove('warn')
-      submitBtn.textContent = 'Publish'
-      confirm.style.display = 'block'
+      submitBtn.textContent = t('submit')
+      confirmEl.textContent = t('confirmation')
+      confirmEl.style.display = 'block'
       document.getElementById('feed').scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
 
     document.getElementById('entries').addEventListener('click', async e => {
       const likeBtn  = e.target.closest('.like-btn')
       const shareBtn = e.target.closest('.share-btn')
+      const imgBtn   = e.target.closest('.img-btn')
 
       if (likeBtn) {
-        const id    = likeBtn.dataset.id
+        const id = likeBtn.dataset.id
         const entry = entries.find(e => e.id === id)
         if (!entry) return
-        const liked    = likedIds.has(id)
+        const liked = likedIds.has(id)
         const newCount = liked ? Math.max(0, entry.likes - 1) : entry.likes + 1
         liked ? likedIds.delete(id) : likedIds.add(id)
         saveLiked()
@@ -478,9 +625,9 @@
         renderEntries()
         await db.from('entries').update({ likes: newCount }).eq('id', id)
       }
-
+      if (imgBtn) openSharepic(imgBtn.dataset.text)
       if (shareBtn) {
-        const id    = shareBtn.dataset.id
+        const id = shareBtn.dataset.id
         const entry = entries.find(e => e.id === id)
         if (!entry) return
         const text = `Life is… ${entry.text}`
@@ -488,10 +635,8 @@
           navigator.share({ title: 'Life is…', text, url: window.location.href })
         } else {
           navigator.clipboard.writeText(`${text}\n${window.location.href}`)
-          shareBtn.innerHTML = '<span style="font-size:12px">Kopiert</span>'
-          setTimeout(() => {
-            shareBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`
-          }, 2000)
+          shareBtn.innerHTML = `<span style="font-size:12px">${t('copied')}</span>`
+          setTimeout(() => { shareBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>` }, 2000)
         }
       }
     })
