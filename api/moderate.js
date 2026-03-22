@@ -6,30 +6,54 @@ export default async function handler(req, res) {
 
   const categories = ['encouraging', 'self-love', 'joy', 'loss', 'love', 'humor', 'reflective', 'motivation']
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 100,
-      messages: [{
-        role: 'user',
-        content: `You moderate a platform where people complete "Life is… ${text}".
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 100,
+        messages: [{
+          role: 'user',
+          content: `You moderate a platform where people complete the sentence "Life is… ${text}".
 
-Reply with ONLY valid JSON, no other text:
-{"approved": true/false, "category": "one of: ${categories.join(', ')}"}
+Respond with ONLY a JSON object and nothing else. No explanation, no markdown, no backticks.
+Example: {"approved":true,"category":"joy"}
 
-Reject if: contains full names, hate speech, spam, harmful content.
-Choose the most fitting category.`
-      }]
+Rules:
+- Set approved to false if the text contains: full names of real people, hate speech, spam, URLs, or harmful content
+- Otherwise set approved to true
+- Pick the single best category from: ${categories.join(', ')}
+
+JSON response only:`
+        }]
+      })
     })
-  })
 
-  const data = await response.json()
-  const result = JSON.parse(data.content[0].text)
-  res.status(200).json(result)
+    const data = await response.json()
+
+    if (!data.content || !data.content[0]) {
+      return res.status(200).json({ approved: true, category: 'reflective' })
+    }
+
+    const raw = data.content[0].text.trim()
+    const jsonMatch = raw.match(/\{[^}]+\}/)
+    if (!jsonMatch) {
+      return res.status(200).json({ approved: true, category: 'reflective' })
+    }
+
+    const result = JSON.parse(jsonMatch[0])
+    return res.status(200).json({
+      approved: result.approved !== false,
+      category: categories.includes(result.category) ? result.category : 'reflective'
+    })
+
+  } catch (err) {
+    console.error('Moderation error:', err)
+    return res.status(200).json({ approved: true, category: 'reflective' })
+  }
 }
