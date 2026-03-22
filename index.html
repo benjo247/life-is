@@ -12,144 +12,140 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
-      --bg: #faf9f7; --bg2: #f2f0ec; --text: #1a1a1a;
-      --text-muted: #aaa; --text-faint: #c8c4bc;
-      --border: #e8e4df; --border-input: #d0cdc8;
-      --accent: #2d5a40; --btn-bg: #1a1a1a; --btn-text: #faf9f7;
-      --toggle-bg: #e8e4df; --toggle-active: #2d5a40;
+      --bg:#faf9f7; --bg2:#f2f0ec; --text:#1a1a1a;
+      --text-muted:#aaa; --text-faint:#c8c4bc;
+      --border:#e8e4df; --border-input:#d0cdc8;
+      --accent:#2d5a40; --btn-bg:#1a1a1a; --btn-text:#faf9f7;
+      --tog-bg:#e8e4df; --tog-on:#2d5a40;
     }
     [data-theme="dark"] {
-      --bg: #111110; --bg2: #1a1917; --text: #f0ede8;
-      --text-muted: #666; --text-faint: #3a3530;
-      --border: #2a2825; --border-input: #3a3228;
-      --accent: #3d6b50; --btn-bg: #f0ede8; --btn-text: #111110;
-      --toggle-bg: #2a2825; --toggle-active: #3d6b50;
+      --bg:#111110; --bg2:#1a1917; --text:#f0ede8;
+      --text-muted:#666; --text-faint:#3a3530;
+      --border:#2a2825; --border-input:#3a3228;
+      --accent:#3d6b50; --btn-bg:#f0ede8; --btn-text:#111110;
+      --tog-bg:#2a2825; --tog-on:#3d6b50;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; min-height: 100vh; }
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
     /* TOPBAR */
-    .topbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; transition: background 0.3s, border-color 0.3s; gap: 12px; }
-    .topbar-logo { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-style: italic; color: var(--text); cursor: pointer; flex-shrink: 0; }
-    .topbar-logo span { color: var(--text-faint); }
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
-
-    /* LANG TOGGLE */
-    .lang-toggle { display: flex; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
-    .lang-btn { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', serif; font-size: 12px; letter-spacing: 0.08em; padding: 5px 10px; color: var(--text-muted); transition: all 0.2s; }
-    .lang-btn.active { background: var(--accent); color: #fff; }
-
-    /* DARK TOGGLE */
-    .toggle-wrap { width: 44px; height: 24px; border-radius: 12px; background: var(--toggle-bg); position: relative; cursor: pointer; transition: background 0.3s; flex-shrink: 0; }
-    .toggle-wrap.on { background: var(--toggle-active); }
-    .toggle-knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: left 0.3s; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-    .toggle-wrap.on .toggle-knob { left: 22px; }
+    .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .3s,border-color .3s;gap:12px}
+    .logo{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);cursor:pointer}
+    .logo span{color:var(--text-faint)}
+    .topbar-right{display:flex;align-items:center;gap:12px}
+    .lang-toggle{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden}
+    .lang-btn{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:12px;letter-spacing:.08em;padding:5px 10px;color:var(--text-muted);transition:all .2s}
+    .lang-btn.active{background:var(--accent);color:#fff}
+    .tog{width:44px;height:24px;border-radius:12px;background:var(--tog-bg);position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
+    .tog.on{background:var(--tog-on)}
+    .tog-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .3s;display:flex;align-items:center;justify-content:center;font-size:11px}
+    .tog.on .tog-knob{left:22px}
 
     /* PAGES */
-    .page { display: none; animation: fadeIn 0.4s ease; }
-    .page.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .page{display:none;animation:fadeIn .4s ease}
+    .page.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
     /* HEADER */
-    header { padding: clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px); text-align: center; }
-    .eyebrow { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 22px; opacity: 0; animation: riseUp 0.8s 0.1s ease forwards; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-    h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(56px,11vw,100px); font-weight: 400; font-style: italic; line-height: 1; letter-spacing: -0.02em; color: var(--accent); opacity: 0; animation: riseUp 0.8s 0.2s ease forwards; transition: color 0.3s; }
-    @keyframes riseUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    header{padding:clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px);text-align:center}
+    .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px;opacity:0;animation:riseUp .8s .1s ease forwards;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(56px,11vw,100px);font-weight:400;font-style:italic;line-height:1;letter-spacing:-.02em;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
+    @keyframes riseUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
     /* INPUT */
-    .input-section { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(48px,8vw,72px); opacity: 0; animation: riseUp 0.8s 0.35s ease forwards; }
-    .prefix { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px,3vw,22px); font-style: italic; color: var(--text-faint); display: block; margin-bottom: 4px; }
-    textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-input); outline: none; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(17px,3vw,22px); font-style: italic; color: var(--text); resize: none; line-height: 1.6; padding: 6px 0 10px; transition: border-color 0.3s, color 0.3s; }
-    textarea:focus { border-bottom-color: var(--accent); }
-    textarea::placeholder { color: var(--text-faint); }
-    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
-    .counter { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
-    .counter.warn { color: #c0392b; }
-    .submit-btn { background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 28px; transition: opacity 0.2s, transform 0.1s; }
-    .submit-btn:hover { opacity: 0.75; }
-    .submit-btn:active { transform: scale(0.98); }
-    .submit-btn:disabled { opacity: 0.3; cursor: default; }
-    .confirmation { margin-top: 12px; font-size: 13px; color: var(--text-muted); font-style: italic; text-align: right; display: none; }
+    .input-section{max-width:640px;margin:0 auto;padding:0 24px clamp(48px,8vw,72px);opacity:0;animation:riseUp .8s .35s ease forwards}
+    .prefix{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text-faint);display:block;margin-bottom:4px}
+    textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-input);outline:none;font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text);resize:none;line-height:1.6;padding:6px 0 10px;transition:border-color .3s,color .3s}
+    textarea:focus{border-bottom-color:var(--accent)}
+    textarea::placeholder{color:var(--text-faint)}
+    .input-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+    .counter{font-size:13px;color:var(--text-muted);transition:color .2s}
+    .counter.warn{color:#c0392b}
+    .submit-btn{background:var(--btn-bg);color:var(--btn-text);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:opacity .2s,transform .1s}
+    .submit-btn:hover{opacity:.75}
+    .submit-btn:active{transform:scale(.98)}
+    .submit-btn:disabled{opacity:.3;cursor:default}
+    .confirmation{margin-top:12px;font-size:13px;color:var(--text-muted);font-style:italic;text-align:right;display:none}
 
     /* FEED */
-    .feed { max-width: 640px; margin: 0 auto; padding: 0 24px clamp(60px,10vw,120px); }
-    .voice-count { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; text-align: center; display: none; }
-    .empty { font-family: 'Playfair Display', serif; text-align: center; color: var(--text-faint); font-style: italic; font-size: 18px; padding: 40px 0; }
-    .entry-card { padding: 24px 0; }
-    .entry-card.new { animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: translateY(0); } }
-    .entry-text { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(16px,2.5vw,20px); font-weight: 400; line-height: 1.6; margin-bottom: 12px; color: var(--text); }
-    .entry-prefix { color: var(--text-faint); font-style: italic; }
-    .entry-meta { display: flex; align-items: center; justify-content: space-between; }
-    .timestamp { font-size: 12px; color: var(--text-faint); letter-spacing: 0.03em; }
-    .actions { display: flex; gap: 18px; align-items: center; }
-    .like-btn, .share-btn, .img-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 13px; font-family: 'EB Garamond', serif; transition: color 0.2s; padding: 4px 0; color: var(--text-muted); }
-    .like-btn:hover, .like-btn.liked { color: var(--accent); }
-    .share-btn:hover, .img-btn:hover { color: var(--text); }
-    .divider { border: none; border-top: 1px solid var(--border); }
+    .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
+    .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:32px;text-align:center;display:none}
+    .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--text-faint);font-style:italic;font-size:18px;padding:40px 0}
+    .entry-card{padding:24px 0}
+    .entry-card.new{animation:slideIn .5s cubic-bezier(.16,1,.3,1) forwards}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+    .entry-text{font-family:'Playfair Display',serif;font-size:clamp(16px,2.5vw,20px);font-weight:400;line-height:1.6;margin-bottom:12px;color:var(--text)}
+    .entry-prefix{color:var(--text-faint);font-style:italic}
+    .entry-meta{display:flex;align-items:center;justify-content:space-between}
+    .timestamp{font-size:12px;color:var(--text-faint);letter-spacing:.03em}
+    .actions{display:flex;gap:18px;align-items:center}
+    .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--text-muted)}
+    .like-btn:hover,.like-btn.liked{color:var(--accent)}
+    .share-btn:hover,.img-btn:hover{color:var(--text)}
+    .divider{border:none;border-top:1px solid var(--border)}
 
     /* FOOTER */
-    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; }
-    footer span, footer a { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.2s; text-decoration: none; }
-    footer span:hover, footer a:hover { color: var(--text); }
+    footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
+    footer span,footer a{font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none}
+    footer span:hover,footer a:hover{color:var(--text)}
 
     /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal { background: var(--bg); border: 1px solid var(--border); padding: 28px 24px 24px; max-width: 460px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px; transform: translateY(16px); transition: transform 0.3s; }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .modal-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-    .modal-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; color: var(--text); }
-    .modal-close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 22px; line-height: 1; }
-    #shareCard { width: 100%; aspect-ratio: 1; max-width: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 48px 32px; background: #faf9f7; text-align: center; }
-    #shareCard.dark { background: #111110; }
-    #shareCard .sc-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-    #shareCard .sc-prefix { font-family: 'Playfair Display', serif; font-size: 15px; font-style: italic; color: #c8c4bc; }
-    #shareCard.dark .sc-prefix { color: #3a3530; }
-    #shareCard .sc-text { font-family: 'Playfair Display', serif; font-size: clamp(17px,4vw,22px); font-style: italic; line-height: 1.55; color: #1a1a1a; max-width: 280px; }
-    #shareCard.dark .sc-text { color: #f0ede8; }
-    #shareCard .sc-line { width: 28px; height: 1px; background: #2d5a40; margin: 16px auto 14px; }
-    #shareCard .sc-footer { font-family: 'EB Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #c8c4bc; }
-    #shareCard.dark .sc-footer { color: #3a3530; }
-    .modal-style-toggle { display: flex; gap: 8px; width: 100%; max-width: 380px; }
-    .modal-style-btn { flex: 1; padding: 8px; border: 1px solid var(--border); background: none; font-family: 'EB Garamond', serif; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; color: var(--text-muted); }
-    .modal-style-btn.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
-    .modal-download-btn { background: var(--btn-bg); color: var(--btn-text); border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 32px; transition: opacity 0.2s; width: 100%; max-width: 380px; }
-    .modal-download-btn:hover { opacity: 0.8; }
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--bg);border:1px solid var(--border);padding:28px 24px 24px;max-width:460px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;transform:translateY(16px);transition:transform .3s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal-top{display:flex;justify-content:space-between;align-items:center;width:100%}
+    .modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text)}
+    .modal-close{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:22px;line-height:1}
+    #shareCard{width:100%;aspect-ratio:1;max-width:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 48px 32px;background:#faf9f7;text-align:center}
+    #shareCard.dark{background:#111110}
+    #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+    #shareCard .sc-prefix{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:#c8c4bc}
+    #shareCard.dark .sc-prefix{color:#3a3530}
+    #shareCard .sc-text{font-family:'Playfair Display',serif;font-size:clamp(17px,4vw,22px);font-style:italic;line-height:1.55;color:#1a1a1a;max-width:280px}
+    #shareCard.dark .sc-text{color:#f0ede8}
+    #shareCard .sc-line{width:28px;height:1px;background:#2d5a40;margin:16px auto 14px}
+    #shareCard .sc-footer{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c8c4bc}
+    #shareCard.dark .sc-footer{color:#3a3530}
+    .modal-style-toggle{display:flex;gap:8px;width:100%;max-width:380px}
+    .modal-style-btn{flex:1;padding:8px;border:1px solid var(--border);background:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;color:var(--text-muted)}
+    .modal-style-btn.active{background:var(--btn-bg);color:var(--btn-text);border-color:var(--btn-bg)}
+    .modal-dl-btn{background:var(--btn-bg);color:var(--btn-text);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
+    .modal-dl-btn:hover{opacity:.8}
 
     /* LEGAL */
-    .legal-page { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
-    .legal-back { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; background: none; border: none; display: flex; align-items: center; gap: 6px; margin-bottom: 40px; transition: color 0.2s; font-family: 'EB Garamond', serif; }
-    .legal-back:hover { color: var(--text); }
-    .legal-page h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px,5vw,42px); font-weight: 400; margin-bottom: 32px; color: var(--text); }
-    .legal-page h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 400; margin: 32px 0 12px; color: var(--text); }
-    .legal-page p { font-size: 16px; line-height: 1.8; color: var(--text-muted); margin-bottom: 16px; }
-    .legal-page ul { list-style: none; padding: 0; margin-bottom: 16px; }
-    .legal-page ul li { font-size: 16px; line-height: 1.8; color: var(--text-muted); padding-left: 16px; position: relative; margin-bottom: 6px; }
-    .legal-page ul li::before { content: '—'; position: absolute; left: 0; color: var(--text-faint); }
-    .legal-page a { color: var(--text-muted); }
-    .legal-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
-    .placeholder { background: var(--bg2); border: 1px dashed var(--border); padding: 2px 8px; color: #c0392b; font-size: 14px; }
+    .legal-page{max-width:640px;margin:0 auto;padding:48px 24px 80px}
+    .legal-back{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:6px;margin-bottom:40px;transition:color .2s;font-family:'EB Garamond',serif}
+    .legal-back:hover{color:var(--text)}
+    .legal-page h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:400;margin-bottom:32px;color:var(--text)}
+    .legal-page h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;margin:32px 0 12px;color:var(--text)}
+    .legal-page p{font-size:16px;line-height:1.8;color:var(--text-muted);margin-bottom:16px}
+    .legal-page ul{list-style:none;padding:0;margin-bottom:16px}
+    .legal-page ul li{font-size:16px;line-height:1.8;color:var(--text-muted);padding-left:16px;position:relative;margin-bottom:6px}
+    .legal-page ul li::before{content:'—';position:absolute;left:0;color:var(--text-faint)}
+    .legal-page a{color:var(--text-muted)}
+    .legal-divider{border:none;border-top:1px solid var(--border);margin:32px 0}
+    .ph{background:var(--bg2);border:1px dashed var(--border);padding:2px 8px;color:#c0392b;font-size:14px}
 
-    @media (max-width: 480px) {
-      .topbar, .input-section, .feed, .legal-page { padding-left: 16px; padding-right: 16px; }
+    @media(max-width:480px){
+      .topbar,.input-section,.feed,.legal-page{padding-left:16px;padding-right:16px}
     }
   </style>
 </head>
 <body>
 
   <nav class="topbar">
-    <span class="topbar-logo" onclick="showPage('home')">Life is<span>…</span></span>
+    <span class="logo" onclick="showPage('home')">Life is<span>…</span></span>
     <div class="topbar-right">
       <div class="lang-toggle">
         <button class="lang-btn active" id="btnDE" onclick="setLang('de')">DE</button>
         <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
       </div>
-      <div class="toggle-wrap" id="darkToggle" onclick="toggleDark()">
-        <div class="toggle-knob" id="toggleKnob">☀️</div>
+      <div class="tog" id="darkTog" onclick="toggleDark()">
+        <div class="tog-knob" id="togKnob">☀️</div>
       </div>
     </div>
   </nav>
@@ -157,17 +153,17 @@
   <!-- HOME -->
   <div class="page active" id="page-home">
     <header>
-      <p class="eyebrow" id="txt-eyebrow">Eine kollektive Reflexion</p>
+      <p class="eyebrow" id="t-eyebrow">Eine kollektive Reflexion</p>
       <h1>Life is…</h1>
     </header>
     <section class="input-section">
       <span class="prefix">Life is…</span>
-      <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
+      <textarea id="input" placeholder="was du daraus machst" rows="2" maxlength="200"></textarea>
       <div class="input-footer">
         <span class="counter" id="counter">200</span>
-        <button class="submit-btn" id="submitBtn" disabled>Let them know!</button>
+        <button class="submit-btn" id="submitBtn" disabled>Sag es jetzt!</button>
       </div>
-      <p class="confirmation" id="confirmation"></p>
+      <p class="confirmation" id="t-confirm"></p>
     </section>
     <section class="feed" id="feed">
       <p class="voice-count" id="voiceCount"></p>
@@ -176,100 +172,100 @@
     </section>
     <footer>
       <span onclick="showPage('impressum')">Impressum</span>
-      <span onclick="showPage('datenschutz')" id="txt-privacy">Datenschutz</span>
-      <span onclick="showPage('nutzung')" id="txt-terms">Nutzungsbedingungen</span>
+      <span id="t-privacy" onclick="showPage('datenschutz')">Datenschutz</span>
+      <span id="t-terms" onclick="showPage('nutzung')">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
-      <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="txt-support">☕ Support the project</a>
+      <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="t-support">☕ Projekt unterstützen</a>
     </footer>
   </div>
 
   <!-- IMPRESSUM -->
   <div class="page" id="page-impressum">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back1">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-back1">Zurück</span></button>
       <h2>Impressum</h2>
       <p>Angaben gemäß § 5 TMG:</p>
       <h3>Verantwortlich</h3>
-      <p><span class="placeholder">[Dein vollständiger Name]</span><br/><br/><span class="placeholder">[Straße und Hausnummer]</span><br/><br/><span class="placeholder">[PLZ und Ort]</span><br/><br/>Deutschland</p>
+      <p><span class="ph">[Dein vollständiger Name]</span><br/><br/><span class="ph">[Straße und Hausnummer]</span><br/><br/><span class="ph">[PLZ und Ort]</span><br/><br/>Deutschland</p>
       <h3>Kontakt</h3>
-      <p>E-Mail: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b2d6d7dbdcd7f2d7dfd3dbde9cd6d7">[email&#160;protected]</a>]</span></p>
+      <p>E-Mail: <span class="ph">[deine@email.de]</span></p>
       <hr class="legal-divider"/>
       <h3>Haftung für Inhalte</h3>
-      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>
       <h3>Urheberrecht</h3>
-      <p>Die durch den Seitenbetreiber erstellten Inhalte unterliegen dem deutschen Urheberrecht.</p>
+      <p>Die erstellten Inhalte unterliegen dem deutschen Urheberrecht.</p>
     </div>
   </div>
 
   <!-- DATENSCHUTZ -->
   <div class="page" id="page-datenschutz">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back2">Zurück</span></button>
-      <h2 id="txt-privacy-title">Datenschutzerklärung</h2>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-back2">Zurück</span></button>
+      <h2 id="t-privacy-h">Datenschutzerklärung</h2>
       <h3>1. Verantwortlicher</h3>
-      <p><span class="placeholder">[Dein Name, Adresse]</span></p>
-      <h3 id="txt-data-h">2. Welche Daten wir erfassen</h3>
+      <p><span class="ph">[Dein Name, Adresse]</span></p>
+      <h3 id="t-data-h">2. Welche Daten wir erfassen</h3>
       <ul>
-        <li id="txt-data-1">Von dir verfasste Texte</li>
-        <li id="txt-data-2">Anzahl der Likes pro Eintrag</li>
-        <li id="txt-data-3">Technische Zugriffsdaten durch Vercel</li>
+        <li id="t-d1">Von dir verfasste Texte</li>
+        <li id="t-d2">Anzahl der Likes pro Eintrag</li>
+        <li id="t-d3">Technische Zugriffsdaten durch Vercel</li>
       </ul>
-      <h3>3. <span id="txt-anon-h">Anonymität</span></h3>
-      <p id="txt-anon">Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.</p>
-      <h3>4. <span id="txt-third-h">Drittanbieter</span></h3>
+      <h3>3. <span id="t-anon-h">Anonymität</span></h3>
+      <p id="t-anon">Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.</p>
+      <h3>4. <span id="t-third-h">Drittanbieter</span></h3>
       <ul>
-        <li><strong>Supabase</strong> – <a href="https://supabase.com/privacy" target="_blank">Datenschutz</a></li>
-        <li><strong>Vercel</strong> – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Datenschutz</a></li>
-        <li><strong>Google Fonts</strong> – <a href="https://policies.google.com/privacy" target="_blank">Datenschutz</a></li>
+        <li>Supabase – <a href="https://supabase.com/privacy" target="_blank">Privacy</a></li>
+        <li>Vercel – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Privacy</a></li>
+        <li>Google Fonts – <a href="https://policies.google.com/privacy" target="_blank">Privacy</a></li>
       </ul>
-      <h3>5. <span id="txt-rights-h">Deine Rechte</span></h3>
-      <p id="txt-rights">Kontakt: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="600405090e0520050d01090c4e0405">[email&#160;protected]</a>]</span></p>
+      <h3>5. <span id="t-rights-h">Deine Rechte</span></h3>
+      <p id="t-rights">Kontakt: <span class="ph">[deine@email.de]</span></p>
       <h3>6. Cookies</h3>
-      <p id="txt-cookies">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
+      <p id="t-cookies">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
     </div>
   </div>
 
   <!-- NUTZUNGSBEDINGUNGEN -->
   <div class="page" id="page-nutzung">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back3">Zurück</span></button>
-      <h2 id="txt-terms-title">Nutzungsbedingungen</h2>
-      <h3>1. <span id="txt-scope-h">Geltungsbereich</span></h3>
-      <p id="txt-scope">Diese Bedingungen gelten für „Life is…" unter <span class="placeholder">[deine-url]</span>.</p>
-      <h3>2. <span id="txt-use-h">Nutzung</span></h3>
-      <p id="txt-use">Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
-      <h3>3. <span id="txt-content-h">Inhalte</span></h3>
-      <p id="txt-content">Du bist für deine Inhalte verantwortlich.</p>
-      <h3>4. <span id="txt-forbidden-h">Verbotene Inhalte</span></h3>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-back3">Zurück</span></button>
+      <h2 id="t-terms-h">Nutzungsbedingungen</h2>
+      <h3>1. <span id="t-scope-h">Geltungsbereich</span></h3>
+      <p id="t-scope">Diese Bedingungen gelten für „Life is…" unter <span class="ph">[deine-url]</span>.</p>
+      <h3>2. <span id="t-use-h">Nutzung</span></h3>
+      <p id="t-use">Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
+      <h3>3. <span id="t-cnt-h">Inhalte</span></h3>
+      <p id="t-cnt">Du bist für deine Inhalte verantwortlich.</p>
+      <h3>4. <span id="t-forb-h">Verbotene Inhalte</span></h3>
       <ul>
-        <li id="txt-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
-        <li id="txt-f2">Inhalte, die Minderjährige gefährden</li>
-        <li id="txt-f3">Spam, Werbung oder irrelevante Inhalte</li>
-        <li id="txt-f4">Inhalte gegen geltendes Recht</li>
+        <li id="t-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
+        <li id="t-f2">Inhalte, die Minderjährige gefährden</li>
+        <li id="t-f3">Spam, Werbung oder irrelevante Inhalte</li>
+        <li id="t-f4">Inhalte gegen geltendes Recht</li>
       </ul>
-      <h3>5. <span id="txt-liability-h">Haftung</span></h3>
-      <p id="txt-liability">Der Betreiber haftet nicht für Nutzerinhalte.</p>
+      <h3>5. <span id="t-liab-h">Haftung</span></h3>
+      <p id="t-liab">Der Betreiber haftet nicht für Nutzerinhalte.</p>
     </div>
   </div>
 
   <!-- COMMUNITY GUIDELINES -->
   <div class="page" id="page-guidelines">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="txt-back4">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-back4">Zurück</span></button>
       <h2>Community Guidelines</h2>
-      <p id="txt-cg-intro">„Life is…" ist ein Ort der Reflexion und Poesie.</p>
-      <h3>✦ <span id="txt-cg1-h">Sei ehrlich</span></h3>
-      <p id="txt-cg1">Teile echte Gedanken. Dieser Raum lebt von Authentizität.</p>
-      <h3>✦ <span id="txt-cg2-h">Sei respektvoll</span></h3>
-      <p id="txt-cg2">Beiträge, die Menschen herabsetzen, werden entfernt.</p>
-      <h3>✦ <span id="txt-cg3-h">Halte es poetisch</span></h3>
-      <p id="txt-cg3">Kein Spam, keine Werbung, keine Links.</p>
-      <h3>✦ <span id="txt-cg4-h">Teile nichts Persönliches</span></h3>
-      <p id="txt-cg4">Keine Namen, Adressen oder persönliche Daten.</p>
-      <h3>✦ <span id="txt-cg5-h">Kein Schaden</span></h3>
-      <p id="txt-cg5">Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.</p>
+      <p id="t-cg0">„Life is…" ist ein Ort der Reflexion und Poesie.</p>
+      <h3>✦ <span id="t-cg1h">Sei ehrlich</span></h3>
+      <p id="t-cg1">Teile echte Gedanken. Dieser Raum lebt von Authentizität.</p>
+      <h3>✦ <span id="t-cg2h">Sei respektvoll</span></h3>
+      <p id="t-cg2">Beiträge, die Menschen herabsetzen, werden entfernt.</p>
+      <h3>✦ <span id="t-cg3h">Halte es poetisch</span></h3>
+      <p id="t-cg3">Kein Spam, keine Werbung, keine Links.</p>
+      <h3>✦ <span id="t-cg4h">Teile nichts Persönliches</span></h3>
+      <p id="t-cg4">Keine Namen, Adressen oder persönliche Daten.</p>
+      <h3>✦ <span id="t-cg5h">Kein Schaden</span></h3>
+      <p id="t-cg5">Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.</p>
       <hr class="legal-divider"/>
-      <p id="txt-report">Verstöße melden: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82e6e7ebece7c2e7efe3ebeeace6e7">[email&#160;protected]</a>]</span></p>
+      <p id="t-rep">Verstöße melden: <span class="ph">[deine@email.de]</span></p>
     </div>
   </div>
 
@@ -277,7 +273,7 @@
   <div class="modal-overlay" id="shareModal">
     <div class="modal">
       <div class="modal-top">
-        <span class="modal-title" id="txt-modal-title">Als Bild teilen</span>
+        <span class="modal-title" id="t-modal">Als Bild teilen</span>
         <button class="modal-close" onclick="closeModal()">×</button>
       </div>
       <div id="shareCard">
@@ -289,177 +285,133 @@
         <span class="sc-footer">Created with Life is… · life-is-one.vercel.app</span>
       </div>
       <div class="modal-style-toggle">
-        <button class="modal-style-btn active" id="txt-light" onclick="setCardStyle('light', this)">Hell</button>
-        <button class="modal-style-btn" id="txt-dark-btn" onclick="setCardStyle('dark', this)">Dunkel</button>
+        <button class="modal-style-btn active" id="t-light" onclick="setCardStyle('light',this)">Hell</button>
+        <button class="modal-style-btn" id="t-dark" onclick="setCardStyle('dark',this)">Dunkel</button>
       </div>
-      <button class="modal-download-btn" onclick="downloadSharepic()" id="txt-download">⬇ Als Bild speichern</button>
+      <button class="modal-dl-btn" id="t-dl" onclick="downloadSharepic()">⬇ Als Bild speichern</button>
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const SUPABASE_URL = 'https://acdiodygerxvxewiqpox.supabase.co'
-    const SUPABASE_KEY = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
-    const MAX_CHARS    = 200
+  <script>
+    const SUPA_URL = 'https://acdiodygerxvxewiqpox.supabase.co'
+    const SUPA_KEY = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
+    const MAX = 200
 
-    const { createClient } = supabase
-    const db = createClient(SUPABASE_URL, SUPABASE_KEY)
+    const db = supabase.createClient(SUPA_URL, SUPA_KEY)
+    let entries = []
+    let liked = new Set(JSON.parse(localStorage.getItem('life-liked') || '[]'))
+    let lang = 'de'
 
-    let entries  = []
-    let likedIds = new Set(JSON.parse(localStorage.getItem('life-is-liked') || '[]'))
-    let currentLang = 'de'
-
-    // ── TRANSLATIONS ──
-    const i18n = {
+    const T = {
       de: {
-        eyebrow: 'Eine kollektive Reflexion',
-        placeholder: 'was du daraus machst',
-        submit: 'Sag es jetzt!',
-        confirmation: 'Deine Worte sind jetzt Teil des Streams ↓',
-        empty: 'Sei der Erste, der den Gedanken vervollständigt.',
-        privacy: 'Datenschutz',
-        terms: 'Nutzungsbedingungen',
-        support: '☕ Projekt unterstützen',
-        back: 'Zurück',
-        voices: (n) => `${n} ${n === 1 ? 'Stimme' : 'Stimmen'}`,
-        timeAgo: (d) => d < 60 ? 'gerade eben' : d < 3600 ? `vor ${Math.floor(d/60)}m` : d < 86400 ? `vor ${Math.floor(d/3600)}h` : `vor ${Math.floor(d/86400)}d`,
-        modalTitle: 'Als Bild teilen',
-        light: 'Hell', dark: 'Dunkel',
-        download: '⬇ Als Bild speichern',
-        copied: 'Kopiert',
-        privacyTitle: 'Datenschutzerklärung',
-        termsTitle: 'Nutzungsbedingungen',
-        dataH: '2. Welche Daten wir erfassen',
-        data1: 'Von dir verfasste Texte', data2: 'Anzahl der Likes pro Eintrag', data3: 'Technische Zugriffsdaten durch Vercel',
-        anonH: 'Anonymität', anon: 'Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.',
-        thirdH: 'Drittanbieter', rightsH: 'Deine Rechte', rights: 'Kontakt: [deine@email.de]',
-        cookies: 'Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.',
-        scopeH: 'Geltungsbereich', scope: 'Diese Bedingungen gelten für „Life is…" unter [deine-url].',
-        useH: 'Nutzung', use: 'Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.',
-        contentH: 'Inhalte', content: 'Du bist für deine Inhalte verantwortlich.',
-        forbiddenH: 'Verbotene Inhalte',
-        f1: 'Hassrede, Diskriminierung oder Beleidigungen', f2: 'Inhalte, die Minderjährige gefährden',
-        f3: 'Spam, Werbung oder irrelevante Inhalte', f4: 'Inhalte gegen geltendes Recht',
-        liabilityH: 'Haftung', liability: 'Der Betreiber haftet nicht für Nutzerinhalte.',
-        cgIntro: '„Life is…" ist ein Ort der Reflexion und Poesie.',
-        cg1H: 'Sei ehrlich', cg1: 'Teile echte Gedanken. Dieser Raum lebt von Authentizität.',
-        cg2H: 'Sei respektvoll', cg2: 'Beiträge, die Menschen herabsetzen, werden entfernt.',
-        cg3H: 'Halte es poetisch', cg3: 'Kein Spam, keine Werbung, keine Links.',
-        cg4H: 'Teile nichts Persönliches', cg4: 'Keine Namen, Adressen oder persönliche Daten.',
-        cg5H: 'Kein Schaden', cg5: 'Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.',
-        report: 'Verstöße melden: [deine@email.de]',
+        eyebrow:'Eine kollektive Reflexion', placeholder:'was du daraus machst',
+        submit:'Sag es jetzt!', confirm:'Deine Worte sind jetzt Teil des Streams ↓',
+        empty:'Sei der Erste, der den Gedanken vervollständigt.',
+        privacy:'Datenschutz', terms:'Nutzungsbedingungen',
+        support:'☕ Projekt unterstützen', back:'Zurück',
+        voices:n=>`${n} ${n===1?'Stimme':'Stimmen'}`,
+        ago:d=>d<60?'gerade eben':d<3600?`vor ${Math.floor(d/60)}m`:d<86400?`vor ${Math.floor(d/3600)}h`:`vor ${Math.floor(d/86400)}d`,
+        modal:'Als Bild teilen', light:'Hell', dark:'Dunkel',
+        dl:'⬇ Als Bild speichern', copied:'Kopiert',
+        privacyH:'Datenschutzerklärung', termsH:'Nutzungsbedingungen',
+        dataH:'2. Welche Daten wir erfassen',
+        d1:'Von dir verfasste Texte', d2:'Anzahl der Likes pro Eintrag', d3:'Technische Zugriffsdaten durch Vercel',
+        anonH:'Anonymität', anon:'Beiträge werden ohne Nutzernamen oder E-Mail gespeichert.',
+        thirdH:'Drittanbieter', rightsH:'Deine Rechte', rights:'Kontakt: [deine@email.de]',
+        cookies:'Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.',
+        scopeH:'Geltungsbereich', scope:'Diese Bedingungen gelten für „Life is…" unter [deine-url].',
+        useH:'Nutzung', use:'Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.',
+        cntH:'Inhalte', cnt:'Du bist für deine Inhalte verantwortlich.',
+        forbH:'Verbotene Inhalte',
+        f1:'Hassrede, Diskriminierung oder Beleidigungen', f2:'Inhalte, die Minderjährige gefährden',
+        f3:'Spam, Werbung oder irrelevante Inhalte', f4:'Inhalte gegen geltendes Recht',
+        liabH:'Haftung', liab:'Der Betreiber haftet nicht für Nutzerinhalte.',
+        cg0:'„Life is…" ist ein Ort der Reflexion und Poesie.',
+        cg1h:'Sei ehrlich', cg1:'Teile echte Gedanken. Dieser Raum lebt von Authentizität.',
+        cg2h:'Sei respektvoll', cg2:'Beiträge, die Menschen herabsetzen, werden entfernt.',
+        cg3h:'Halte es poetisch', cg3:'Kein Spam, keine Werbung, keine Links.',
+        cg4h:'Teile nichts Persönliches', cg4:'Keine Namen, Adressen oder persönliche Daten.',
+        cg5h:'Kein Schaden', cg5:'Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.',
+        rep:'Verstöße melden: [deine@email.de]'
       },
       en: {
-        eyebrow: 'A collective reflection',
-        placeholder: 'what you make of it',
-        submit: 'Let them know!',
-        confirmation: 'Your words are now part of the stream ↓',
-        empty: 'Be the first to complete the thought.',
-        privacy: 'Privacy',
-        terms: 'Terms of Use',
-        support: '☕ Support the project',
-        back: 'Back',
-        voices: (n) => `${n} ${n === 1 ? 'voice' : 'voices'}`,
-        timeAgo: (d) => d < 60 ? 'just now' : d < 3600 ? `${Math.floor(d/60)}m ago` : d < 86400 ? `${Math.floor(d/3600)}h ago` : `${Math.floor(d/86400)}d ago`,
-        modalTitle: 'Share as image',
-        light: 'Light', dark: 'Dark',
-        download: '⬇ Save as image',
-        copied: 'Copied',
-        privacyTitle: 'Privacy Policy',
-        termsTitle: 'Terms of Use',
-        dataH: '2. Data we collect',
-        data1: 'Text you submit', data2: 'Number of likes per entry', data3: 'Technical access data via Vercel',
-        anonH: 'Anonymity', anon: 'Entries are stored without username or email.',
-        thirdH: 'Third parties', rightsH: 'Your rights', rights: 'Contact: [your@email.com]',
-        cookies: 'No tracking cookies. Only liked entries are stored locally in your browser.',
-        scopeH: 'Scope', scope: 'These terms apply to „Life is…" at [your-url].',
-        useH: 'Usage', use: 'The platform is free. By using it, you agree to these terms.',
-        contentH: 'Content', content: 'You are responsible for content you submit.',
-        forbiddenH: 'Prohibited content',
-        f1: 'Hate speech, discrimination or harassment', f2: 'Content that endangers minors',
-        f3: 'Spam, advertising or irrelevant content', f4: 'Content that violates applicable law',
-        liabilityH: 'Liability', liability: 'The operator is not liable for user-submitted content.',
-        cgIntro: '„Life is…" is a space for reflection, openness and poetry.',
-        cg1H: 'Be honest', cg1: 'Share real thoughts. This space thrives on authenticity.',
-        cg2H: 'Be respectful', cg2: 'Entries that demean people will be removed.',
-        cg3H: 'Keep it poetic', cg3: 'No spam, no ads, no links.',
-        cg4H: 'Don\'t share personal info', cg4: 'No names, addresses or personal data.',
-        cg5H: 'Do no harm', cg5: 'Content that encourages self-harm will be removed immediately.',
-        report: 'Report violations: [your@email.com]',
+        eyebrow:'A collective reflection', placeholder:'what you make of it',
+        submit:'Let them know!', confirm:'Your words are now part of the stream ↓',
+        empty:'Be the first to complete the thought.',
+        privacy:'Privacy', terms:'Terms of Use',
+        support:'☕ Support the project', back:'Back',
+        voices:n=>`${n} ${n===1?'voice':'voices'}`,
+        ago:d=>d<60?'just now':d<3600?`${Math.floor(d/60)}m ago`:d<86400?`${Math.floor(d/3600)}h ago`:`${Math.floor(d/86400)}d ago`,
+        modal:'Share as image', light:'Light', dark:'Dark',
+        dl:'⬇ Save as image', copied:'Copied',
+        privacyH:'Privacy Policy', termsH:'Terms of Use',
+        dataH:'2. Data we collect',
+        d1:'Text you submit', d2:'Number of likes per entry', d3:'Technical access data via Vercel',
+        anonH:'Anonymity', anon:'Entries are stored without username or email.',
+        thirdH:'Third parties', rightsH:'Your rights', rights:'Contact: [your@email.com]',
+        cookies:'No tracking cookies. Only liked entries are stored locally.',
+        scopeH:'Scope', scope:'These terms apply to "Life is…" at [your-url].',
+        useH:'Usage', use:'The platform is free. By using it, you agree to these terms.',
+        cntH:'Content', cnt:'You are responsible for content you submit.',
+        forbH:'Prohibited content',
+        f1:'Hate speech, discrimination or harassment', f2:'Content that endangers minors',
+        f3:'Spam, advertising or irrelevant content', f4:'Content that violates applicable law',
+        liabH:'Liability', liab:'The operator is not liable for user-submitted content.',
+        cg0:'"Life is…" is a space for reflection, openness and poetry.',
+        cg1h:'Be honest', cg1:'Share real thoughts. This space thrives on authenticity.',
+        cg2h:'Be respectful', cg2:'Entries that demean people will be removed.',
+        cg3h:'Keep it poetic', cg3:'No spam, no ads, no links.',
+        cg4h:"Don't share personal info", cg4:'No names, addresses or personal data.',
+        cg5h:'Do no harm', cg5:'Content encouraging self-harm will be removed immediately.',
+        rep:'Report violations: [your@email.com]'
       }
     }
 
-    function t(key) { return i18n[currentLang][key] }
+    function set(id, val) { const el=document.getElementById(id); if(el) el.textContent=val }
 
     function applyLang() {
-      const l = i18n[currentLang]
-      document.getElementById('txt-eyebrow').textContent = l.eyebrow
+      const l = T[lang]
+      set('t-eyebrow', l.eyebrow)
       document.getElementById('input').placeholder = l.placeholder
       document.getElementById('submitBtn').textContent = l.submit
-      document.getElementById('txt-privacy').textContent = l.privacy
-      document.getElementById('txt-terms').textContent = l.terms
-      document.getElementById('txt-support').textContent = l.support
-      ;['txt-back1','txt-back2','txt-back3','txt-back4'].forEach(id => document.getElementById(id).textContent = l.back)
-      document.getElementById('txt-modal-title').textContent = l.modalTitle
-      document.getElementById('txt-light').textContent = l.light
-      document.getElementById('txt-dark-btn').textContent = l.dark
-      document.getElementById('txt-download').textContent = l.download
-      document.getElementById('txt-privacy-title').textContent = l.privacyTitle
-      document.getElementById('txt-terms-title').textContent = l.termsTitle
-      document.getElementById('txt-data-h').textContent = l.dataH
-      document.getElementById('txt-data-1').textContent = l.data1
-      document.getElementById('txt-data-2').textContent = l.data2
-      document.getElementById('txt-data-3').textContent = l.data3
-      document.getElementById('txt-anon-h').textContent = l.anonH
-      document.getElementById('txt-anon').textContent = l.anon
-      document.getElementById('txt-third-h').textContent = l.thirdH
-      document.getElementById('txt-rights-h').textContent = l.rightsH
-      document.getElementById('txt-cookies').textContent = l.cookies
-      document.getElementById('txt-scope-h').textContent = l.scopeH
-      document.getElementById('txt-scope').textContent = l.scope
-      document.getElementById('txt-use-h').textContent = l.useH
-      document.getElementById('txt-use').textContent = l.use
-      document.getElementById('txt-content-h').textContent = l.contentH
-      document.getElementById('txt-content').textContent = l.content
-      document.getElementById('txt-forbidden-h').textContent = l.forbiddenH
-      document.getElementById('txt-f1').textContent = l.f1
-      document.getElementById('txt-f2').textContent = l.f2
-      document.getElementById('txt-f3').textContent = l.f3
-      document.getElementById('txt-f4').textContent = l.f4
-      document.getElementById('txt-liability-h').textContent = l.liabilityH
-      document.getElementById('txt-liability').textContent = l.liability
-      document.getElementById('txt-cg-intro').textContent = l.cgIntro
-      document.getElementById('txt-cg1-h').textContent = l.cg1H
-      document.getElementById('txt-cg1').textContent = l.cg1
-      document.getElementById('txt-cg2-h').textContent = l.cg2H
-      document.getElementById('txt-cg2').textContent = l.cg2
-      document.getElementById('txt-cg3-h').textContent = l.cg3H
-      document.getElementById('txt-cg3').textContent = l.cg3
-      document.getElementById('txt-cg4-h').textContent = l.cg4H
-      document.getElementById('txt-cg4').textContent = l.cg4
-      document.getElementById('txt-cg5-h').textContent = l.cg5H
-      document.getElementById('txt-cg5').textContent = l.cg5
-      document.getElementById('txt-report').textContent = l.report
-      document.documentElement.lang = currentLang
+      set('t-privacy', l.privacy); set('t-terms', l.terms); set('t-support', l.support)
+      ;['t-back1','t-back2','t-back3','t-back4'].forEach(id => set(id, l.back))
+      set('t-modal', l.modal); set('t-light', l.light); set('t-dark', l.dark); set('t-dl', l.dl)
+      set('t-privacy-h', l.privacyH); set('t-terms-h', l.termsH)
+      set('t-data-h', l.dataH); set('t-d1', l.d1); set('t-d2', l.d2); set('t-d3', l.d3)
+      set('t-anon-h', l.anonH); set('t-anon', l.anon)
+      set('t-third-h', l.thirdH); set('t-rights-h', l.rightsH)
+      set('t-cookies', l.cookies)
+      set('t-scope-h', l.scopeH); set('t-scope', l.scope)
+      set('t-use-h', l.useH); set('t-use', l.use)
+      set('t-cnt-h', l.cntH); set('t-cnt', l.cnt)
+      set('t-forb-h', l.forbH)
+      set('t-f1', l.f1); set('t-f2', l.f2); set('t-f3', l.f3); set('t-f4', l.f4)
+      set('t-liab-h', l.liabH); set('t-liab', l.liab)
+      set('t-cg0', l.cg0)
+      set('t-cg1h', l.cg1h); set('t-cg1', l.cg1)
+      set('t-cg2h', l.cg2h); set('t-cg2', l.cg2)
+      set('t-cg3h', l.cg3h); set('t-cg3', l.cg3)
+      set('t-cg4h', l.cg4h); set('t-cg4', l.cg4)
+      set('t-cg5h', l.cg5h); set('t-cg5', l.cg5)
+      set('t-rep', l.rep)
+      document.documentElement.lang = lang
       renderEntries()
     }
 
-    function setLang(lang) {
-      currentLang = lang
-      document.getElementById('btnDE').classList.toggle('active', lang === 'de')
-      document.getElementById('btnEN').classList.toggle('active', lang === 'en')
-      localStorage.setItem('life-is-lang', lang)
+    function setLang(l) {
+      lang = l
+      document.getElementById('btnDE').classList.toggle('active', l==='de')
+      document.getElementById('btnEN').classList.toggle('active', l==='en')
+      localStorage.setItem('life-lang', l)
       applyLang()
     }
 
-    // Auto-detect language
-    const savedLang = localStorage.getItem('life-is-lang')
-    if (savedLang) {
-      currentLang = savedLang
-    } else {
-      const browserLang = navigator.language || navigator.userLanguage
-      currentLang = browserLang.startsWith('de') ? 'de' : 'en'
-    }
-    if (currentLang === 'en') {
+    // Auto-detect
+    const savedLang = localStorage.getItem('life-lang')
+    lang = savedLang || (navigator.language||'').startsWith('de') ? 'de' : 'en'
+    if (!savedLang && !(navigator.language||'').startsWith('de')) lang = 'en'
+    if (lang === 'en') {
       document.getElementById('btnDE').classList.remove('active')
       document.getElementById('btnEN').classList.add('active')
     }
@@ -468,83 +420,76 @@
     function toggleDark() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark')
-      document.getElementById('darkToggle').classList.toggle('on', !isDark)
-      document.getElementById('toggleKnob').textContent = isDark ? '☀️' : '🌙'
-      localStorage.setItem('life-is-theme', isDark ? 'light' : 'dark')
+      document.getElementById('darkTog').classList.toggle('on', !isDark)
+      document.getElementById('togKnob').textContent = isDark ? '☀️' : '🌙'
+      localStorage.setItem('life-theme', isDark ? 'light' : 'dark')
     }
-    const savedTheme = localStorage.getItem('life-is-theme')
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'dark')
-      document.getElementById('darkToggle').classList.add('on')
-      document.getElementById('toggleKnob').textContent = '🌙'
+    const savedTheme = localStorage.getItem('life-theme')
+    if (savedTheme==='dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme:dark)').matches)) {
+      document.documentElement.setAttribute('data-theme','dark')
+      document.getElementById('darkTog').classList.add('on')
+      document.getElementById('togKnob').textContent = '🌙'
     }
 
-    // Navigation
     function showPage(name) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
-      document.getElementById('page-' + name).classList.add('active')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+      document.getElementById('page-'+name).classList.add('active')
+      window.scrollTo({top:0,behavior:'smooth'})
     }
 
-    // Sharepic
     function openSharepic(text) {
       document.getElementById('scText').textContent = text
       document.getElementById('shareCard').classList.remove('dark')
-      document.querySelectorAll('.modal-style-btn').forEach((b,i) => b.classList.toggle('active', i===0))
+      document.querySelectorAll('.modal-style-btn').forEach((b,i)=>b.classList.toggle('active',i===0))
       document.getElementById('shareModal').classList.add('open')
     }
     function closeModal() { document.getElementById('shareModal').classList.remove('open') }
-    document.getElementById('shareModal').addEventListener('click', e => { if (e.target === document.getElementById('shareModal')) closeModal() })
+    document.getElementById('shareModal').addEventListener('click', e => {
+      if (e.target===document.getElementById('shareModal')) closeModal()
+    })
     function setCardStyle(mode, btn) {
-      document.querySelectorAll('.modal-style-btn').forEach(b => b.classList.remove('active'))
+      document.querySelectorAll('.modal-style-btn').forEach(b=>b.classList.remove('active'))
       btn.classList.add('active')
-      document.getElementById('shareCard').classList.toggle('dark', mode === 'dark')
+      document.getElementById('shareCard').classList.toggle('dark', mode==='dark')
     }
     function downloadSharepic() {
-      html2canvas(document.getElementById('shareCard'), { scale: 2, useCORS: true }).then(canvas => {
-        const link = document.createElement('a')
-        link.download = 'life-is.png'
-        link.href = canvas.toDataURL('image/png')
-        link.click()
+      html2canvas(document.getElementById('shareCard'),{scale:2,useCORS:true}).then(c=>{
+        const a=document.createElement('a'); a.download='life-is.png'; a.href=c.toDataURL('image/png'); a.click()
       })
     }
 
-    // Helpers
+    function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
+    function saveLiked() { localStorage.setItem('life-liked', JSON.stringify([...liked])) }
     function timeAgo(ts) {
-      const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 1000)
-      return i18n[currentLang].timeAgo(diff)
+      const d = Math.floor((Date.now()-new Date(ts).getTime())/1000)
+      return T[lang].ago(d)
     }
-    function escHtml(s) {
-      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-    }
-    function saveLiked() { localStorage.setItem('life-is-liked', JSON.stringify([...likedIds])) }
 
-    function renderEntries(animateId = null) {
-      const el    = document.getElementById('entries')
-      const empty = document.getElementById('emptyMsg')
-      const vc    = document.getElementById('voiceCount')
-      el.innerHTML = ''
-      empty.textContent   = t('empty')
+    function renderEntries(animId=null) {
+      const el=document.getElementById('entries')
+      const empty=document.getElementById('emptyMsg')
+      const vc=document.getElementById('voiceCount')
+      el.innerHTML=''
+      empty.textContent = T[lang].empty
       empty.style.display = entries.length ? 'none' : 'block'
-      vc.style.display    = entries.length ? 'block' : 'none'
-      vc.textContent      = i18n[currentLang].voices(entries.length)
-
-      entries.forEach((entry, i) => {
-        const liked = likedIds.has(entry.id)
-        const card  = document.createElement('div')
-        card.className = 'entry-card' + (entry.id === animateId ? ' new' : '')
+      vc.style.display = entries.length ? 'block' : 'none'
+      vc.textContent = T[lang].voices(entries.length)
+      entries.forEach((entry,i) => {
+        const isLiked = liked.has(entry.id)
+        const card = document.createElement('div')
+        card.className = 'entry-card' + (entry.id===animId ? ' new' : '')
         card.innerHTML = `
-          <p class="entry-text"><span class="entry-prefix">Life is… </span>${escHtml(entry.text)}</p>
+          <p class="entry-text"><span class="entry-prefix">Life is… </span>${esc(entry.text)}</p>
           <div class="entry-meta">
             <span class="timestamp">${timeAgo(entry.created_at)}</span>
             <div class="actions">
-              <button class="like-btn ${liked ? 'liked' : ''}" data-id="${entry.id}">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5">
+              <button class="like-btn${isLiked?' liked':''}" data-id="${entry.id}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="${isLiked?'currentColor':'none'}" stroke="currentColor" stroke-width="1.5">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
-                ${entry.likes > 0 ? `<span>${entry.likes}</span>` : ''}
+                ${entry.likes>0?`<span>${entry.likes}</span>`:''}
               </button>
-              <button class="img-btn" data-text="${escHtml(entry.text)}">
+              <button class="img-btn" data-text="${esc(entry.text)}">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <rect x="3" y="3" width="18" height="18" rx="2"/>
                   <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -561,35 +506,33 @@
             </div>
           </div>`
         el.appendChild(card)
-        if (i < entries.length - 1) {
-          const hr = document.createElement('hr'); hr.className = 'divider'; el.appendChild(hr)
-        }
+        if (i < entries.length-1) { const hr=document.createElement('hr'); hr.className='divider'; el.appendChild(hr) }
       })
     }
 
     async function loadEntries() {
-      const { data } = await db.from('entries').select('*').order('created_at', { ascending: false }).limit(100)
+      const {data} = await db.from('entries').select('*').order('created_at',{ascending:false}).limit(100)
       entries = data || []
       applyLang()
     }
 
     db.channel('entries-stream')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'entries' }, p => {
-        if (entries.find(e => e.id === p.new.id)) return
-        entries = [p.new, ...entries]; renderEntries(p.new.id)
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'entries'},p=>{
+        if (entries.find(e=>e.id===p.new.id)) return
+        entries=[p.new,...entries]; renderEntries(p.new.id)
       })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'entries' }, p => {
-        entries = entries.map(e => e.id === p.new.id ? p.new : e); renderEntries()
+      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'entries'},p=>{
+        entries=entries.map(e=>e.id===p.new.id?p.new:e); renderEntries()
       })
       .subscribe()
 
-    const inputEl   = document.getElementById('input')
+    const inputEl = document.getElementById('input')
     const counterEl = document.getElementById('counter')
     const submitBtn = document.getElementById('submitBtn')
-    const confirmEl = document.getElementById('confirmation')
+    const confirmEl = document.getElementById('t-confirm')
 
     inputEl.addEventListener('input', () => {
-      const left = MAX_CHARS - inputEl.value.length
+      const left = MAX - inputEl.value.length
       counterEl.textContent = left
       counterEl.classList.toggle('warn', left < 30)
       submitBtn.disabled = inputEl.value.trim().length === 0
@@ -598,41 +541,54 @@
     submitBtn.addEventListener('click', async () => {
       const text = inputEl.value.trim()
       if (!text) return
-      submitBtn.disabled = true; submitBtn.textContent = '…'
-      await db.from('entries').insert({ text, likes: 0 })
-      inputEl.value = ''; counterEl.textContent = MAX_CHARS
+      submitBtn.disabled = true
+      submitBtn.textContent = '…'
+      await db.from('entries').insert({text, likes:0})
+      inputEl.value = ''
+      counterEl.textContent = MAX
       counterEl.classList.remove('warn')
-      submitBtn.textContent = t('submit')
-      confirmEl.textContent = t('confirmation')
+      submitBtn.textContent = T[lang].submit
+      confirmEl.textContent = T[lang].confirm
       confirmEl.style.display = 'block'
-      document.getElementById('feed').scrollIntoView({ behavior: 'smooth', block: 'start' })
+      document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'})
     })
 
     document.getElementById('entries').addEventListener('click', async e => {
-      const likeBtn  = e.target.closest('.like-btn')
-      const shareBtn = e.target.closest('.share-btn')
-      const imgBtn   = e.target.closest('.img-btn')
+      const lb = e.target.closest('.like-btn')
+      const sb = e.target.closest('.share-btn')
+      const ib = e.target.closest('.img-btn')
 
-      if (likeBtn) {
-        const id = likeBtn.dataset.id
-        const entry = entries.find(e => e.id === id)
+      if (lb) {
+        const id = lb.dataset.id
+        const entry = entries.find(e=>e.id===id)
         if (!entry) return
-        const liked = likedIds.has(id)
-        const newCount = liked ? Math.max(0, entry.likes - 1) : entry.likes + 1
-        liked ? likedIds.delete(id) : likedIds.add(id)
+        const isLiked = liked.has(id)
+        const n = isLiked ? Math.max(0,entry.likes-1) : entry.likes+1
+        isLiked ? liked.delete(id) : liked.add(id)
         saveLiked()
-        entries = entries.map(e => e.id === id ? { ...e, likes: newCount } : e)
+        entries = entries.map(e=>e.id===id?{...e,likes:n}:e)
         renderEntries()
-        await db.from('entries').update({ likes: newCount }).eq('id', id)
+        await db.from('entries').update({likes:n}).eq('id',id)
       }
-      if (imgBtn) openSharepic(imgBtn.dataset.text)
-      if (shareBtn) {
-        const id = shareBtn.dataset.id
-        const entry = entries.find(e => e.id === id)
+
+      if (ib) openSharepic(ib.dataset.text)
+
+      if (sb) {
+        const id = sb.dataset.id
+        const entry = entries.find(e=>e.id===id)
         if (!entry) return
         const text = `Life is… ${entry.text}`
         if (navigator.share) {
-          navigator.share({ title: 'Life is…', text, url: window.location.href })
+          navigator.share({title:'Life is…', text, url:window.location.href})
         } else {
           navigator.clipboard.writeText(`${text}\n${window.location.href}`)
-          shareBtn.innerHTML = `<span style="font-size:1
+          sb.innerHTML = `<span style="font-size:12px">${T[lang].copied}</span>`
+          setTimeout(()=>{ sb.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>` }, 2000)
+        }
+      }
+    })
+
+    loadEntries()
+  </script>
+</body>
+</html>
