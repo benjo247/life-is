@@ -7,96 +7,104 @@
   <meta name="description" content="A collective reflection. Complete the thought." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Meow+Script&family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
       --bg:#faf9f7;--bg2:#f2f0ec;--text:#1a1a1a;
-      --text-muted:#aaa;--text-faint:#c8c4bc;
-      --border:#e8e4df;--border-input:#d0cdc8;
-      --accent:#2d5a40;--btn-bg:#1a1a1a;--btn-text:#faf9f7;
-      --tog-bg:#e8e4df;--tog-on:#2d5a40;
+      --muted:#aaa;--faint:#c8c4bc;
+      --border:#e8e4df;--border-in:#d0cdc8;
+      --accent:#2d5a40;--bb:#1a1a1a;--bt:#faf9f7;
+      --tg:#e8e4df;--ton:#2d5a40;
     }
     [data-theme="dark"] {
       --bg:#111110;--bg2:#1a1917;--text:#f0ede8;
-      --text-muted:#666;--text-faint:#3a3530;
-      --border:#2a2825;--border-input:#3a3228;
-      --accent:#3d6b50;--btn-bg:#f0ede8;--btn-text:#111110;
-      --tog-bg:#2a2825;--tog-on:#3d6b50;
+      --muted:#666;--faint:#3a3530;
+      --border:#2a2825;--border-in:#3a3228;
+      --accent:#3d6b50;--bb:#f0ede8;--bt:#111110;
+      --tg:#2a2825;--ton:#3d6b50;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
     ::-webkit-scrollbar{width:4px}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
     .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .3s,border-color .3s;gap:12px}
     .logo{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);cursor:pointer}
-    .logo span{color:var(--text-faint)}
+    .logo span{color:var(--faint)}
     .topbar-right{display:flex;align-items:center;gap:12px}
     .lang-toggle{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden}
-    .lang-btn{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:12px;letter-spacing:.08em;padding:5px 10px;color:var(--text-muted);transition:all .2s}
+    .lang-btn{background:none;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:12px;letter-spacing:.08em;padding:5px 10px;color:var(--muted);transition:all .2s}
     .lang-btn.active{background:var(--accent);color:#fff}
-    .tog{width:44px;height:24px;border-radius:12px;background:var(--tog-bg);position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
-    .tog.on{background:var(--tog-on)}
+    .tog{width:44px;height:24px;border-radius:12px;background:var(--tg);position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
+    .tog.on{background:var(--ton)}
     .tog-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .3s;display:flex;align-items:center;justify-content:center;font-size:11px}
     .tog.on .tog-knob{left:22px}
+
     .page{display:none;animation:fadeIn .4s ease}
     .page.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
     header{padding:clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px);text-align:center}
-    .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px;opacity:0;animation:riseUp .8s .1s ease forwards;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
-    h1{font-family:'Playfair Display',serif;font-size:clamp(56px,11vw,100px);font-weight:400;font-style:italic;line-height:1;letter-spacing:-.02em;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
+    .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;opacity:0;animation:riseUp .8s .1s ease forwards;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+    h1{font-family:'Meow Script',cursive;font-size:clamp(64px,13vw,120px);font-weight:400;line-height:1;letter-spacing:.01em;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
     @keyframes riseUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
     .input-section{max-width:640px;margin:0 auto;padding:0 24px clamp(48px,8vw,72px);opacity:0;animation:riseUp .8s .35s ease forwards}
-    .prefix{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text-faint);display:block;margin-bottom:4px}
-    textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-input);outline:none;font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text);resize:none;line-height:1.6;padding:6px 0 10px;transition:border-color .3s,color .3s}
+    .prefix{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--faint);display:block;margin-bottom:4px}
+    textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-in);outline:none;font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text);resize:none;line-height:1.6;padding:6px 0 10px;transition:border-color .3s,color .3s}
     textarea:focus{border-bottom-color:var(--accent)}
-    textarea::placeholder{color:var(--text-faint)}
+    textarea::placeholder{color:var(--faint)}
     .input-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
-    .counter{font-size:13px;color:var(--text-muted);transition:color .2s}
+    .counter{font-size:13px;color:var(--muted);transition:color .2s}
     .counter.warn{color:#c0392b}
-    .submit-btn{background:var(--btn-bg);color:var(--btn-text);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:opacity .2s,transform .1s}
+    .submit-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:opacity .2s,transform .1s}
     .submit-btn:hover{opacity:.75}
     .submit-btn:active{transform:scale(.98)}
     .submit-btn:disabled{opacity:.3;cursor:default}
-    .confirmation{margin-top:12px;font-size:13px;color:var(--text-muted);font-style:italic;text-align:right;display:none}
+    .confirmation{margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;text-align:right;display:none}
+
     .filters{max-width:640px;margin:0 auto;padding:0 24px 28px;display:flex;flex-wrap:wrap;gap:8px}
-    .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:'EB Garamond',serif;font-size:13px;padding:5px 14px;color:var(--text-muted);border-radius:20px;transition:all .2s;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+    .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:'EB Garamond',serif;font-size:13px;padding:5px 14px;color:var(--muted);border-radius:20px;transition:all .2s;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
     .filter-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
     .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
     .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
     .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
-    .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:32px;text-align:center;display:none}
-    .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--text-faint);font-style:italic;font-size:18px;padding:40px 0}
+    .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;text-align:center;display:none}
+    .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--faint);font-style:italic;font-size:18px;padding:40px 0}
     .entry-card{padding:24px 0}
     .entry-card.new{animation:slideIn .5s cubic-bezier(.16,1,.3,1) forwards}
     @keyframes slideIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
     .entry-text{font-family:'Playfair Display',serif;font-size:clamp(16px,2.5vw,20px);font-weight:400;line-height:1.6;margin-bottom:12px;color:var(--text)}
-    .entry-prefix{color:var(--accent);font-style:italic;opacity:.8}
+    .entry-prefix{font-family:'Meow Script',cursive;font-size:1.3em;color:var(--accent);font-style:normal}
     .entry-meta{display:flex;align-items:center;justify-content:space-between}
     .entry-meta-left{display:flex;align-items:center;gap:10px}
-    .timestamp{font-size:12px;color:var(--text-faint);letter-spacing:.03em}
+    .timestamp{font-size:12px;color:var(--faint);letter-spacing:.03em}
     .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6}
     .actions{display:flex;gap:18px;align-items:center}
-    .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--text-muted)}
+    .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
     .share-btn:hover,.img-btn:hover{color:var(--text)}
     .divider{border:none;border-top:1px solid var(--border)}
+
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
-    footer span,footer a{font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none}
+    footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none}
     footer span:hover,footer a:hover{color:var(--text)}
+
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
     .modal-overlay.open{opacity:1;pointer-events:all}
     .modal{background:var(--bg);border:1px solid var(--border);padding:28px 24px 24px;max-width:460px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;transform:translateY(16px);transition:transform .3s}
     .modal-overlay.open .modal{transform:translateY(0)}
     .modal-top{display:flex;justify-content:space-between;align-items:center;width:100%}
     .modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text)}
-    .modal-close{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:22px;line-height:1}
+    .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1}
     #shareCard{width:100%;aspect-ratio:1;max-width:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 48px 32px;background:#faf9f7;text-align:center}
     #shareCard.dark{background:#111110}
     #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-    #shareCard .sc-prefix{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:#2d5a40;margin-bottom:4px}
+    #shareCard .sc-prefix{font-family:'Meow Script',cursive;font-size:28px;color:#2d5a40}
     #shareCard.dark .sc-prefix{color:#3d6b50}
     #shareCard .sc-text{font-family:'Playfair Display',serif;font-size:clamp(17px,4vw,22px);font-style:italic;line-height:1.55;color:#1a1a1a;max-width:280px}
     #shareCard.dark .sc-text{color:#f0ede8}
@@ -104,26 +112,28 @@
     #shareCard .sc-footer{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c8c4bc}
     #shareCard.dark .sc-footer{color:#3a3530}
     .modal-style-toggle{display:flex;gap:8px;width:100%;max-width:380px}
-    .modal-style-btn{flex:1;padding:8px;border:1px solid var(--border);background:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;color:var(--text-muted)}
-    .modal-style-btn.active{background:var(--btn-bg);color:var(--btn-text);border-color:var(--btn-bg)}
-    .modal-dl-btn{background:var(--btn-bg);color:var(--btn-text);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
+    .modal-style-btn{flex:1;padding:8px;border:1px solid var(--border);background:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;color:var(--muted)}
+    .modal-style-btn.active{background:var(--bb);color:var(--bt);border-color:var(--bb)}
+    .modal-dl-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
     .modal-dl-btn:hover{opacity:.8}
+
     .legal-page{max-width:640px;margin:0 auto;padding:48px 24px 80px}
-    .legal-back{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:6px;margin-bottom:40px;transition:color .2s;font-family:'EB Garamond',serif}
+    .legal-back{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:6px;margin-bottom:40px;transition:color .2s;font-family:'EB Garamond',serif}
     .legal-back:hover{color:var(--text)}
     .legal-page h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:400;margin-bottom:32px;color:var(--text)}
     .legal-page h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;margin:32px 0 12px;color:var(--text)}
-    .legal-page p{font-size:16px;line-height:1.8;color:var(--text-muted);margin-bottom:16px}
+    .legal-page p{font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:16px}
     .legal-page ul{list-style:none;padding:0;margin-bottom:16px}
-    .legal-page ul li{font-size:16px;line-height:1.8;color:var(--text-muted);padding-left:16px;position:relative;margin-bottom:6px}
-    .legal-page ul li::before{content:'--';position:absolute;left:0;color:var(--text-faint)}
-    .legal-page a{color:var(--text-muted)}
+    .legal-page ul li{font-size:16px;line-height:1.8;color:var(--muted);padding-left:16px;position:relative;margin-bottom:6px}
+    .legal-page ul li::before{content:'--';position:absolute;left:0;color:var(--faint)}
+    .legal-page a{color:var(--muted)}
     .legal-divider{border:none;border-top:1px solid var(--border);margin:32px 0}
     .ph{background:var(--bg2);border:1px dashed var(--border);padding:2px 8px;color:#c0392b;font-size:14px}
     @media(max-width:480px){.topbar,.input-section,.filters,.feed,.legal-page{padding-left:16px;padding-right:16px}}
   </style>
 </head>
 <body>
+
   <nav class="topbar">
     <span class="logo" onclick="showPage('home')">Life is<span>…</span></span>
     <div class="topbar-right">
@@ -137,6 +147,7 @@
     </div>
   </nav>
 
+  <!-- HOME -->
   <div class="page active" id="page-home">
     <header>
       <p class="eyebrow" id="t-eyebrow">Eine kollektive Reflexion</p>
@@ -144,146 +155,129 @@
     </header>
     <section class="input-section">
       <span class="prefix">Life is…</span>
-      <textarea id="input" placeholder="was du daraus machst" rows="2" maxlength="200"></textarea>
+      <textarea id="inp" placeholder="was du daraus machst" rows="2" maxlength="200"></textarea>
       <div class="input-footer">
-        <span class="counter" id="counter">200</span>
-        <button class="submit-btn" id="submitBtn" disabled>Sag es jetzt!</button>
+        <span class="counter" id="ctr">200</span>
+        <button class="submit-btn" id="subBtn" disabled>Sag es jetzt!</button>
       </div>
-      <p class="confirmation" id="t-confirm"></p>
+      <p class="confirmation" id="t-conf"></p>
     </section>
 
     <div class="filters">
-      <button class="filter-btn active" data-cat="all" onclick="setFilter('all',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>All
-      </button>
-      <button class="filter-btn" data-cat="encouraging" onclick="setFilter('encouraging',this)">
-        <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Encouraging
-      </button>
-      <button class="filter-btn" data-cat="self-love" onclick="setFilter('self-love',this)">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Self-love
-      </button>
-      <button class="filter-btn" data-cat="joy" onclick="setFilter('joy',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Joy
-      </button>
-      <button class="filter-btn" data-cat="love" onclick="setFilter('love',this)">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Love
-      </button>
-      <button class="filter-btn" data-cat="loss" onclick="setFilter('loss',this)">
-        <svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>Loss
-      </button>
-      <button class="filter-btn" data-cat="humor" onclick="setFilter('humor',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Humor
-      </button>
-      <button class="filter-btn" data-cat="motivation" onclick="setFilter('motivation',this)">
-        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Motivation
-      </button>
-      <button class="filter-btn" data-cat="reflective" onclick="setFilter('reflective',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Reflective
-      </button>
+      <button class="filter-btn active" onclick="setFilter('all',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>All</button>
+      <button class="filter-btn" onclick="setFilter('encouraging',this)"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Encouraging</button>
+      <button class="filter-btn" onclick="setFilter('self-love',this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Self-love</button>
+      <button class="filter-btn" onclick="setFilter('joy',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Joy</button>
+      <button class="filter-btn" onclick="setFilter('love',this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Love</button>
+      <button class="filter-btn" onclick="setFilter('loss',this)"><svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>Loss</button>
+      <button class="filter-btn" onclick="setFilter('humor',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Humor</button>
+      <button class="filter-btn" onclick="setFilter('motivation',this)"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Motivation</button>
+      <button class="filter-btn" onclick="setFilter('reflective',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Reflective</button>
     </div>
 
     <section class="feed" id="feed">
-      <p class="voice-count" id="voiceCount"></p>
+      <p class="voice-count" id="vcnt"></p>
       <p class="empty" id="emptyMsg"></p>
       <div id="entries"></div>
     </section>
+
     <footer>
       <span onclick="showPage('impressum')">Impressum</span>
-      <span id="t-privacy" onclick="showPage('datenschutz')">Datenschutz</span>
+      <span id="t-priv" onclick="showPage('datenschutz')">Datenschutz</span>
       <span id="t-terms" onclick="showPage('nutzung')">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
-      <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="t-support">☕ Projekt unterstützen</a>
+      <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="t-sup">☕ Projekt unterstützen</a>
     </footer>
   </div>
 
+  <!-- IMPRESSUM -->
   <div class="page" id="page-impressum">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-back1">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-b1">Zurück</span></button>
       <h2>Impressum</h2>
       <p>Angaben gemäß § 5 TMG</p>
       <h3>Verantwortlich</h3>
-      <p><span class="ph">[Vollständiger Name]</span><br/><br/><span class="ph">[Straße und Hausnummer]</span><br/><br/><span class="ph">[PLZ und Ort]</span><br/><br/>Deutschland</p>
+      <p><span class="ph">[Vollständiger Name]</span><br/><br/><span class="ph">[Straße Nr.]</span><br/><br/><span class="ph">[PLZ Ort]</span><br/><br/>Deutschland</p>
       <h3>Kontakt</h3>
-      <p>Kontaktformular oder direkte Anfrage per Post an die oben genannte Adresse.</p>
+      <p>Anfragen bitte per Post an die oben genannte Adresse.</p>
       <hr class="legal-divider"/>
       <h3>Haftung für Inhalte</h3>
       <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>
     </div>
   </div>
 
+  <!-- DATENSCHUTZ -->
   <div class="page" id="page-datenschutz">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-back2">Zurück</span></button>
-      <h2 id="t-privacy-h">Datenschutzerklärung</h2>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-b2">Zurück</span></button>
+      <h2 id="t-priv-h">Datenschutzerklärung</h2>
       <h3>1. Verantwortlicher</h3>
       <p><span class="ph">[Name, Adresse]</span></p>
-      <h3 id="t-data-h">2. Welche Daten wir erfassen</h3>
+      <h3 id="t-dh">2. Welche Daten wir erfassen</h3>
       <ul>
         <li id="t-d1">Von dir verfasste Texte</li>
         <li id="t-d2">Anzahl der Likes pro Eintrag</li>
         <li id="t-d3">Technische Zugriffsdaten durch Vercel</li>
       </ul>
-      <h3>3. <span id="t-anon-h">Anonymität</span></h3>
-      <p id="t-anon">Beiträge werden ohne Nutzernamen oder Kontaktdaten gespeichert.</p>
-      <h3>4. <span id="t-third-h">Drittanbieter</span></h3>
+      <h3>3. <span id="t-ah">Anonymität</span></h3>
+      <p id="t-an">Beiträge werden ohne Nutzernamen gespeichert.</p>
+      <h3>4. <span id="t-th">Drittanbieter</span></h3>
       <ul>
         <li>Supabase – <a href="https://supabase.com/privacy" target="_blank">Privacy</a></li>
         <li>Vercel – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Privacy</a></li>
         <li>Google Fonts – <a href="https://policies.google.com/privacy" target="_blank">Privacy</a></li>
       </ul>
-      <h3>5. <span id="t-rights-h">Deine Rechte</span></h3>
-      <p id="t-rights">Anfragen bitte per Post an die im Impressum genannte Adresse.</p>
+      <h3>5. <span id="t-rh">Deine Rechte</span></h3>
+      <p id="t-ri">Anfragen per Post an die Adresse im Impressum.</p>
       <h3>6. Cookies</h3>
-      <p id="t-cookies">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
+      <p id="t-co">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
     </div>
   </div>
 
+  <!-- NUTZUNG -->
   <div class="page" id="page-nutzung">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-back3">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-b3">Zurück</span></button>
       <h2 id="t-terms-h">Nutzungsbedingungen</h2>
-      <h3>1. <span id="t-scope-h">Geltungsbereich</span></h3>
-      <p id="t-scope">Diese Bedingungen gelten für „Life is…“</p>
-      <h3>2. <span id="t-use-h">Nutzung</span></h3>
-      <p id="t-use">Die Plattform ist kostenfrei. Mit der Nutzung stimmst du diesen Bedingungen zu.</p>
-      <h3>3. <span id="t-cnt-h">Inhalte</span></h3>
-      <p id="t-cnt">Du bist für deine Inhalte verantwortlich.</p>
-      <h3>4. <span id="t-forb-h">Verbotene Inhalte</span></h3>
+      <h3>1. <span id="t-sh">Geltungsbereich</span></h3>
+      <p id="t-sc">Diese Bedingungen gelten für Life is…</p>
+      <h3>2. <span id="t-uh">Nutzung</span></h3>
+      <p id="t-us">Die Plattform ist kostenfrei.</p>
+      <h3>3. <span id="t-ch">Inhalte</span></h3>
+      <p id="t-cn">Du bist für deine Inhalte verantwortlich.</p>
+      <h3>4. <span id="t-fh">Verbotene Inhalte</span></h3>
       <ul>
-        <li id="t-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
-        <li id="t-f2">Inhalte, die Minderjährige gefährden</li>
-        <li id="t-f3">Spam, Werbung oder irrelevante Inhalte</li>
+        <li id="t-f1">Hassrede oder Beleidigungen</li>
+        <li id="t-f2">Inhalte die Minderjährige gefährden</li>
+        <li id="t-f3">Spam oder Werbung</li>
         <li id="t-f4">Inhalte gegen geltendes Recht</li>
       </ul>
-      <h3>5. <span id="t-liab-h">Haftung</span></h3>
-      <p id="t-liab">Der Betreiber haftet nicht für Nutzerinhalte.</p>
+      <h3>5. <span id="t-lh">Haftung</span></h3>
+      <p id="t-li">Der Betreiber haftet nicht für Nutzerinhalte.</p>
     </div>
   </div>
 
+  <!-- GUIDELINES -->
   <div class="page" id="page-guidelines">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-back4">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">← <span id="t-b4">Zurück</span></button>
       <h2>Community Guidelines</h2>
-      <p id="t-cg0">„Life is…“ ist ein Ort der Reflexion und Poesie.</p>
-      <h3>✶ <span id="t-cg1h">Sei ehrlich</span></h3>
-      <p id="t-cg1">Teile echte Gedanken. Dieser Raum lebt von Authentizität.</p>
-      <h3>✶ <span id="t-cg2h">Sei respektvoll</span></h3>
-      <p id="t-cg2">Beiträge, die Menschen herabsetzen, werden entfernt.</p>
-      <h3>✶ <span id="t-cg3h">Halte es poetisch</span></h3>
-      <p id="t-cg3">Kein Spam, keine Werbung, keine Links.</p>
-      <h3>✶ <span id="t-cg4h">Teile nichts Persönliches</span></h3>
-      <p id="t-cg4">Keine Namen, Adressen oder persönliche Daten.</p>
-      <h3>✶ <span id="t-cg5h">Kein Schaden</span></h3>
-      <p id="t-cg5">Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.</p>
+      <p id="t-g0">Life is… ist ein Ort der Reflexion und Poesie.</p>
+      <h3>✦ <span id="t-g1h">Sei ehrlich</span></h3><p id="t-g1">Teile echte Gedanken.</p>
+      <h3>✦ <span id="t-g2h">Sei respektvoll</span></h3><p id="t-g2">Beiträge die Menschen herabsetzen werden entfernt.</p>
+      <h3>✦ <span id="t-g3h">Halte es poetisch</span></h3><p id="t-g3">Kein Spam, keine Werbung.</p>
+      <h3>✦ <span id="t-g4h">Teile nichts Persönliches</span></h3><p id="t-g4">Keine Namen oder Adressen.</p>
+      <h3>✦ <span id="t-g5h">Kein Schaden</span></h3><p id="t-g5">Schädliche Inhalte werden sofort entfernt.</p>
       <hr class="legal-divider"/>
-      <p id="t-rep">Verstöße bitte per Post an die im Impressum genannte Adresse melden.</p>
+      <p id="t-gr">Verstöße per Post an die Adresse im Impressum melden.</p>
     </div>
   </div>
 
+  <!-- SHAREPIC MODAL -->
   <div class="modal-overlay" id="shareModal">
     <div class="modal">
       <div class="modal-top">
-        <span class="modal-title" id="t-modal">Als Bild teilen</span>
+        <span class="modal-title" id="t-mt">Als Bild teilen</span>
         <button class="modal-close" onclick="closeModal()">×</button>
       </div>
       <div id="shareCard">
@@ -295,120 +289,109 @@
         <span class="sc-footer">Created with Life is… · life-is-one.vercel.app</span>
       </div>
       <div class="modal-style-toggle">
-        <button class="modal-style-btn active" id="t-light" onclick="setCardStyle('light',this)">Hell</button>
-        <button class="modal-style-btn" id="t-dark" onclick="setCardStyle('dark',this)">Dunkel</button>
+        <button class="modal-style-btn active" id="t-ml" onclick="setCardStyle('light',this)">Hell</button>
+        <button class="modal-style-btn" id="t-md" onclick="setCardStyle('dark',this)">Dunkel</button>
       </div>
-      <button class="modal-dl-btn" id="t-dl" onclick="downloadSharepic()">⬇ Als Bild speichern</button>
+      <button class="modal-dl-btn" id="t-mdl" onclick="downloadSharepic()">⬇ Als Bild speichern</button>
     </div>
   </div>
 
   <script>
-    var SUPA_URL = 'https://acdiodygerxvxewiqpox.supabase.co';
-    var SUPA_KEY = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y';
+    var SU = 'https://acdiodygerxvxewiqpox.supabase.co';
+    var SK = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y';
     var MAX = 200;
-    var db = supabase.createClient(SUPA_URL, SUPA_KEY);
-    var entries = [];
-    var liked = new Set(JSON.parse(localStorage.getItem('life-liked') || '[]'));
+    var db = supabase.createClient(SU, SK);
+    var allEntries = [];
+    var likedSet = new Set(JSON.parse(localStorage.getItem('ll') || '[]'));
     var lang = 'de';
-    var activeFilter = 'all';
+    var filter = 'all';
 
-    var T = {
+    var TX = {
       de: {
-        eyebrow:'Eine kollektive Reflexion', placeholder:'was du daraus machst',
-        submit:'Sag es jetzt!', confirm:'Deine Worte sind jetzt Teil des Streams',
-        rejected:'Dieser Beitrag entspricht nicht unseren Guidelines.',
-        empty:'Sei der Erste, der den Gedanken vervollst\u00e4ndigt.',
-        emptyFilter:'Noch keine Beitr\u00e4ge in dieser Kategorie.',
-        privacy:'Datenschutz', terms:'Nutzungsbedingungen',
-        support:'\u2615 Projekt unterst\u00fctzen', back:'Zur\u00fcck',
-        voices:function(n){return n+' '+(n===1?'Stimme':'Stimmen');},
-        ago:function(d){return d<60?'gerade eben':d<3600?'vor '+Math.floor(d/60)+'m':d<86400?'vor '+Math.floor(d/3600)+'h':'vor '+Math.floor(d/86400)+'d';},
-        modal:'Als Bild teilen', light:'Hell', dark:'Dunkel',
-        dl:'\u2b07 Als Bild speichern', copied:'Kopiert',
-        privacyH:'Datenschutzerkl\u00e4rung', termsH:'Nutzungsbedingungen',
-        dataH:'2. Welche Daten wir erfassen',
-        d1:'Von dir verfasste Texte', d2:'Anzahl der Likes pro Eintrag', d3:'Technische Zugriffsdaten durch Vercel',
-        anonH:'Anonymit\u00e4t', anon:'Beitr\u00e4ge werden ohne Nutzernamen gespeichert.',
-        thirdH:'Drittanbieter', rightsH:'Deine Rechte', rights:'Anfragen per Post an die Adresse im Impressum.',
-        cookies:'Keine Tracking-Cookies.',
-        scopeH:'Geltungsbereich', scope:'Diese Bedingungen gelten f\u00fcr Life is\u2026',
-        useH:'Nutzung', use:'Die Plattform ist kostenfrei.',
-        cntH:'Inhalte', cnt:'Du bist f\u00fcr deine Inhalte verantwortlich.',
-        forbH:'Verbotene Inhalte',
-        f1:'Hassrede oder Beleidigungen', f2:'Inhalte die Minderj\u00e4hrige gef\u00e4hrden',
+        ey:'Eine kollektive Reflexion', ph:'was du daraus machst',
+        sb:'Sag es jetzt!', ok:'Deine Worte sind jetzt Teil des Streams',
+        no:'Dieser Beitrag entspricht nicht unseren Guidelines.',
+        em:'Sei der Erste der den Gedanken vervollständigt.',
+        ef:'Noch keine Beiträge in dieser Kategorie.',
+        pr:'Datenschutz', tm:'Nutzungsbedingungen', su:'☕ Projekt unterstützen', bk:'Zurück',
+        vc:function(n){return n+' '+(n===1?'Stimme':'Stimmen');},
+        ag:function(d){return d<60?'gerade eben':d<3600?'vor '+Math.floor(d/60)+'m':d<86400?'vor '+Math.floor(d/3600)+'h':'vor '+Math.floor(d/86400)+'d';},
+        mt:'Als Bild teilen', ml:'Hell', md:'Dunkel', mdl:'⬇ Als Bild speichern', cp:'Kopiert',
+        ph2:'Datenschutzerklärung', tm2:'Nutzungsbedingungen',
+        dh:'2. Welche Daten wir erfassen',
+        d1:'Von dir verfasste Texte', d2:'Likes pro Eintrag', d3:'Zugriffsdaten durch Vercel',
+        ah:'Anonymität', an:'Beiträge werden ohne Nutzernamen gespeichert.',
+        th:'Drittanbieter', rh:'Deine Rechte', ri:'Anfragen per Post an die Adresse im Impressum.',
+        co:'Keine Tracking-Cookies.',
+        sh:'Geltungsbereich', sc:'Diese Bedingungen gelten für Life is…',
+        uh:'Nutzung', us:'Die Plattform ist kostenfrei.',
+        ch:'Inhalte', cn:'Du bist für deine Inhalte verantwortlich.',
+        fh:'Verbotene Inhalte',
+        f1:'Hassrede oder Beleidigungen', f2:'Inhalte die Minderjährige gefährden',
         f3:'Spam oder Werbung', f4:'Inhalte gegen geltendes Recht',
-        liabH:'Haftung', liab:'Der Betreiber haftet nicht f\u00fcr Nutzerinhalte.',
-        cg0:'Life is\u2026 ist ein Ort der Reflexion und Poesie.',
-        cg1h:'Sei ehrlich', cg1:'Teile echte Gedanken.',
-        cg2h:'Sei respektvoll', cg2:'Beitr\u00e4ge die Menschen herabsetzen werden entfernt.',
-        cg3h:'Halte es poetisch', cg3:'Kein Spam, keine Werbung.',
-        cg4h:'Teile nichts Pers\u00f6nliches', cg4:'Keine Namen oder Adressen.',
-        cg5h:'Kein Schaden', cg5:'Sch\u00e4dliche Inhalte werden sofort entfernt.',
-        rep:'Verst\u00f6\u00dfe per Post an die Adresse im Impressum.'
+        lh:'Haftung', li:'Der Betreiber haftet nicht für Nutzerinhalte.',
+        g0:'Life is… ist ein Ort der Reflexion und Poesie.',
+        g1h:'Sei ehrlich', g1:'Teile echte Gedanken.',
+        g2h:'Sei respektvoll', g2:'Beiträge die Menschen herabsetzen werden entfernt.',
+        g3h:'Halte es poetisch', g3:'Kein Spam, keine Werbung.',
+        g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
+        g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
+        gr:'Verstöße per Post an die Adresse im Impressum.'
       },
       en: {
-        eyebrow:'A collective reflection', placeholder:'what you make of it',
-        submit:'Let them know!', confirm:'Your words are now part of the stream',
-        rejected:'This entry does not meet our community guidelines.',
-        empty:'Be the first to complete the thought.',
-        emptyFilter:'No entries in this category yet.',
-        privacy:'Privacy', terms:'Terms of Use',
-        support:'\u2615 Support the project', back:'Back',
-        voices:function(n){return n+' '+(n===1?'voice':'voices');},
-        ago:function(d){return d<60?'just now':d<3600?Math.floor(d/60)+'m ago':d<86400?Math.floor(d/3600)+'h ago':Math.floor(d/86400)+'d ago';},
-        modal:'Share as image', light:'Light', dark:'Dark',
-        dl:'\u2b07 Save as image', copied:'Copied',
-        privacyH:'Privacy Policy', termsH:'Terms of Use',
-        dataH:'2. Data we collect',
-        d1:'Text you submit', d2:'Number of likes per entry', d3:'Technical access data via Vercel',
-        anonH:'Anonymity', anon:'Entries are stored without usernames.',
-        thirdH:'Third parties', rightsH:'Your rights', rights:'Contact via post to the address in the imprint.',
-        cookies:'No tracking cookies.',
-        scopeH:'Scope', scope:'These terms apply to Life is\u2026',
-        useH:'Usage', use:'The platform is free.',
-        cntH:'Content', cnt:'You are responsible for content you submit.',
-        forbH:'Prohibited content',
+        ey:'A collective reflection', ph:'what you make of it',
+        sb:'Let them know!', ok:'Your words are now part of the stream',
+        no:'This entry does not meet our community guidelines.',
+        em:'Be the first to complete the thought.',
+        ef:'No entries in this category yet.',
+        pr:'Privacy', tm:'Terms of Use', su:'☕ Support the project', bk:'Back',
+        vc:function(n){return n+' '+(n===1?'voice':'voices');},
+        ag:function(d){return d<60?'just now':d<3600?Math.floor(d/60)+'m ago':d<86400?Math.floor(d/3600)+'h ago':Math.floor(d/86400)+'d ago';},
+        mt:'Share as image', ml:'Light', md:'Dark', mdl:'⬇ Save as image', cp:'Copied',
+        ph2:'Privacy Policy', tm2:'Terms of Use',
+        dh:'2. Data we collect',
+        d1:'Text you submit', d2:'Likes per entry', d3:'Access data via Vercel',
+        ah:'Anonymity', an:'Entries are stored without usernames.',
+        th:'Third parties', rh:'Your rights', ri:'Contact via post to the address in the imprint.',
+        co:'No tracking cookies.',
+        sh:'Scope', sc:'These terms apply to Life is…',
+        uh:'Usage', us:'The platform is free.',
+        ch:'Content', cn:'You are responsible for content you submit.',
+        fh:'Prohibited content',
         f1:'Hate speech or harassment', f2:'Content endangering minors',
         f3:'Spam or advertising', f4:'Content violating applicable law',
-        liabH:'Liability', liab:'The operator is not liable for user content.',
-        cg0:'Life is\u2026 is a space for reflection and poetry.',
-        cg1h:'Be honest', cg1:'Share real thoughts.',
-        cg2h:'Be respectful', cg2:'Entries that demean people will be removed.',
-        cg3h:'Keep it poetic', cg3:'No spam, no ads.',
-        cg4h:"Don't share personal info", cg4:'No names or addresses.',
-        cg5h:'Do no harm', cg5:'Harmful content will be removed immediately.',
-        rep:'Report violations via post to the address in the imprint.'
+        lh:'Liability', li:'The operator is not liable for user content.',
+        g0:'Life is… is a space for reflection and poetry.',
+        g1h:'Be honest', g1:'Share real thoughts.',
+        g2h:'Be respectful', g2:'Entries that demean people will be removed.',
+        g3h:'Keep it poetic', g3:'No spam, no ads.',
+        g4h:"Don't share personal info", g4:'No names or addresses.',
+        g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
+        gr:'Report violations via post to the address in the imprint.'
       }
     };
 
-    function set(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+    function s(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
 
     function applyLang(){
-      var l=T[lang];
-      set('t-eyebrow',l.eyebrow);
-      document.getElementById('input').placeholder=l.placeholder;
-      document.getElementById('submitBtn').textContent=l.submit;
-      set('t-privacy',l.privacy);set('t-terms',l.terms);set('t-support',l.support);
-      ['t-back1','t-back2','t-back3','t-back4'].forEach(function(id){set(id,l.back);});
-      set('t-modal',l.modal);set('t-light',l.light);set('t-dark',l.dark);set('t-dl',l.dl);
-      set('t-privacy-h',l.privacyH);set('t-terms-h',l.termsH);
-      set('t-data-h',l.dataH);set('t-d1',l.d1);set('t-d2',l.d2);set('t-d3',l.d3);
-      set('t-anon-h',l.anonH);set('t-anon',l.anon);
-      set('t-third-h',l.thirdH);set('t-rights-h',l.rightsH);set('t-rights',l.rights);
-      set('t-cookies',l.cookies);
-      set('t-scope-h',l.scopeH);set('t-scope',l.scope);
-      set('t-use-h',l.useH);set('t-use',l.use);
-      set('t-cnt-h',l.cntH);set('t-cnt',l.cnt);
-      set('t-forb-h',l.forbH);
-      set('t-f1',l.f1);set('t-f2',l.f2);set('t-f3',l.f3);set('t-f4',l.f4);
-      set('t-liab-h',l.liabH);set('t-liab',l.liab);
-      set('t-cg0',l.cg0);
-      set('t-cg1h',l.cg1h);set('t-cg1',l.cg1);
-      set('t-cg2h',l.cg2h);set('t-cg2',l.cg2);
-      set('t-cg3h',l.cg3h);set('t-cg3',l.cg3);
-      set('t-cg4h',l.cg4h);set('t-cg4',l.cg4);
-      set('t-cg5h',l.cg5h);set('t-cg5',l.cg5);
-      set('t-rep',l.rep);
+      var l=TX[lang];
+      s('t-eyebrow',l.ey);
+      document.getElementById('inp').placeholder=l.ph;
+      document.getElementById('subBtn').textContent=l.sb;
+      s('t-priv',l.pr);s('t-terms',l.tm);s('t-sup',l.su);
+      ['t-b1','t-b2','t-b3','t-b4'].forEach(function(id){s(id,l.bk);});
+      s('t-mt',l.mt);s('t-ml',l.ml);s('t-md',l.md);s('t-mdl',l.mdl);
+      s('t-priv-h',l.ph2);s('t-terms-h',l.tm2);
+      s('t-dh',l.dh);s('t-d1',l.d1);s('t-d2',l.d2);s('t-d3',l.d3);
+      s('t-ah',l.ah);s('t-an',l.an);s('t-th',l.th);s('t-rh',l.rh);s('t-ri',l.ri);s('t-co',l.co);
+      s('t-sh',l.sh);s('t-sc',l.sc);s('t-uh',l.uh);s('t-us',l.us);
+      s('t-ch',l.ch);s('t-cn',l.cn);s('t-fh',l.fh);
+      s('t-f1',l.f1);s('t-f2',l.f2);s('t-f3',l.f3);s('t-f4',l.f4);
+      s('t-lh',l.lh);s('t-li',l.li);
+      s('t-g0',l.g0);
+      s('t-g1h',l.g1h);s('t-g1',l.g1);s('t-g2h',l.g2h);s('t-g2',l.g2);
+      s('t-g3h',l.g3h);s('t-g3',l.g3);s('t-g4h',l.g4h);s('t-g4',l.g4);
+      s('t-g5h',l.g5h);s('t-g5',l.g5);s('t-gr',l.gr);
       document.documentElement.lang=lang;
       renderEntries();
     }
@@ -417,40 +400,39 @@
       lang=l;
       document.getElementById('btnDE').classList.toggle('active',l==='de');
       document.getElementById('btnEN').classList.toggle('active',l==='en');
-      localStorage.setItem('life-lang',l);
+      localStorage.setItem('ll2',l);
       applyLang();
     }
 
-    var savedLang=localStorage.getItem('life-lang');
-    if(savedLang){lang=savedLang;}
-    else if(!(navigator.language||'').startsWith('de')){lang='en';}
+    var sl=localStorage.getItem('ll2');
+    if(sl){lang=sl;}else if(!(navigator.language||'').startsWith('de')){lang='en';}
     if(lang==='en'){
       document.getElementById('btnDE').classList.remove('active');
       document.getElementById('btnEN').classList.add('active');
     }
 
     function toggleDark(){
-      var isDark=document.documentElement.getAttribute('data-theme')==='dark';
-      document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
-      document.getElementById('darkTog').classList.toggle('on',!isDark);
-      document.getElementById('togKnob').textContent=isDark?'\u2600\ufe0f':'\ud83c\udf19';
-      localStorage.setItem('life-theme',isDark?'light':'dark');
+      var d=document.documentElement.getAttribute('data-theme')==='dark';
+      document.documentElement.setAttribute('data-theme',d?'light':'dark');
+      document.getElementById('darkTog').classList.toggle('on',!d);
+      document.getElementById('togKnob').textContent=d?'☀️':'🌙';
+      localStorage.setItem('lt',d?'light':'dark');
     }
-    var savedTheme=localStorage.getItem('life-theme');
-    if(savedTheme==='dark'||((!savedTheme)&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
+    var st=localStorage.getItem('lt');
+    if(st==='dark'||(!st&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
       document.documentElement.setAttribute('data-theme','dark');
       document.getElementById('darkTog').classList.add('on');
-      document.getElementById('togKnob').textContent='\ud83c\udf19';
+      document.getElementById('togKnob').textContent='🌙';
     }
 
-    function showPage(name){
+    function showPage(n){
       document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-      document.getElementById('page-'+name).classList.add('active');
+      document.getElementById('page-'+n).classList.add('active');
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
     function setFilter(cat,btn){
-      activeFilter=cat;
+      filter=cat;
       document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
       renderEntries();
@@ -477,105 +459,108 @@
       });
     }
 
-    function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-    function saveLiked(){localStorage.setItem('life-liked',JSON.stringify(Array.from(liked)));}
-    function timeAgo(ts){var d=Math.floor((Date.now()-new Date(ts).getTime())/1000);return T[lang].ago(d);}
+    function esc(x){return x.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function saveLiked(){localStorage.setItem('ll',JSON.stringify(Array.from(likedSet)));}
+    function ago(ts){var d=Math.floor((Date.now()-new Date(ts).getTime())/1000);return TX[lang].ag(d);}
 
     function renderEntries(animId){
       var el=document.getElementById('entries');
-      var empty=document.getElementById('emptyMsg');
-      var vc=document.getElementById('voiceCount');
+      var em=document.getElementById('emptyMsg');
+      var vc=document.getElementById('vcnt');
       el.innerHTML='';
-      var filtered=activeFilter==='all'?entries:entries.filter(function(e){return e.category===activeFilter;});
-      empty.style.display=filtered.length?'none':'block';
-      empty.textContent=activeFilter==='all'?T[lang].empty:T[lang].emptyFilter;
-      vc.style.display=filtered.length?'block':'none';
-      vc.textContent=T[lang].voices(filtered.length);
-      filtered.forEach(function(entry,i){
-        var isLiked=liked.has(entry.id);
-        var card=document.createElement('div');
-        card.className='entry-card'+(entry.id===animId?' new':'');
-        card.innerHTML='<p class="entry-text"><span class="entry-prefix">Life is\u2026 </span>'+esc(entry.text)+'</p>'
+      var list=filter==='all'?allEntries:allEntries.filter(function(e){return e.category===filter;});
+      em.style.display=list.length?'none':'block';
+      em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
+      vc.style.display=list.length?'block':'none';
+      vc.textContent=TX[lang].vc(list.length);
+      list.forEach(function(entry,i){
+        var lk=likedSet.has(entry.id);
+        var c=document.createElement('div');
+        c.className='entry-card'+(entry.id===animId?' new':'');
+        c.innerHTML='<p class="entry-text"><span class="entry-prefix">Life is… </span>'+esc(entry.text)+'</p>'
           +'<div class="entry-meta">'
           +'<div class="entry-meta-left">'
-          +'<span class="timestamp">'+timeAgo(entry.created_at)+'</span>'
+          +'<span class="timestamp">'+ago(entry.created_at)+'</span>'
           +(entry.category?'<span class="cat-tag">'+entry.category+'</span>':'')
           +'</div>'
           +'<div class="actions">'
-          +'<button class="like-btn'+(isLiked?' liked':'')+'" data-id="'+entry.id+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(isLiked?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-          +(entry.likes>0?'<span>'+entry.likes+'</span>':'')
-          +'</button>'
+          +'<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'
+          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(lk?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+          +(entry.likes>0?'<span>'+entry.likes+'</span>':'')+'</button>'
           +'<button class="img-btn" data-text="'+esc(entry.text)+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
-          +'</button>'
+          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>'
           +'<button class="share-btn" data-id="'+entry.id+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
-          +'</button>'
+          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>'
           +'</div></div>';
-        el.appendChild(card);
-        if(i<filtered.length-1){var hr=document.createElement('hr');hr.className='divider';el.appendChild(hr);}
+        el.appendChild(c);
+        if(i<list.length-1){var hr=document.createElement('hr');hr.className='divider';el.appendChild(hr);}
       });
     }
 
     function loadEntries(){
       db.from('entries').select('*').order('created_at',{ascending:false}).limit(200).then(function(r){
-        entries=r.data||[];
+        allEntries=r.data||[];
         applyLang();
       });
     }
 
-    db.channel('entries-stream')
+    db.channel('live')
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'entries'},function(p){
-        if(entries.find(function(e){return e.id===p.new.id;}))return;
-        entries=[p.new].concat(entries);renderEntries(p.new.id);
+        if(allEntries.find(function(e){return e.id===p.new.id;}))return;
+        allEntries=[p.new].concat(allEntries);
+        renderEntries(p.new.id);
       })
       .on('postgres_changes',{event:'UPDATE',schema:'public',table:'entries'},function(p){
-        entries=entries.map(function(e){return e.id===p.new.id?p.new:e;});renderEntries();
+        allEntries=allEntries.map(function(e){return e.id===p.new.id?p.new:e;});
+        renderEntries();
       })
       .subscribe();
 
-    var inputEl=document.getElementById('input');
-    var counterEl=document.getElementById('counter');
-    var submitBtn=document.getElementById('submitBtn');
-    var confirmEl=document.getElementById('t-confirm');
+    var inp=document.getElementById('inp');
+    var ctr=document.getElementById('ctr');
+    var subBtn=document.getElementById('subBtn');
+    var conf=document.getElementById('t-conf');
 
-    inputEl.addEventListener('input',function(){
-      var left=MAX-inputEl.value.length;
-      counterEl.textContent=left;
-      counterEl.classList.toggle('warn',left<30);
-      submitBtn.disabled=inputEl.value.trim().length===0;
+    inp.addEventListener('input',function(){
+      var left=MAX-inp.value.length;
+      ctr.textContent=left;
+      ctr.classList.toggle('warn',left<30);
+      subBtn.disabled=inp.value.trim().length===0;
     });
 
-    submitBtn.addEventListener('click',function(){
-      var text=inputEl.value.trim();
+    subBtn.addEventListener('click',function(){
+      var text=inp.value.trim();
       if(!text)return;
-      submitBtn.disabled=true;
-      submitBtn.textContent='\u2026';
-      fetch('/api/moderate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
-        .then(function(r){return r.json();})
-        .catch(function(){return {approved:true,category:'reflective'};})
-        .then(function(result){
-          if(!result.approved){
-            submitBtn.disabled=false;
-            submitBtn.textContent=T[lang].submit;
-            confirmEl.textContent=T[lang].rejected;
-            confirmEl.style.color='#c0392b';
-            confirmEl.style.display='block';
-            return;
-          }
-          var category=result.category||'reflective';
-          db.from('entries').insert({text:text,likes:0,category:category,approved:true}).then(function(){
-            inputEl.value='';
-            counterEl.textContent=MAX;
-            counterEl.classList.remove('warn');
-            submitBtn.textContent=T[lang].submit;
-            confirmEl.textContent=T[lang].confirm;
-            confirmEl.style.color='var(--text-muted)';
-            confirmEl.style.display='block';
-            document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'});
-          });
+      subBtn.disabled=true;
+      subBtn.textContent='…';
+      fetch('/api/moderate',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({text:text})
+      })
+      .then(function(r){return r.json();})
+      .catch(function(){return {approved:true,category:'reflective'};})
+      .then(function(res){
+        if(res.approved===false){
+          subBtn.disabled=false;
+          subBtn.textContent=TX[lang].sb;
+          conf.textContent=TX[lang].no;
+          conf.style.color='#c0392b';
+          conf.style.display='block';
+          return;
+        }
+        var cat=res.category||'reflective';
+        db.from('entries').insert({text:text,likes:0,category:cat,approved:true}).then(function(){
+          inp.value='';
+          ctr.textContent=MAX;
+          ctr.classList.remove('warn');
+          subBtn.textContent=TX[lang].sb;
+          conf.textContent=TX[lang].ok;
+          conf.style.color='var(--muted)';
+          conf.style.display='block';
+          document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'});
         });
+      });
     });
 
     document.getElementById('entries').addEventListener('click',function(e){
@@ -584,28 +569,30 @@
       var ib=e.target.closest('.img-btn');
       if(lb){
         var id=lb.dataset.id;
-        var entry=entries.find(function(e){return e.id===id;});
+        var entry=allEntries.find(function(x){return x.id===id;});
         if(!entry)return;
-        var isLiked=liked.has(id);
-        var n=isLiked?Math.max(0,entry.likes-1):entry.likes+1;
-        if(isLiked){liked.delete(id);}else{liked.add(id);}
+        var lk=likedSet.has(id);
+        var n=lk?Math.max(0,entry.likes-1):entry.likes+1;
+        if(lk){likedSet.delete(id);}else{likedSet.add(id);}
         saveLiked();
-        entries=entries.map(function(e){return e.id===id?Object.assign({},e,{likes:n}):e;});
+        allEntries=allEntries.map(function(x){return x.id===id?Object.assign({},x,{likes:n}):x;});
         renderEntries();
         db.from('entries').update({likes:n}).eq('id',id);
       }
       if(ib){openSharepic(ib.dataset.text);}
       if(sb){
         var id2=sb.dataset.id;
-        var entry2=entries.find(function(e){return e.id===id2;});
-        if(!entry2)return;
-        var text2='Life is\u2026 '+entry2.text;
+        var e2=allEntries.find(function(x){return x.id===id2;});
+        if(!e2)return;
+        var txt='Life is… '+e2.text;
         if(navigator.share){
-          navigator.share({title:'Life is\u2026',text:text2,url:window.location.href});
-        } else {
-          navigator.clipboard.writeText(text2+'\n'+window.location.href);
-          sb.innerHTML='<span style="font-size:12px">'+T[lang].copied+'</span>';
-          setTimeout(function(){sb.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';},2000);
+          navigator.share({title:'Life is…',text:txt,url:window.location.href});
+        }else{
+          navigator.clipboard.writeText(txt+'\n'+window.location.href);
+          sb.innerHTML='<span style="font-size:12px">'+TX[lang].cp+'</span>';
+          setTimeout(function(){
+            sb.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
+          },2000);
         }
       }
     });
