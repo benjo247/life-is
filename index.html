@@ -165,7 +165,7 @@
       <textarea id="input" placeholder="what you make of it" rows="2" maxlength="200"></textarea>
       <div class="input-footer">
         <span class="counter" id="counter">200</span>
-        <button class="submit-btn" id="submitBtn" disabled>Let them know</button>
+        <button class="submit-btn" id="submitBtn" disabled>Let them know!</button>
       </div>
       <p class="confirmation" id="confirmation"></p>
     </section>
@@ -192,7 +192,7 @@
       <h3>Verantwortlich</h3>
       <p><span class="placeholder">[Dein vollständiger Name]</span><br/><br/><span class="placeholder">[Straße und Hausnummer]</span><br/><br/><span class="placeholder">[PLZ und Ort]</span><br/><br/>Deutschland</p>
       <h3>Kontakt</h3>
-      <p>E-Mail: <span class="placeholder">[deine@email.de]</span></p>
+      <p>E-Mail: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b2d6d7dbdcd7f2d7dfd3dbde9cd6d7">[email&#160;protected]</a>]</span></p>
       <hr class="legal-divider"/>
       <h3>Haftung für Inhalte</h3>
       <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
@@ -223,7 +223,7 @@
         <li><strong>Google Fonts</strong> – <a href="https://policies.google.com/privacy" target="_blank">Datenschutz</a></li>
       </ul>
       <h3>5. <span id="txt-rights-h">Deine Rechte</span></h3>
-      <p id="txt-rights">Kontakt: <span class="placeholder">[deine@email.de]</span></p>
+      <p id="txt-rights">Kontakt: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="600405090e0520050d01090c4e0405">[email&#160;protected]</a>]</span></p>
       <h3>6. Cookies</h3>
       <p id="txt-cookies">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
     </div>
@@ -269,7 +269,7 @@
       <h3>✦ <span id="txt-cg5-h">Kein Schaden</span></h3>
       <p id="txt-cg5">Inhalte, die zur Selbstverletzung aufrufen, werden sofort entfernt.</p>
       <hr class="legal-divider"/>
-      <p id="txt-report">Verstöße melden: <span class="placeholder">[deine@email.de]</span></p>
+      <p id="txt-report">Verstöße melden: <span class="placeholder">[<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82e6e7ebece7c2e7efe3ebeeace6e7">[email&#160;protected]</a>]</span></p>
     </div>
   </div>
 
@@ -296,7 +296,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const SUPABASE_URL = 'https://acdiodygerxvxewiqpox.supabase.co'
     const SUPABASE_KEY = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y'
     const MAX_CHARS    = 200
@@ -313,7 +313,7 @@
       de: {
         eyebrow: 'Eine kollektive Reflexion',
         placeholder: 'was du daraus machst',
-        submit: 'Let them know',
+        submit: 'Sag es jetzt!',
         confirmation: 'Deine Worte sind jetzt Teil des Streams ↓',
         empty: 'Sei der Erste, der den Gedanken vervollständigt.',
         privacy: 'Datenschutz',
@@ -351,7 +351,7 @@
       en: {
         eyebrow: 'A collective reflection',
         placeholder: 'what you make of it',
-        submit: 'Let them know',
+        submit: 'Let them know!',
         confirmation: 'Your words are now part of the stream ↓',
         empty: 'Be the first to complete the thought.',
         privacy: 'Privacy',
@@ -635,13 +635,4 @@
           navigator.share({ title: 'Life is…', text, url: window.location.href })
         } else {
           navigator.clipboard.writeText(`${text}\n${window.location.href}`)
-          shareBtn.innerHTML = `<span style="font-size:12px">${t('copied')}</span>`
-          setTimeout(() => { shareBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>` }, 2000)
-        }
-      }
-    })
-
-    loadEntries()
-  </script>
-</body>
-</html>
+          shareBtn.innerHTML = `<span style="font-size:1
