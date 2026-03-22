@@ -470,7 +470,7 @@
       var em=document.getElementById('emptyMsg');
       var vc=document.getElementById('vcnt');
       el.innerHTML='';
-      var list=filter==='all'?allEntries:allEntries.filter(function(e){return e.category===filter;});
+      var list=filter==='all'?allEntries:allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
       em.style.display=list.length?'none':'block';
       em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
       vc.style.display=list.length?'block':'none';
@@ -483,7 +483,7 @@
           +'<div class="entry-meta">'
           +'<div class="entry-meta-left">'
           +'<span class="timestamp">'+ago(entry.created_at)+'</span>'
-          +(entry.category?'<span class="cat-tag">'+entry.category+'</span>':'')
+          +(function(){var cats=entry.categories||[entry.category]||[];return cats.filter(Boolean).map(function(cat){return '<span class="cat-tag">'+cat+'</span>';}).join(' ');})() 
           +'</div>'
           +'<div class="actions">'
           +'<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'
@@ -551,8 +551,8 @@
           conf.style.display='block';
           return;
         }
-        var cat=res.category||'reflective';
-        db.from('entries').insert({text:text,likes:0,category:cat,approved:true}).then(function(){
+        var cats=res.categories||[res.category||'reflective'];
+        db.from('entries').insert({text:text,likes:0,category:cats[0]||'reflective',categories:cats,approved:true}).then(function(){
           inp.value='';
           ctr.textContent=MAX;
           ctr.classList.remove('warn');
