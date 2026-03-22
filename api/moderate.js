@@ -16,20 +16,21 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 100,
+        max_tokens: 150,
         messages: [{
           role: 'user',
-          content: `You moderate a platform where people complete the sentence "Life is… ${text}".
+          content: `You moderate a platform where people complete "Life is… ${text}".
 
-Respond with ONLY a JSON object and nothing else. No explanation, no markdown, no backticks.
-Example: {"approved":true,"category":"joy"}
+Respond with ONLY a JSON object. No explanation, no markdown, no backticks.
+Example: {"approved":true,"categories":["joy","love"]}
 
 Rules:
-- Set approved to false if the text contains: full names of real people, hate speech, spam, URLs, or harmful content
+- Set approved to false if: contains full names of real people, hate speech, insults, spam, URLs, or content that could harm others
 - Otherwise set approved to true
-- Pick the single best category from: ${categories.join(', ')}
+- Pick 1-3 categories that best fit from: ${categories.join(', ')}
+- A post can belong to multiple categories if appropriate
 
-JSON response only:`
+JSON only:`
         }]
       })
     })
@@ -37,23 +38,26 @@ JSON response only:`
     const data = await response.json()
 
     if (!data.content || !data.content[0]) {
-      return res.status(200).json({ approved: true, category: 'reflective' })
+      return res.status(200).json({ approved: true, categories: ['reflective'] })
     }
 
     const raw = data.content[0].text.trim()
-    const jsonMatch = raw.match(/\{[^}]+\}/)
-    if (!jsonMatch) {
-      return res.status(200).json({ approved: true, category: 'reflective' })
+    const match = raw.match(/\{[\s\S]*\}/)
+    if (!match) {
+      return res.status(200).json({ approved: true, categories: ['reflective'] })
     }
 
-    const result = JSON.parse(jsonMatch[0])
+    const result = JSON.parse(match[0])
+    const validCats = (result.categories || []).filter(c => categories.includes(c))
+
     return res.status(200).json({
       approved: result.approved !== false,
-      category: categories.includes(result.category) ? result.category : 'reflective'
+      categories: validCats.length > 0 ? validCats : ['reflective'],
+      category: validCats[0] || 'reflective' // backwards compat
     })
 
   } catch (err) {
     console.error('Moderation error:', err)
-    return res.status(200).json({ approved: true, category: 'reflective' })
+    return res.status(200).json({ approved: true, categories: ['reflective'], category: 'reflective' })
   }
 }
