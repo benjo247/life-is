@@ -31,7 +31,6 @@
     ::-webkit-scrollbar{width:4px}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-    /* TOPBAR */
     .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .3s,border-color .3s;gap:12px}
     .logo{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);cursor:pointer}
     .logo span{color:var(--text-faint)}
@@ -44,18 +43,15 @@
     .tog-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .3s;display:flex;align-items:center;justify-content:center;font-size:11px}
     .tog.on .tog-knob{left:22px}
 
-    /* PAGES */
     .page{display:none;animation:fadeIn .4s ease}
     .page.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* HEADER */
     header{padding:clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px);text-align:center}
     .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:22px;opacity:0;animation:riseUp .8s .1s ease forwards;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     h1{font-family:'Playfair Display',serif;font-size:clamp(56px,11vw,100px);font-weight:400;font-style:italic;line-height:1;letter-spacing:-.02em;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
     @keyframes riseUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-    /* INPUT */
     .input-section{max-width:640px;margin:0 auto;padding:0 24px clamp(48px,8vw,72px);opacity:0;animation:riseUp .8s .35s ease forwards}
     .prefix{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text-faint);display:block;margin-bottom:4px}
     textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-input);outline:none;font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text);resize:none;line-height:1.6;padding:6px 0 10px;transition:border-color .3s,color .3s}
@@ -70,7 +66,12 @@
     .submit-btn:disabled{opacity:.3;cursor:default}
     .confirmation{margin-top:12px;font-size:13px;color:var(--text-muted);font-style:italic;text-align:right;display:none}
 
-    /* FEED */
+    /* CATEGORY FILTERS */
+    .filters{max-width:640px;margin:0 auto;padding:0 24px 28px;display:flex;flex-wrap:wrap;gap:8px}
+    .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:'EB Garamond',serif;font-size:13px;padding:5px 14px;color:var(--text-muted);border-radius:20px;transition:all .2s;letter-spacing:.03em}
+    .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
     .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
     .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:32px;text-align:center;display:none}
     .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--text-faint);font-style:italic;font-size:18px;padding:40px 0}
@@ -80,19 +81,19 @@
     .entry-text{font-family:'Playfair Display',serif;font-size:clamp(16px,2.5vw,20px);font-weight:400;line-height:1.6;margin-bottom:12px;color:var(--text)}
     .entry-prefix{color:var(--text-faint);font-style:italic}
     .entry-meta{display:flex;align-items:center;justify-content:space-between}
+    .entry-meta-left{display:flex;align-items:center;gap:10px}
     .timestamp{font-size:12px;color:var(--text-faint);letter-spacing:.03em}
+    .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.7}
     .actions{display:flex;gap:18px;align-items:center}
     .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--text-muted)}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
     .share-btn:hover,.img-btn:hover{color:var(--text)}
     .divider{border:none;border-top:1px solid var(--border)}
 
-    /* FOOTER */
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
     footer span,footer a{font-size:11px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none}
     footer span:hover,footer a:hover{color:var(--text)}
 
-    /* MODAL */
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
     .modal-overlay.open{opacity:1;pointer-events:all}
     .modal{background:var(--bg);border:1px solid var(--border);padding:28px 24px 24px;max-width:460px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;transform:translateY(16px);transition:transform .3s}
@@ -116,7 +117,6 @@
     .modal-dl-btn{background:var(--btn-bg);color:var(--btn-text);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
     .modal-dl-btn:hover{opacity:.8}
 
-    /* LEGAL */
     .legal-page{max-width:640px;margin:0 auto;padding:48px 24px 80px}
     .legal-back{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:6px;margin-bottom:40px;transition:color .2s;font-family:'EB Garamond',serif}
     .legal-back:hover{color:var(--text)}
@@ -131,7 +131,7 @@
     .ph{background:var(--bg2);border:1px dashed var(--border);padding:2px 8px;color:#c0392b;font-size:14px}
 
     @media(max-width:480px){
-      .topbar,.input-section,.feed,.legal-page{padding-left:16px;padding-right:16px}
+      .topbar,.input-section,.filters,.feed,.legal-page{padding-left:16px;padding-right:16px}
     }
   </style>
 </head>
@@ -165,6 +165,20 @@
       </div>
       <p class="confirmation" id="t-confirm"></p>
     </section>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-cat="all" onclick="setFilter('all',this)">✦ All</button>
+      <button class="filter-btn" data-cat="encouraging" onclick="setFilter('encouraging',this)">🌱 Encouraging</button>
+      <button class="filter-btn" data-cat="self-love" onclick="setFilter('self-love',this)">💛 Self-love</button>
+      <button class="filter-btn" data-cat="joy" onclick="setFilter('joy',this)">☀️ Joy</button>
+      <button class="filter-btn" data-cat="love" onclick="setFilter('love',this)">🤍 Love</button>
+      <button class="filter-btn" data-cat="loss" onclick="setFilter('loss',this)">🌧 Loss</button>
+      <button class="filter-btn" data-cat="humor" onclick="setFilter('humor',this)">😄 Humor</button>
+      <button class="filter-btn" data-cat="motivation" onclick="setFilter('motivation',this)">🔥 Motivation</button>
+      <button class="filter-btn" data-cat="reflective" onclick="setFilter('reflective',this)">🌀 Reflective</button>
+    </div>
+
     <section class="feed" id="feed">
       <p class="voice-count" id="voiceCount"></p>
       <p class="empty" id="emptyMsg"></p>
@@ -301,12 +315,15 @@
     let entries = []
     let liked = new Set(JSON.parse(localStorage.getItem('life-liked') || '[]'))
     let lang = 'de'
+    let activeFilter = 'all'
 
     const T = {
       de: {
         eyebrow:'Eine kollektive Reflexion', placeholder:'was du daraus machst',
         submit:'Sag es jetzt!', confirm:'Deine Worte sind jetzt Teil des Streams ↓',
+        rejected:'Dieser Beitrag entspricht leider nicht unseren Guidelines.',
         empty:'Sei der Erste, der den Gedanken vervollständigt.',
+        emptyFilter:'Noch keine Beiträge in dieser Kategorie.',
         privacy:'Datenschutz', terms:'Nutzungsbedingungen',
         support:'☕ Projekt unterstützen', back:'Zurück',
         voices:n=>`${n} ${n===1?'Stimme':'Stimmen'}`,
@@ -337,7 +354,9 @@
       en: {
         eyebrow:'A collective reflection', placeholder:'what you make of it',
         submit:'Let them know!', confirm:'Your words are now part of the stream ↓',
+        rejected:'This entry does not meet our community guidelines.',
         empty:'Be the first to complete the thought.',
+        emptyFilter:'No entries in this category yet.',
         privacy:'Privacy', terms:'Terms of Use',
         support:'☕ Support the project', back:'Back',
         voices:n=>`${n} ${n===1?'voice':'voices'}`,
@@ -367,121 +386,130 @@
       }
     }
 
-    function set(id, val) { const el=document.getElementById(id); if(el) el.textContent=val }
+    function set(id,val){const el=document.getElementById(id);if(el)el.textContent=val}
 
     function applyLang() {
-      const l = T[lang]
-      set('t-eyebrow', l.eyebrow)
-      document.getElementById('input').placeholder = l.placeholder
-      document.getElementById('submitBtn').textContent = l.submit
-      set('t-privacy', l.privacy); set('t-terms', l.terms); set('t-support', l.support)
-      ;['t-back1','t-back2','t-back3','t-back4'].forEach(id => set(id, l.back))
-      set('t-modal', l.modal); set('t-light', l.light); set('t-dark', l.dark); set('t-dl', l.dl)
-      set('t-privacy-h', l.privacyH); set('t-terms-h', l.termsH)
-      set('t-data-h', l.dataH); set('t-d1', l.d1); set('t-d2', l.d2); set('t-d3', l.d3)
-      set('t-anon-h', l.anonH); set('t-anon', l.anon)
-      set('t-third-h', l.thirdH); set('t-rights-h', l.rightsH)
-      set('t-cookies', l.cookies)
-      set('t-scope-h', l.scopeH); set('t-scope', l.scope)
-      set('t-use-h', l.useH); set('t-use', l.use)
-      set('t-cnt-h', l.cntH); set('t-cnt', l.cnt)
-      set('t-forb-h', l.forbH)
-      set('t-f1', l.f1); set('t-f2', l.f2); set('t-f3', l.f3); set('t-f4', l.f4)
-      set('t-liab-h', l.liabH); set('t-liab', l.liab)
-      set('t-cg0', l.cg0)
-      set('t-cg1h', l.cg1h); set('t-cg1', l.cg1)
-      set('t-cg2h', l.cg2h); set('t-cg2', l.cg2)
-      set('t-cg3h', l.cg3h); set('t-cg3', l.cg3)
-      set('t-cg4h', l.cg4h); set('t-cg4', l.cg4)
-      set('t-cg5h', l.cg5h); set('t-cg5', l.cg5)
-      set('t-rep', l.rep)
-      document.documentElement.lang = lang
+      const l=T[lang]
+      set('t-eyebrow',l.eyebrow)
+      document.getElementById('input').placeholder=l.placeholder
+      document.getElementById('submitBtn').textContent=l.submit
+      set('t-privacy',l.privacy);set('t-terms',l.terms);set('t-support',l.support)
+      ;['t-back1','t-back2','t-back3','t-back4'].forEach(id=>set(id,l.back))
+      set('t-modal',l.modal);set('t-light',l.light);set('t-dark',l.dark);set('t-dl',l.dl)
+      set('t-privacy-h',l.privacyH);set('t-terms-h',l.termsH)
+      set('t-data-h',l.dataH);set('t-d1',l.d1);set('t-d2',l.d2);set('t-d3',l.d3)
+      set('t-anon-h',l.anonH);set('t-anon',l.anon)
+      set('t-third-h',l.thirdH);set('t-rights-h',l.rightsH)
+      set('t-cookies',l.cookies)
+      set('t-scope-h',l.scopeH);set('t-scope',l.scope)
+      set('t-use-h',l.useH);set('t-use',l.use)
+      set('t-cnt-h',l.cntH);set('t-cnt',l.cnt)
+      set('t-forb-h',l.forbH)
+      set('t-f1',l.f1);set('t-f2',l.f2);set('t-f3',l.f3);set('t-f4',l.f4)
+      set('t-liab-h',l.liabH);set('t-liab',l.liab)
+      set('t-cg0',l.cg0)
+      set('t-cg1h',l.cg1h);set('t-cg1',l.cg1)
+      set('t-cg2h',l.cg2h);set('t-cg2',l.cg2)
+      set('t-cg3h',l.cg3h);set('t-cg3',l.cg3)
+      set('t-cg4h',l.cg4h);set('t-cg4',l.cg4)
+      set('t-cg5h',l.cg5h);set('t-cg5',l.cg5)
+      set('t-rep',l.rep)
+      document.documentElement.lang=lang
       renderEntries()
     }
 
-    function setLang(l) {
-      lang = l
-      document.getElementById('btnDE').classList.toggle('active', l==='de')
-      document.getElementById('btnEN').classList.toggle('active', l==='en')
-      localStorage.setItem('life-lang', l)
+    function setLang(l){
+      lang=l
+      document.getElementById('btnDE').classList.toggle('active',l==='de')
+      document.getElementById('btnEN').classList.toggle('active',l==='en')
+      localStorage.setItem('life-lang',l)
       applyLang()
     }
 
-    // Auto-detect
-    const savedLang = localStorage.getItem('life-lang')
-    lang = savedLang || (navigator.language||'').startsWith('de') ? 'de' : 'en'
-    if (!savedLang && !(navigator.language||'').startsWith('de')) lang = 'en'
-    if (lang === 'en') {
+    const savedLang=localStorage.getItem('life-lang')
+    if(savedLang){lang=savedLang}
+    else if(!(navigator.language||'').startsWith('de')){lang='en'}
+    if(lang==='en'){
       document.getElementById('btnDE').classList.remove('active')
       document.getElementById('btnEN').classList.add('active')
     }
 
-    // Dark mode
-    function toggleDark() {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
-      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark')
-      document.getElementById('darkTog').classList.toggle('on', !isDark)
-      document.getElementById('togKnob').textContent = isDark ? '☀️' : '🌙'
-      localStorage.setItem('life-theme', isDark ? 'light' : 'dark')
+    function toggleDark(){
+      const isDark=document.documentElement.getAttribute('data-theme')==='dark'
+      document.documentElement.setAttribute('data-theme',isDark?'light':'dark')
+      document.getElementById('darkTog').classList.toggle('on',!isDark)
+      document.getElementById('togKnob').textContent=isDark?'☀️':'🌙'
+      localStorage.setItem('life-theme',isDark?'light':'dark')
     }
-    const savedTheme = localStorage.getItem('life-theme')
-    if (savedTheme==='dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme:dark)').matches)) {
+    const savedTheme=localStorage.getItem('life-theme')
+    if(savedTheme==='dark'||(!savedTheme&&window.matchMedia('(prefers-color-scheme:dark)').matches)){
       document.documentElement.setAttribute('data-theme','dark')
       document.getElementById('darkTog').classList.add('on')
-      document.getElementById('togKnob').textContent = '🌙'
+      document.getElementById('togKnob').textContent='🌙'
     }
 
-    function showPage(name) {
+    function showPage(name){
       document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
       document.getElementById('page-'+name).classList.add('active')
       window.scrollTo({top:0,behavior:'smooth'})
     }
 
-    function openSharepic(text) {
-      document.getElementById('scText').textContent = text
+    function setFilter(cat, btn){
+      activeFilter=cat
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'))
+      btn.classList.add('active')
+      renderEntries()
+    }
+
+    function openSharepic(text){
+      document.getElementById('scText').textContent=text
       document.getElementById('shareCard').classList.remove('dark')
       document.querySelectorAll('.modal-style-btn').forEach((b,i)=>b.classList.toggle('active',i===0))
       document.getElementById('shareModal').classList.add('open')
     }
-    function closeModal() { document.getElementById('shareModal').classList.remove('open') }
-    document.getElementById('shareModal').addEventListener('click', e => {
-      if (e.target===document.getElementById('shareModal')) closeModal()
+    function closeModal(){document.getElementById('shareModal').classList.remove('open')}
+    document.getElementById('shareModal').addEventListener('click',e=>{
+      if(e.target===document.getElementById('shareModal'))closeModal()
     })
-    function setCardStyle(mode, btn) {
+    function setCardStyle(mode,btn){
       document.querySelectorAll('.modal-style-btn').forEach(b=>b.classList.remove('active'))
       btn.classList.add('active')
-      document.getElementById('shareCard').classList.toggle('dark', mode==='dark')
+      document.getElementById('shareCard').classList.toggle('dark',mode==='dark')
     }
-    function downloadSharepic() {
+    function downloadSharepic(){
       html2canvas(document.getElementById('shareCard'),{scale:2,useCORS:true}).then(c=>{
-        const a=document.createElement('a'); a.download='life-is.png'; a.href=c.toDataURL('image/png'); a.click()
+        const a=document.createElement('a');a.download='life-is.png';a.href=c.toDataURL('image/png');a.click()
       })
     }
 
-    function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
-    function saveLiked() { localStorage.setItem('life-liked', JSON.stringify([...liked])) }
-    function timeAgo(ts) {
-      const d = Math.floor((Date.now()-new Date(ts).getTime())/1000)
-      return T[lang].ago(d)
-    }
+    function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+    function saveLiked(){localStorage.setItem('life-liked',JSON.stringify([...liked]))}
+    function timeAgo(ts){const d=Math.floor((Date.now()-new Date(ts).getTime())/1000);return T[lang].ago(d)}
 
-    function renderEntries(animId=null) {
+    function renderEntries(animId=null){
       const el=document.getElementById('entries')
       const empty=document.getElementById('emptyMsg')
       const vc=document.getElementById('voiceCount')
       el.innerHTML=''
-      empty.textContent = T[lang].empty
-      empty.style.display = entries.length ? 'none' : 'block'
-      vc.style.display = entries.length ? 'block' : 'none'
-      vc.textContent = T[lang].voices(entries.length)
-      entries.forEach((entry,i) => {
-        const isLiked = liked.has(entry.id)
-        const card = document.createElement('div')
-        card.className = 'entry-card' + (entry.id===animId ? ' new' : '')
-        card.innerHTML = `
+
+      const filtered = activeFilter==='all' ? entries : entries.filter(e=>e.category===activeFilter)
+
+      empty.style.display=filtered.length?'none':'block'
+      empty.textContent=activeFilter==='all'?T[lang].empty:T[lang].emptyFilter
+      vc.style.display=filtered.length?'block':'none'
+      vc.textContent=T[lang].voices(filtered.length)
+
+      filtered.forEach((entry,i)=>{
+        const isLiked=liked.has(entry.id)
+        const card=document.createElement('div')
+        card.className='entry-card'+(entry.id===animId?' new':'')
+        card.innerHTML=`
           <p class="entry-text"><span class="entry-prefix">Life is… </span>${esc(entry.text)}</p>
           <div class="entry-meta">
-            <span class="timestamp">${timeAgo(entry.created_at)}</span>
+            <div class="entry-meta-left">
+              <span class="timestamp">${timeAgo(entry.created_at)}</span>
+              ${entry.category?`<span class="cat-tag">${entry.category}</span>`:''}
+            </div>
             <div class="actions">
               <button class="like-btn${isLiked?' liked':''}" data-id="${entry.id}">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="${isLiked?'currentColor':'none'}" stroke="currentColor" stroke-width="1.5">
@@ -506,84 +534,107 @@
             </div>
           </div>`
         el.appendChild(card)
-        if (i < entries.length-1) { const hr=document.createElement('hr'); hr.className='divider'; el.appendChild(hr) }
+        if(i<filtered.length-1){const hr=document.createElement('hr');hr.className='divider';el.appendChild(hr)}
       })
     }
 
-    async function loadEntries() {
-      const {data} = await db.from('entries').select('*').order('created_at',{ascending:false}).limit(100)
-      entries = data || []
+    async function loadEntries(){
+      const {data}=await db.from('entries').select('*').order('created_at',{ascending:false}).limit(200)
+      entries=data||[]
       applyLang()
     }
 
     db.channel('entries-stream')
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'entries'},p=>{
-        if (entries.find(e=>e.id===p.new.id)) return
-        entries=[p.new,...entries]; renderEntries(p.new.id)
+        if(entries.find(e=>e.id===p.new.id))return
+        entries=[p.new,...entries];renderEntries(p.new.id)
       })
       .on('postgres_changes',{event:'UPDATE',schema:'public',table:'entries'},p=>{
-        entries=entries.map(e=>e.id===p.new.id?p.new:e); renderEntries()
+        entries=entries.map(e=>e.id===p.new.id?p.new:e);renderEntries()
       })
       .subscribe()
 
-    const inputEl = document.getElementById('input')
-    const counterEl = document.getElementById('counter')
-    const submitBtn = document.getElementById('submitBtn')
-    const confirmEl = document.getElementById('t-confirm')
+    const inputEl=document.getElementById('input')
+    const counterEl=document.getElementById('counter')
+    const submitBtn=document.getElementById('submitBtn')
+    const confirmEl=document.getElementById('t-confirm')
 
-    inputEl.addEventListener('input', () => {
-      const left = MAX - inputEl.value.length
-      counterEl.textContent = left
-      counterEl.classList.toggle('warn', left < 30)
-      submitBtn.disabled = inputEl.value.trim().length === 0
+    inputEl.addEventListener('input',()=>{
+      const left=MAX-inputEl.value.length
+      counterEl.textContent=left
+      counterEl.classList.toggle('warn',left<30)
+      submitBtn.disabled=inputEl.value.trim().length===0
     })
 
-    submitBtn.addEventListener('click', async () => {
-      const text = inputEl.value.trim()
-      if (!text) return
-      submitBtn.disabled = true
-      submitBtn.textContent = '…'
-      await db.from('entries').insert({text, likes:0})
-      inputEl.value = ''
-      counterEl.textContent = MAX
+    submitBtn.addEventListener('click', async ()=>{
+      const text=inputEl.value.trim()
+      if(!text)return
+      submitBtn.disabled=true
+      submitBtn.textContent='…'
+
+      let category='reflective', approved=true
+      try {
+        const res=await fetch('/api/moderate',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({text})
+        })
+        const result=await res.json()
+        approved=result.approved
+        category=result.category||'reflective'
+      } catch(e){ /* allow through if API fails */ }
+
+      if(!approved){
+        submitBtn.disabled=false
+        submitBtn.textContent=T[lang].submit
+        confirmEl.textContent=T[lang].rejected
+        confirmEl.style.color='#c0392b'
+        confirmEl.style.display='block'
+        return
+      }
+
+      await db.from('entries').insert({text,likes:0,category,approved:true})
+      inputEl.value=''
+      counterEl.textContent=MAX
       counterEl.classList.remove('warn')
-      submitBtn.textContent = T[lang].submit
-      confirmEl.textContent = T[lang].confirm
-      confirmEl.style.display = 'block'
+      submitBtn.textContent=T[lang].submit
+      confirmEl.textContent=T[lang].confirm
+      confirmEl.style.color='var(--text-muted)'
+      confirmEl.style.display='block'
       document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'})
     })
 
-    document.getElementById('entries').addEventListener('click', async e => {
-      const lb = e.target.closest('.like-btn')
-      const sb = e.target.closest('.share-btn')
-      const ib = e.target.closest('.img-btn')
+    document.getElementById('entries').addEventListener('click', async e=>{
+      const lb=e.target.closest('.like-btn')
+      const sb=e.target.closest('.share-btn')
+      const ib=e.target.closest('.img-btn')
 
-      if (lb) {
-        const id = lb.dataset.id
-        const entry = entries.find(e=>e.id===id)
-        if (!entry) return
-        const isLiked = liked.has(id)
-        const n = isLiked ? Math.max(0,entry.likes-1) : entry.likes+1
-        isLiked ? liked.delete(id) : liked.add(id)
+      if(lb){
+        const id=lb.dataset.id
+        const entry=entries.find(e=>e.id===id)
+        if(!entry)return
+        const isLiked=liked.has(id)
+        const n=isLiked?Math.max(0,entry.likes-1):entry.likes+1
+        isLiked?liked.delete(id):liked.add(id)
         saveLiked()
-        entries = entries.map(e=>e.id===id?{...e,likes:n}:e)
+        entries=entries.map(e=>e.id===id?{...e,likes:n}:e)
         renderEntries()
         await db.from('entries').update({likes:n}).eq('id',id)
       }
 
-      if (ib) openSharepic(ib.dataset.text)
+      if(ib)openSharepic(ib.dataset.text)
 
-      if (sb) {
-        const id = sb.dataset.id
-        const entry = entries.find(e=>e.id===id)
-        if (!entry) return
-        const text = `Life is… ${entry.text}`
-        if (navigator.share) {
-          navigator.share({title:'Life is…', text, url:window.location.href})
+      if(sb){
+        const id=sb.dataset.id
+        const entry=entries.find(e=>e.id===id)
+        if(!entry)return
+        const text=`Life is… ${entry.text}`
+        if(navigator.share){
+          navigator.share({title:'Life is…',text,url:window.location.href})
         } else {
           navigator.clipboard.writeText(`${text}\n${window.location.href}`)
-          sb.innerHTML = `<span style="font-size:12px">${T[lang].copied}</span>`
-          setTimeout(()=>{ sb.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>` }, 2000)
+          sb.innerHTML=`<span style="font-size:12px">${T[lang].copied}</span>`
+          setTimeout(()=>{sb.innerHTML=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`},2000)
         }
       }
     })
