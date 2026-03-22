@@ -60,10 +60,11 @@
     .input-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
     .counter{font-size:13px;color:var(--muted);transition:color .2s}
     .counter.warn{color:#c0392b}
-    .submit-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:opacity .2s,transform .1s}
+    .submit-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:background .3s,opacity .2s,transform .1s}
     .submit-btn:hover{opacity:.75}
     .submit-btn:active{transform:scale(.98)}
     .submit-btn:disabled{opacity:.3;cursor:default}
+    .submit-btn:not(:disabled){background:var(--accent);color:#fff}
     .confirmation{margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;text-align:right;display:none}
 
     .filters{max-width:640px;margin:0 auto;padding:0 24px 28px;display:flex;flex-wrap:wrap;gap:8px}
