@@ -214,7 +214,7 @@
       <span id="t-terms" onclick="showPage('nutzung')">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
       <a href="https://buymeacoffee.com/Lifeisdots" target="_blank" id="t-sup" class="footer-support">☕ Projekt unterstützen</a>
-      <span style="width:100%;text-align:center;margin-top:8px;font-size:10px;color:var(--faint);letter-spacing:.08em;text-transform:none;cursor:default">© 2025 Life is… All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
+      <span style="width:100%;text-align:center;margin-top:8px;font-size:10px;color:var(--faint);letter-spacing:.08em;text-transform:none;cursor:default">© 2026 Life is… All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
     </footer>
   </div>
 
@@ -332,7 +332,7 @@
           <p class="sc-text" id="scText"></p>
         </div>
         <div class="sc-line"></div>
-        <span class="sc-footer">Created with Life is… · life-is-one.vercel.app</span>
+        <span class="sc-footer">Created with Life is… · life-is.app</span>
       </div>
       <div class="modal-style-toggle">
         <button class="modal-style-btn active" id="t-ml" onclick="setCardStyle('light',this)">Hell</button>
@@ -384,6 +384,10 @@
         g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
         g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
         gr:'Verstöße per Post an die Adresse im Impressum.',
+        fall:'Alle', ftop:'Top 10', frandom:'Zufällig',
+        fenc:'Ermutigend', fself:'Selbstliebe', fjoy:'Freude',
+        flove:'Liebe', floss:'Verlust', fhumor:'Humor',
+        fmot:'Motivation', fref:'Nachdenklich',
         ba:'Zurück',
         about1:'Ein Satz den niemand alleine beenden kann.',
         about2:'Life is… wurde mit einer einfachen Überzeugung gebaut: dass die ehrlichsten Dinge die wir über das Leben sagen oft unfertig sind. Ein offener Gedanke. Ein Satz der jemand anderen einlädt.',
@@ -422,6 +426,10 @@
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
         gr:'Report violations via post to the address in the imprint.',
+        fall:'All', ftop:'Top 10', frandom:'Random',
+        fenc:'Encouraging', fself:'Self-love', fjoy:'Joy',
+        flove:'Love', floss:'Loss', fhumor:'Humor',
+        fmot:'Motivation', fref:'Reflective',
         ba:'Back',
         about1:'A sentence no one can finish alone.',
         about2:'Life is… was built on a simple belief: that the most honest things we say about life are often unfinished. A thought left open. A sentence that invites someone else in.',
@@ -454,6 +462,21 @@
       s('t-g5h',l.g5h);s('t-g5',l.g5);s('t-gr',l.gr);
       document.documentElement.lang=lang;
       s('t-ba',l.ba);
+      var fl=[['all',l.fall],['top10',l.ftop],['random',l.frandom],
+              ['encouraging',l.fenc],['self-love',l.fself],['joy',l.fjoy],
+              ['love',l.flove],['loss',l.floss],['humor',l.fhumor],
+              ['motivation',l.fmot],['reflective',l.fref]];
+      document.querySelectorAll('.filter-btn').forEach(function(btn){
+        var cat=btn.getAttribute('onclick').match(/setFilter\('([^']+)'/);
+        if(cat){
+          var match=fl.find(function(f){return f[0]===cat[1];});
+          if(match){
+            var svg=btn.querySelector('svg');
+            btn.textContent=match[1];
+            if(svg)btn.insertBefore(svg,btn.firstChild);
+          }
+        }
+      });
       s('t-about1',l.about1);s('t-about2',l.about2);s('t-about3',l.about3);s('t-about4',l.about4);s('t-about5',l.about5);
       renderEntries();
     }
@@ -522,23 +545,21 @@
       html2canvas(document.getElementById('shareCard'),{scale:2,useCORS:true}).then(function(canvas){
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
-          // Try native share with file (works on mobile)
           if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
             navigator.share({
               title:'Life is…',
               text:'Life is… '+document.getElementById('scText').textContent,
               files:[file]
-            }).then(function(){
-              btn.textContent=TX[lang].mdl;
-              btn.disabled=false;
-            }).catch(function(){
-              // Share cancelled or failed - fall back to download
-              var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
+            }).catch(function(err){
+              // Only download if it was NOT a user cancellation
+              if(err && err.name !== 'AbortError'){
+                var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
+              }
+            }).finally(function(){
               btn.textContent=TX[lang].mdl;
               btn.disabled=false;
             });
           } else {
-            // Desktop: just download
             var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
             btn.textContent=TX[lang].mdl;
             btn.disabled=false;
