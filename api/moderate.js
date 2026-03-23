@@ -68,6 +68,18 @@ Reject (approved: false) if the text:
 Approve only genuine, thoughtful, poetic or honest completions.
 Pick 1-3 categories from: ${categories.join(', ')}
 
+Category guidance:
+- encouraging: uplifting, hopeful, positive outlook
+- self-love: self-acceptance, inner peace, personal worth
+- joy: happiness, delight, lightness, fun
+- loss: pain, grief, hardship, darkness, struggle, difficult times, sadness, "brutal", "hard", "tough"
+- love: romantic or deep human connection
+- humor: funny, witty, ironic, playful
+- reflective: thoughtful, philosophical, pondering life's meaning
+- motivation: drive, ambition, perseverance, action
+
+Be precise. "brutal sometimes" = loss. "beautiful mess" = joy + reflective. Don't default to reflective when another category fits better.
+
 JSON only:`
         }]
       })
