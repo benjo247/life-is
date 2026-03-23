@@ -173,6 +173,9 @@
       <button class="filter-btn" onclick="setFilter('top10',this)">
         <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor" stroke="none"/></svg>Top 10
       </button>
+      <button class="filter-btn" onclick="setFilter('random',this)">
+        <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>Random
+      </button>
       <button class="filter-btn" onclick="setFilter('encouraging',this)">
         <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>Encouraging
       </button>
@@ -356,6 +359,7 @@
         no:'Dieser Beitrag entspricht nicht unseren Guidelines.',
         em:'Sei der Erste der den Gedanken vervollständigt.',
         ef:'Noch keine Beiträge in dieser Kategorie.',
+        er:'10 zufällige Gedanken',
         pr:'Datenschutz', tm:'Nutzungsbedingungen', su:'☕ Projekt unterstützen', bk:'Zurück',
         vc:function(n){return n+' '+(n===1?'Stimme':'Stimmen');},
         ag:function(d){return d<60?'gerade eben':d<3600?'vor '+Math.floor(d/60)+'m':d<86400?'vor '+Math.floor(d/3600)+'h':'vor '+Math.floor(d/86400)+'d';},
@@ -393,6 +397,7 @@
         no:'This entry does not meet our community guidelines.',
         em:'Be the first to complete the thought.',
         ef:'No entries in this category yet.',
+        er:'10 random thoughts',
         pr:'Privacy', tm:'Terms of Use', su:'☕ Support the project', bk:'Back',
         vc:function(n){return n+' '+(n===1?'voice':'voices');},
         ag:function(d){return d<60?'just now':d<3600?Math.floor(d/60)+'m ago':d<86400?Math.floor(d/3600)+'h ago':Math.floor(d/86400)+'d ago';},
@@ -525,11 +530,11 @@
       var em=document.getElementById('emptyMsg');
       var vc=document.getElementById('vcnt');
       el.innerHTML='';
-      var list=filter==='all'?allEntries:filter==='top10'?allEntries.slice().sort(function(a,b){return b.likes-a.likes;}).slice(0,10):allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
+      var list=filter==='all'?allEntries:filter==='top10'?allEntries.slice().sort(function(a,b){return b.likes-a.likes;}).slice(0,10):filter==='random'?allEntries.slice().sort(function(){return Math.random()-.5;}).slice(0,10):allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
       em.style.display=list.length?'none':'block';
       em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
       vc.style.display=list.length?'block':'none';
-      vc.textContent=TX[lang].vc(list.length);
+      vc.textContent=filter==='random'?TX[lang].er:TX[lang].vc(list.length);
       list.forEach(function(entry,i){
         var lk=likedSet.has(entry.id);
         var c=document.createElement('div');
