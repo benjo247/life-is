@@ -1,13 +1,13 @@
 const BLACKLIST = [
   // Deutsch
   'scheiße','scheisse','scheiß','scheiss','arschloch','arsch','fick','ficken','fickt','gefickt',
-  'wichser','wichsen','hurensohn','hure','nutte','schlampe','fotze','schwanz','penis','vagina',
+  'wichser','wichsen','hurensohn','hure','schlampe','fotze','schwanz','penis','vagina',
   'titten','möse','votze','spast','behindert','idiot','vollidiot','bastard','trottel',
   'kacke','kacken','dreck','verdammt','verflucht','scheisskopf','scheißkopf',
   'nazi','hitler','judensau','nigger','kanake','ausländer raus',
   // English
   'fuck','fucking','fucked','fucker','shit','ass','asshole','bitch','cunt','dick','cock',
-  'pussy','whore','slut','bastard','damn','hell','piss','prick','twat','wanker',
+  'pussy','bastard','damn','hell','piss','prick','twat','wanker',
   'nigger','faggot','retard','idiot','moron','stupid','kill yourself','kys',
   // Harm
   'selbstmord','suizid','suicide','kill','murder','bomb','terrorist'
