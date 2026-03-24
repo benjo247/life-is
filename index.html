@@ -75,6 +75,7 @@
 
     .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
     .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;text-align:center;display:none}
+    .qotd-wrap{max-width:640px;margin:0 auto;padding:0 24px}
     .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:32px;display:none}
     .qotd-header{background:var(--accent);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
     .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
@@ -87,7 +88,7 @@
     .qotd-actions{display:flex;gap:8px}
     .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
     .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
-    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none}
+    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none;max-width:640px;margin-left:auto;margin-right:auto}
     .qotd-cta-text p{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .qotd-cta-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px!important}
     .qotd-cta-sub{font-size:11px;color:var(--muted)}
@@ -220,6 +221,7 @@
     </div>
 
     <section class="feed" id="feed">
+      <div class="qotd-wrap">
       <div class="qotd-card" id="qotdCard">
         <div class="qotd-header">
           <span class="qotd-label" id="t-qotd-label">Quote of the day</span>
@@ -245,6 +247,7 @@
           <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt – vielleicht bist du morgen Quote of the Day</p>
         </div>
         <button class="qotd-cta-btn" onclick="document.getElementById('inp').focus();window.scrollTo({top:0,behavior:'smooth'})" id="t-qotd-post">Posten</button>
+      </div>
       </div>
       </div>
       <p class="voice-count" id="vcnt"></p>
