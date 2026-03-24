@@ -661,7 +661,7 @@
           +'<div class="actions">'
           +'<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'
           +'<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(lk?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-          +(entry.likes>0?'<span>'+entry.likes+'</span>':'')+'</button>'
+          +(entry.likes&&entry.likes>0?'<span>'+entry.likes+'</span>':'')+'</button>'
           +'<button class="img-btn" data-text="'+esc(entry.text)+'">'
           +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>'
           +(isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'" data-action="withdraw">&#x2715; '+TX[lang].wd+'</button>':'')
@@ -726,7 +726,16 @@
           return;
         }
         var cats=res.categories||[res.category||'reflective'];
-        db.from('entries').insert({text:text,likes:0,category:cats[0]||'reflective',categories:cats,approved:true}).then(function(){
+        db.from('entries').insert({text:text,likes:0,category:cats[0]||'reflective',categories:cats,approved:true}).select().then(function(r){
+          if(r.data&&r.data[0]){
+            var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
+            own.push({id:r.data[0].id,ts:Date.now()});
+            localStorage.setItem('own-posts',JSON.stringify(own));
+            if(!allEntries.find(function(e){return e.id===r.data[0].id;})){
+              allEntries=[r.data[0]].concat(allEntries);
+              renderEntries(r.data[0].id);
+            }
+          }
           inp.value='';
           ctr.textContent=MAX;
           ctr.classList.remove('warn');
@@ -735,6 +744,7 @@
           conf.style.color='var(--muted)';
           conf.style.display='block';
           document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'});
+        });
         });
       });
     });
