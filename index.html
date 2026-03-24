@@ -104,6 +104,8 @@
     .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .actions{display:flex;gap:18px;align-items:center}
     .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
+    .withdraw-btn{background:none;border:1px solid #c0392b;border-radius:20px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#c0392b;padding:3px 10px;transition:all .2s;display:flex;align-items:center;gap:4px}
+    .withdraw-btn:hover{background:#c0392b;color:#fff}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
     .share-btn:hover,.img-btn:hover{color:var(--text)}
     .divider{border:none;border-top:1px solid var(--border)}
@@ -427,6 +429,7 @@
         g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
         g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
         gr:'Verstöße per Post an die Adresse im Impressum.',
+        wd:'Zurückziehen',
         qotdLabel:'Quote of the day',
         qotdShare:'Teilen', qotdImg:'Als Bild',
         qotdCta1:'Dein Gedanke fehlt noch heute',
@@ -474,6 +477,7 @@
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
         gr:'Report violations via post to the address in the imprint.',
+        wd:'Withdraw',
         qotdLabel:'Quote of the day',
         qotdShare:'Share', qotdImg:'As image',
         qotdCta1:'Your thought is missing today',
@@ -657,6 +661,7 @@
           +(entry.likes>0?'<span>'+entry.likes+'</span>':'')+'</button>'
           +'<button class="img-btn" data-text="'+esc(entry.text)+'">'
           +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>'
+          +(isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'" data-action="withdraw"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>'+TX[lang].wd+'</button>':'')
           +'<button class="share-btn" data-id="'+entry.id+'">'
           +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>'
           +'</div></div>';
@@ -735,6 +740,19 @@
       var lb=e.target.closest('.like-btn');
       var sb=e.target.closest('.share-btn');
       var ib=e.target.closest('.img-btn');
+      var wb=e.target.closest('.withdraw-btn');
+      if(wb){
+        var id=wb.dataset.id;
+        if(confirm(lang==='de'?'Beitrag wirklich zurückziehen?':'Withdraw this entry?')){
+          db.from('entries').delete().eq('id',id).then(function(){
+            allEntries=allEntries.filter(function(x){return x.id!==id;});
+            var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
+            localStorage.setItem('own-posts',JSON.stringify(own.filter(function(p){return p.id!==id;})));
+            renderEntries();
+          });
+        }
+        return;
+      }
       if(lb){
         var id=lb.dataset.id;
         var entry=allEntries.find(function(x){return x.id===id;});
