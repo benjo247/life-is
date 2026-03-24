@@ -87,7 +87,7 @@
     .qotd-actions{display:flex;gap:8px}
     .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
     .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
-    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none}
+    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none}
     .qotd-cta-text p{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .qotd-cta-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px!important}
     .qotd-cta-sub{font-size:11px;color:var(--muted)}
@@ -245,6 +245,7 @@
           <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt – vielleicht bist du morgen Quote of the Day</p>
         </div>
         <button class="qotd-cta-btn" onclick="document.getElementById('inp').focus();window.scrollTo({top:0,behavior:'smooth'})" id="t-qotd-post">Posten</button>
+      </div>
       </div>
       <p class="voice-count" id="vcnt"></p>
       <p class="empty" id="emptyMsg"></p>
@@ -799,8 +800,7 @@
       document.getElementById('qotdShare').onclick=function(){
         var txt='Life is… '+entry.text;
         if(navigator.share){navigator.share({title:'Life is…',text:txt,url:'https://life-is.app'});}
-        else{navigator.clipboard.writeText(txt+'
-https://life-is.app');}
+        else{navigator.clipboard.writeText(txt+'\nhttps://life-is.app');}
       };
       document.getElementById('qotdImg').onclick=function(){
         openSharepic(entry.text);
