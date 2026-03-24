@@ -647,6 +647,9 @@
       vc.textContent=filter==='random'?TX[lang].er:TX[lang].vc(list.length);
       list.forEach(function(entry,i){
         var lk=likedSet.has(entry.id);
+        var ownPosts=JSON.parse(localStorage.getItem('own-posts')||'[]');
+        var FIVE=5*60*1000;
+        var isOwn=!!ownPosts.find(function(p){return p.id===entry.id&&(Date.now()-p.ts)<FIVE;});
         var c=document.createElement('div');
         c.className='entry-card'+(entry.id===animId?' new':'');
         c.innerHTML='<p class="entry-text"><span class="entry-prefix">Life is… </span>'+esc(entry.text)+'</p>'
