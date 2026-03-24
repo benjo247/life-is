@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Life is…</title>
+  <title>Life is...</title>
   <meta name="description" content="A collective reflection. Complete the thought." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,6 @@
     body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
     ::-webkit-scrollbar{width:4px}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-
     .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .3s,border-color .3s;gap:12px}
     .logo{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);cursor:pointer}
     .logo span{color:var(--faint)}
@@ -42,16 +41,13 @@
     .tog.on{background:var(--ton)}
     .tog-knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .3s;display:flex;align-items:center;justify-content:center;font-size:11px}
     .tog.on .tog-knob{left:22px}
-
     .page{display:none;animation:fadeIn .4s ease}
     .page.active{display:block}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
     header{padding:clamp(48px,9vw,88px) 0 clamp(36px,6vw,56px);text-align:center}
     .eyebrow{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;opacity:0;animation:riseUp .8s .1s ease forwards;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
-    h1{font-family:'Meow Script',cursive;font-size:clamp(64px,13vw,120px);font-weight:400;line-height:1;letter-spacing:.01em;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
+    h1{font-family:'Meow Script',cursive;font-size:clamp(64px,13vw,120px);font-weight:400;line-height:1;color:var(--accent);opacity:0;animation:riseUp .8s .2s ease forwards;transition:color .3s}
     @keyframes riseUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
     .input-section{max-width:640px;margin:0 auto;padding:0 24px clamp(48px,8vw,72px);opacity:0;animation:riseUp .8s .35s ease forwards}
     .prefix{font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--faint);display:block;margin-bottom:4px}
     textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-in);outline:none;font-family:'Playfair Display',serif;font-size:clamp(17px,3vw,22px);font-style:italic;color:var(--text);resize:none;line-height:1.6;padding:6px 0 10px;transition:border-color .3s,color .3s}
@@ -61,23 +57,19 @@
     .counter{font-size:13px;color:var(--muted);transition:color .2s}
     .counter.warn{color:#c0392b}
     .submit-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:background .3s,opacity .2s,transform .1s}
-    .submit-btn:hover{opacity:.75}
+    .submit-btn:not(:disabled){background:var(--accent);color:#fff}
+    .submit-btn:hover{opacity:.8}
     .submit-btn:active{transform:scale(.98)}
     .submit-btn:disabled{opacity:.3;cursor:default}
-    .submit-btn:not(:disabled){background:var(--accent);color:#fff}
     .confirmation{margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;text-align:right;display:none}
-
     .filters{max-width:640px;margin:0 auto;padding:0 24px 28px;display:flex;flex-wrap:wrap;gap:8px}
-    .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:'EB Garamond',serif;font-size:13px;padding:5px 14px;color:var(--muted);border-radius:20px;transition:all .2s;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
+    .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;padding:5px 14px;color:var(--muted);border-radius:20px;transition:all .2s;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
     .filter-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
     .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
     .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-    .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
-    .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;text-align:center;display:none}
-    .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:32px;display:none}
+    .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;display:none}
     .qotd-header{background:var(--accent);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-    .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+    .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)}
     .qotd-date{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.5)}
     .qotd-body{padding:20px 20px 16px;background:var(--bg)}
     .qotd-text{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;line-height:1.6;color:var(--text);margin:0 0 16px}
@@ -87,11 +79,13 @@
     .qotd-actions{display:flex;gap:8px}
     .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
     .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
-    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none;max-width:640px;margin-left:auto;margin-right:auto}
-    .qotd-cta-text p{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
-    .qotd-cta-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px!important}
-    .qotd-cta-sub{font-size:11px;color:var(--muted)}
+    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+    .qotd-cta.show{display:flex}
+    .qotd-cta-title{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:500;color:var(--text);margin:0 0 2px}
+    .qotd-cta-sub{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:var(--muted);margin:0}
     .qotd-cta-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+    .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
+    .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;text-align:center;display:none;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--faint);font-style:italic;font-size:18px;padding:40px 0}
     .entry-card{padding:24px 0}
     .entry-card.new{animation:slideIn .5s cubic-bezier(.16,1,.3,1) forwards}
@@ -99,22 +93,20 @@
     .entry-text{font-family:'Playfair Display',serif;font-size:clamp(16px,2.5vw,20px);font-weight:400;line-height:1.6;margin-bottom:12px;color:var(--text)}
     .entry-prefix{font-family:'Meow Script',cursive;font-size:1.3em;color:var(--accent);font-style:normal}
     .entry-meta{display:flex;align-items:center;justify-content:space-between}
-    .entry-meta-left{display:flex;align-items:center;gap:10px}
-    .timestamp{font-size:12px;color:var(--faint);letter-spacing:.03em}
+    .entry-meta-left{display:flex;align-items:center;gap:8px}
+    .timestamp{font-size:12px;color:var(--faint);letter-spacing:.03em;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
-    .actions{display:flex;gap:18px;align-items:center}
-    .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
-    .withdraw-btn{background:none;border:1px solid #c0392b;border-radius:20px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#c0392b;padding:3px 10px;transition:all .2s;display:flex;align-items:center;gap:4px}
-    .withdraw-btn:hover{background:#c0392b;color:#fff}
+    .actions{display:flex;gap:16px;align-items:center}
+    .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
     .share-btn:hover,.img-btn:hover{color:var(--text)}
+    .withdraw-btn{background:none;border:1px solid #c0392b;border-radius:20px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#c0392b;padding:3px 10px;transition:all .2s}
+    .withdraw-btn:hover{background:#c0392b;color:#fff}
     .divider{border:none;border-top:1px solid var(--border)}
-
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
-    .footer-support{width:100%;text-align:center;margin-top:8px}
     footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     footer span:hover,footer a:hover{color:var(--text)}
-
+    .footer-support{width:100%;text-align:center;margin-top:8px}
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
     .modal-overlay.open{opacity:1;pointer-events:all}
     .modal{background:var(--bg);border:1px solid var(--border);padding:28px 24px 24px;max-width:460px;width:100%;display:flex;flex-direction:column;align-items:center;gap:18px;transform:translateY(16px);transition:transform .3s}
@@ -130,14 +122,13 @@
     #shareCard .sc-text{font-family:'Playfair Display',serif;font-size:clamp(17px,4vw,22px);font-style:italic;line-height:1.55;color:#1a1a1a;max-width:280px}
     #shareCard.dark .sc-text{color:#f0ede8}
     #shareCard .sc-line{width:28px;height:1px;background:#2d5a40;margin:16px auto 14px}
-    #shareCard .sc-footer{font-family:'EB Garamond',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c8c4bc}
+    #shareCard .sc-footer{font-family:-apple-system,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c8c4bc}
     #shareCard.dark .sc-footer{color:#3a3530}
     .modal-style-toggle{display:flex;gap:8px;width:100%;max-width:380px}
     .modal-style-btn{flex:1;padding:8px;border:1px solid var(--border);background:none;font-family:'EB Garamond',serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;color:var(--muted)}
     .modal-style-btn.active{background:var(--bb);color:var(--bt);border-color:var(--bb)}
-    .modal-dl-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
+    .modal-dl-btn{background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 32px;transition:opacity .2s;width:100%;max-width:380px}
     .modal-dl-btn:hover{opacity:.8}
-
     .legal-page{max-width:640px;margin:0 auto;padding:48px 24px 80px}
     .legal-back{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;display:flex;align-items:center;gap:6px;margin-bottom:40px;transition:color .2s;font-family:'EB Garamond',serif}
     .legal-back:hover{color:var(--text)}
@@ -154,17 +145,18 @@
   </style>
 </head>
 <body>
-
   <nav class="topbar">
-    <span class="logo" onclick="showPage('home')">Life is<span>…</span></span>
-    <span id="t-about-link" onclick="showPage('about')" style="font-family:'EB Garamond',serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">About</span>
+    <span class="logo" onclick="showPage('home')">Life is<span>...</span></span>
     <div class="topbar-right">
+      <span id="t-about-link" onclick="showPage('about')" style="font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">About</span>
       <div class="lang-toggle">
         <button class="lang-btn active" id="btnDE" onclick="setLang('de')">DE</button>
         <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
       </div>
       <div class="tog" id="darkTog" onclick="toggleDark()">
-        <div class="tog-knob" id="togKnob"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#2d5a40" stroke-width="2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="17.66" y2="6.34"/><line x1="6.34" y1="17.66" x2="4.22" y2="19.78"/></svg></div>
+        <div class="tog-knob" id="togKnob">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#2d5a40" stroke-width="2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="17.66" y2="6.34"/><line x1="6.34" y1="17.66" x2="4.22" y2="19.78"/></svg>
+        </div>
       </div>
     </div>
   </nav>
@@ -173,10 +165,10 @@
   <div class="page active" id="page-home">
     <header>
       <p class="eyebrow" id="t-eyebrow">Eine kollektive Reflexion</p>
-      <h1>Life is…</h1>
+      <h1>Life is...</h1>
     </header>
     <section class="input-section">
-      <span class="prefix">Life is…</span>
+      <span class="prefix">Life is...</span>
       <textarea id="inp" placeholder="was du daraus machst" rows="2" maxlength="200"></textarea>
       <div class="input-footer">
         <span class="counter" id="ctr">200</span>
@@ -184,43 +176,19 @@
       </div>
       <p class="confirmation" id="t-conf"></p>
     </section>
-
     <div class="filters">
-      <button class="filter-btn active" onclick="setFilter('all',this)">
-        <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>All
-      </button>
-      <button class="filter-btn" onclick="setFilter('top10',this)">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor" stroke="none"/></svg>Top 10
-      </button>
-      <button class="filter-btn" onclick="setFilter('random',this)">
-        <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>Random
-      </button>
-      <button class="filter-btn" onclick="setFilter('encouraging',this)">
-        <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>Encouraging
-      </button>
-      <button class="filter-btn" onclick="setFilter('self-love',this)">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" stroke="none"/></svg>Self-love
-      </button>
-      <button class="filter-btn" onclick="setFilter('joy',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><circle cx="9" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1" fill="currentColor" stroke="none"/></svg>Joy
-      </button>
-      <button class="filter-btn" onclick="setFilter('love',this)">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Love
-      </button>
-      <button class="filter-btn" onclick="setFilter('loss',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><circle cx="9" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1" fill="currentColor" stroke="none"/></svg>Loss
-      </button>
-      <button class="filter-btn" onclick="setFilter('humor',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><path d="M9 8c.5 1 1.5 1 2 0"/><path d="M13 8c.5 1 1.5 1 2 0"/></svg>Humor
-      </button>
-      <button class="filter-btn" onclick="setFilter('motivation',this)">
-        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" stroke="none"/></svg>Motivation
-      </button>
-      <button class="filter-btn" onclick="setFilter('reflective',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Reflective
-      </button>
+      <button class="filter-btn active" onclick="setFilter('all',this)"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><span>Alle</span></button>
+      <button class="filter-btn" onclick="setFilter('top10',this)"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Top 10</span></button>
+      <button class="filter-btn" onclick="setFilter('random',this)"><svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg><span>Zufällig</span></button>
+      <button class="filter-btn" onclick="setFilter('encouraging',this)"><svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg><span>Ermutigend</span></button>
+      <button class="filter-btn" onclick="setFilter('self-love',this)"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Selbstliebe</span></button>
+      <button class="filter-btn" onclick="setFilter('joy',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><circle cx="9" cy="9" r="1" style="fill:currentColor;stroke:none"/><circle cx="15" cy="9" r="1" style="fill:currentColor;stroke:none"/></svg><span>Freude</span></button>
+      <button class="filter-btn" onclick="setFilter('love',this)"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Liebe</span></button>
+      <button class="filter-btn" onclick="setFilter('loss',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><circle cx="9" cy="9" r="1" style="fill:currentColor;stroke:none"/><circle cx="15" cy="9" r="1" style="fill:currentColor;stroke:none"/></svg><span>Verlust</span></button>
+      <button class="filter-btn" onclick="setFilter('humor',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 3 4 3 4-3 4-3"/><path d="M9 8c.5 1 1.5 1 2 0"/><path d="M13 8c.5 1 1.5 1 2 0"/></svg><span>Humor</span></button>
+      <button class="filter-btn" onclick="setFilter('motivation',this)"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Motivation</span></button>
+      <button class="filter-btn" onclick="setFilter('reflective',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Nachdenklich</span></button>
     </div>
-
     <section class="feed" id="feed">
       <div class="qotd-card" id="qotdCard">
         <div class="qotd-header">
@@ -228,23 +196,23 @@
           <span class="qotd-date" id="qotdDate"></span>
         </div>
         <div class="qotd-body">
-          <p class="qotd-text"><span class="qotd-prefix">Life is… </span><span id="qotdText"></span></p>
+          <p class="qotd-text"><span class="qotd-prefix">Life is... </span><span id="qotdText"></span></p>
           <div class="qotd-footer">
             <div class="qotd-likes">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               <span id="qotdLikes"></span>
             </div>
             <div class="qotd-actions">
-              <button class="qotd-btn" id="qotdShare">↑ <span id="t-qotd-share">Teilen</span></button>
-              <button class="qotd-btn2" id="qotdImg">⊡ <span id="t-qotd-img">Als Bild</span></button>
+              <button class="qotd-btn" id="qotdShareBtn">&#8593; <span id="t-qotd-share">Teilen</span></button>
+              <button class="qotd-btn2" id="qotdImgBtn">&#9633; <span id="t-qotd-img">Als Bild</span></button>
             </div>
           </div>
         </div>
       </div>
       <div class="qotd-cta" id="qotdCta">
-        <div class="qotd-cta-text">
+        <div>
           <p class="qotd-cta-title" id="t-qotd-cta1">Dein Gedanke fehlt noch heute</p>
-          <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt – vielleicht bist du morgen Quote of the Day</p>
+          <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt - vielleicht bist du morgen Quote of the Day</p>
         </div>
         <button class="qotd-cta-btn" onclick="document.getElementById('inp').focus();window.scrollTo({top:0,behavior:'smooth'})" id="t-qotd-post">Posten</button>
       </div>
@@ -252,51 +220,50 @@
       <p class="empty" id="emptyMsg"></p>
       <div id="entries"></div>
     </section>
-
     <footer>
       <span onclick="showPage('impressum')">Impressum</span>
       <span id="t-priv" onclick="showPage('datenschutz')">Datenschutz</span>
       <span id="t-terms" onclick="showPage('nutzung')">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
-      <a href="https://paypal.me/Lifeisapp" target="_blank" id="t-sup" class="footer-support">☕ Projekt unterstützen</a>
-      <span style="width:100%;text-align:center;margin-top:8px;font-size:10px;color:var(--faint);letter-spacing:.08em;text-transform:none;cursor:default">© 2026 Life is… All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
+      <a href="https://paypal.me/Lifeisapp" target="_blank" id="t-sup" class="footer-support">&#9749; Projekt unterstuetzen</a>
+      <span style="width:100%;text-align:center;margin-top:8px;font-size:9px;color:var(--faint);text-transform:none;cursor:default;letter-spacing:.05em">&#169; 2026 Life is... All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
     </footer>
   </div>
 
   <!-- ABOUT -->
   <div class="page" id="page-about">
     <div class="legal-page" style="max-width:580px">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-ba">Zurück</span></button>
-      <h2 style="font-family:'Meow Script',cursive;font-size:clamp(42px,8vw,72px);color:var(--accent);font-weight:400;margin-bottom:40px">Life is…</h2>
-      <p style="font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;line-height:1.8;color:var(--text);margin-bottom:24px" id="t-about1">A sentence no one can finish alone.</p>
-      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about2">Life is… was built on a simple belief: that the most honest things we say about life are often unfinished. A thought left open. A sentence that invites someone else in.</p>
-      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about3">This is not a social network. There are no profiles, no followers, no algorithms. Just people — from anywhere — completing a sentence together. Anonymously. Honestly.</p>
-      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:40px" id="t-about4">Every entry is a small truth. And together, they become something larger than any one of us could say alone.</p>
-      <p style="font-family:'Meow Script',cursive;font-size:32px;color:var(--accent)" id="t-about5">Life is… what you make of it.</p>
+      <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-ba">Zurueck</span></button>
+      <h2 style="font-family:'Meow Script',cursive;font-size:clamp(42px,8vw,72px);color:var(--accent);font-weight:400;margin-bottom:40px">Life is...</h2>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,22px);font-style:italic;line-height:1.8;color:var(--text);margin-bottom:24px" id="t-about1">Ein Satz den niemand alleine beenden kann.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about2">Life is... wurde mit einer einfachen Ueberzeugung gebaut: dass die ehrlichsten Dinge die wir ueber das Leben sagen oft unfertig sind.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:20px" id="t-about3">Das ist kein soziales Netzwerk. Keine Profile, keine Follower, keine Algorithmen. Nur Menschen - von ueberall - die gemeinsam einen Satz vervollstaendigen. Anonym. Ehrlich.</p>
+      <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-bottom:40px" id="t-about4">Jeder Beitrag ist eine kleine Wahrheit. Und zusammen werden sie zu etwas Groesserem.</p>
+      <p style="font-family:'Meow Script',cursive;font-size:32px;color:var(--accent)" id="t-about5">Life is... was du daraus machst.</p>
     </div>
   </div>
 
   <!-- IMPRESSUM -->
   <div class="page" id="page-impressum">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-b1">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-b1">Zurueck</span></button>
       <h2>Impressum</h2>
-      <p>Angaben gemäß § 5 TMG</p>
+      <p>Angaben gemaess Paragraph 5 TMG</p>
       <h3>Verantwortlich</h3>
-      <p><span class="ph">[Vollständiger Name]</span><br/><br/><span class="ph">[Straße Nr.]</span><br/><br/><span class="ph">[PLZ Ort]</span><br/><br/>Deutschland</p>
+      <p><span class="ph">[Vollstaendiger Name]</span><br/><br/><span class="ph">[Strasse Nr.]</span><br/><br/><span class="ph">[PLZ Ort]</span><br/><br/>Deutschland</p>
       <h3>Kontakt</h3>
       <p>Anfragen bitte per Post an die oben genannte Adresse.</p>
       <hr class="legal-divider"/>
-      <h3>Haftung für Inhalte</h3>
-      <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>
+      <h3>Haftung fuer Inhalte</h3>
+      <p>Als Diensteanbieter sind wir gemaess Paragraph 7 Abs.1 TMG fuer eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>
     </div>
   </div>
 
   <!-- DATENSCHUTZ -->
   <div class="page" id="page-datenschutz">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-b2">Zurück</span></button>
-      <h2 id="t-priv-h">Datenschutzerklärung</h2>
+      <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-b2">Zurueck</span></button>
+      <h2 id="t-priv-h">Datenschutzerklaerung</h2>
       <h3>1. Verantwortlicher</h3>
       <p><span class="ph">[Name, Adresse]</span></p>
       <h3 id="t-dh">2. Welche Daten wir erfassen</h3>
@@ -305,62 +272,59 @@
         <li id="t-d2">Anzahl der Likes pro Eintrag</li>
         <li id="t-d3">Technische Zugriffsdaten durch Vercel</li>
       </ul>
-      <h3>3. <span id="t-ah">Anonymität</span></h3>
-      <p id="t-an">Beiträge werden ohne Nutzernamen gespeichert.</p>
+      <h3>3. <span id="t-ah">Anonymitaet</span></h3>
+      <p id="t-an">Beitraege werden ohne Nutzernamen gespeichert.</p>
       <h3>4. <span id="t-th">Drittanbieter</span></h3>
       <ul>
-        <li>Supabase – <a href="https://supabase.com/privacy" target="_blank">Privacy</a></li>
-        <li>Vercel – <a href="https://vercel.com/legal/privacy-policy" target="_blank">Privacy</a></li>
-        <li>Google Fonts – <a href="https://policies.google.com/privacy" target="_blank">Privacy</a></li>
+        <li>Supabase - <a href="https://supabase.com/privacy" target="_blank">Privacy</a></li>
+        <li>Vercel - <a href="https://vercel.com/legal/privacy-policy" target="_blank">Privacy</a></li>
+        <li>Google Fonts - <a href="https://policies.google.com/privacy" target="_blank">Privacy</a></li>
       </ul>
       <h3>5. <span id="t-rh">Deine Rechte</span></h3>
       <p id="t-ri">Anfragen per Post an die Adresse im Impressum.</p>
       <h3>6. Cookies</h3>
-      <p id="t-co">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beiträge gespeichert.</p>
+      <p id="t-co">Keine Tracking-Cookies. Im localStorage werden nur gelikte Beitraege gespeichert.</p>
     </div>
   </div>
 
   <!-- NUTZUNG -->
   <div class="page" id="page-nutzung">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-b3">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-b3">Zurueck</span></button>
       <h2 id="t-terms-h">Nutzungsbedingungen</h2>
       <h3>1. <span id="t-sh">Geltungsbereich</span></h3>
-      <p id="t-sc">Diese Bedingungen gelten für Life is… und alle damit verbundenen Dienste und Veröffentlichungen.</p>
+      <p id="t-sc">Diese Bedingungen gelten fuer Life is... und alle damit verbundenen Dienste.</p>
       <h3>2. <span id="t-uh">Nutzung</span></h3>
-      <p id="t-us">Die Plattform ist kostenfrei zugänglich. Mit der Nutzung stimmst du diesen Bedingungen zu. Die Nutzung setzt voraus, dass du mindestens 16 Jahre alt bist.</p>
-      <h3>3. <span id="t-ch">Inhalte &amp; Nutzungsrechte</span></h3>
-      <p id="t-cn">Du bist für die von dir veröffentlichten Inhalte selbst verantwortlich und garantierst, dass diese keine Rechte Dritter verletzen.</p>
-      <p id="t-cn2">Mit der Veröffentlichung eines Beitrags räumst du dem Betreiber ein unwiderrufliches, weltweites, nicht-exklusives und kostenloses Nutzungsrecht ein. Dieses umfasst insbesondere das Recht zur Darstellung auf der Plattform sowie zur kommerziellen Zweitverwertung, einschließlich der Nutzung für Merchandise-Produkte, Printmedien, digitale Publikationen, Lizenzierungen an Dritte und sonstige kommerzielle Zwecke – in unveränderter oder bearbeiteter Form.</p>
-      <p id="t-cn3">Da Beiträge anonym eingereicht werden, verzichtest du mit der Veröffentlichung auf die Geltendmachung von Urheberpersönlichkeitsrechten gegenüber dem Betreiber, soweit dies gesetzlich zulässig ist.</p>
+      <p id="t-us">Die Plattform ist kostenfrei. Nutzung setzt Mindestalter 16 Jahre voraus.</p>
+      <h3>3. <span id="t-ch">Inhalte und Nutzungsrechte</span></h3>
+      <p id="t-cn">Du bist fuer deine Inhalte verantwortlich.</p>
+      <p>Mit der Veroeffentlichung eines Beitrags raeumst du dem Betreiber ein unwiderrufliches, weltweites, nicht-exklusives und kostenloses Nutzungsrecht ein. Dieses umfasst die Darstellung auf der Plattform sowie die kommerzielle Zweitverwertung einschliesslich Merchandise, Printmedien, digitale Publikationen und Lizenzierungen an Dritte.</p>
       <h3>4. <span id="t-fh">Verbotene Inhalte</span></h3>
       <ul>
         <li id="t-f1">Hassrede, Diskriminierung oder Beleidigungen</li>
-        <li id="t-f2">Inhalte die Minderjährige gefährden</li>
+        <li id="t-f2">Inhalte die Minderjaehrige gefaehrden</li>
         <li id="t-f3">Spam, Werbung oder kommerzielle Inhalte</li>
         <li id="t-f4">Inhalte gegen geltendes Recht</li>
-        <li id="t-f5">Personenbezogene Daten Dritter</li>
+        <li>Personenbezogene Daten Dritter</li>
       </ul>
       <h3>5. <span id="t-lh">Haftung</span></h3>
-      <p id="t-li">Der Betreiber haftet nicht für die Richtigkeit, Vollständigkeit oder Rechtmäßigkeit der von Nutzern veröffentlichten Inhalte. Der Betreiber behält sich das Recht vor, Inhalte ohne Angabe von Gründen zu entfernen.</p>
-      <h3>6. Änderungen</h3>
-      <p>Der Betreiber behält sich das Recht vor, diese Bedingungen jederzeit zu ändern. Die aktuelle Version ist stets auf dieser Seite einsehbar. Die fortgesetzte Nutzung nach einer Änderung gilt als Zustimmung.</p>
+      <p id="t-li">Der Betreiber haftet nicht fuer Nutzerinhalte und behaelt sich das Recht vor, Inhalte zu entfernen.</p>
     </div>
   </div>
 
   <!-- GUIDELINES -->
   <div class="page" id="page-guidelines">
     <div class="legal-page">
-      <button class="legal-back" onclick="showPage('home')">← <span id="t-b4">Zurück</span></button>
+      <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-b4">Zurueck</span></button>
       <h2>Community Guidelines</h2>
-      <p id="t-g0">Life is… ist ein Ort der Reflexion und Poesie.</p>
-      <h3>✦ <span id="t-g1h">Sei ehrlich</span></h3><p id="t-g1">Teile echte Gedanken.</p>
-      <h3>✦ <span id="t-g2h">Sei respektvoll</span></h3><p id="t-g2">Beiträge die Menschen herabsetzen werden entfernt.</p>
-      <h3>✦ <span id="t-g3h">Halte es poetisch</span></h3><p id="t-g3">Kein Spam, keine Werbung.</p>
-      <h3>✦ <span id="t-g4h">Teile nichts Persönliches</span></h3><p id="t-g4">Keine Namen oder Adressen.</p>
-      <h3>✦ <span id="t-g5h">Kein Schaden</span></h3><p id="t-g5">Schädliche Inhalte werden sofort entfernt.</p>
+      <p id="t-g0">Life is... ist ein Ort der Reflexion und Poesie.</p>
+      <h3>&#10022; <span id="t-g1h">Sei ehrlich</span></h3><p id="t-g1">Teile echte Gedanken.</p>
+      <h3>&#10022; <span id="t-g2h">Sei respektvoll</span></h3><p id="t-g2">Beitraege die Menschen herabsetzen werden entfernt.</p>
+      <h3>&#10022; <span id="t-g3h">Halte es poetisch</span></h3><p id="t-g3">Kein Spam, keine Werbung.</p>
+      <h3>&#10022; <span id="t-g4h">Teile nichts Persoenliches</span></h3><p id="t-g4">Keine Namen oder Adressen.</p>
+      <h3>&#10022; <span id="t-g5h">Kein Schaden</span></h3><p id="t-g5">Schaedliche Inhalte werden sofort entfernt.</p>
       <hr class="legal-divider"/>
-      <p id="t-gr">Verstöße per Post an die Adresse im Impressum melden.</p>
+      <p id="t-gr">Verstoesse per Post an die Adresse im Impressum.</p>
     </div>
   </div>
 
@@ -369,21 +333,21 @@
     <div class="modal">
       <div class="modal-top">
         <span class="modal-title" id="t-mt">Als Bild teilen</span>
-        <button class="modal-close" onclick="closeModal()">×</button>
+        <button class="modal-close" onclick="closeModal()">&#215;</button>
       </div>
       <div id="shareCard">
         <div class="sc-content">
-          <span class="sc-prefix">Life is…</span>
+          <span class="sc-prefix">Life is...</span>
           <p class="sc-text" id="scText"></p>
         </div>
         <div class="sc-line"></div>
-        <span class="sc-footer">Created with Life is… · life-is.app</span>
+        <span class="sc-footer">Created with Life is... - life-is.app</span>
       </div>
       <div class="modal-style-toggle">
         <button class="modal-style-btn active" id="t-ml" onclick="setCardStyle('light',this)">Hell</button>
         <button class="modal-style-btn" id="t-md" onclick="setCardStyle('dark',this)">Dunkel</button>
       </div>
-      <button class="modal-dl-btn" id="t-mdl" onclick="shareOrDownload()">⬇ Als Bild speichern</button>
+      <button class="modal-dl-btn" id="t-mdl" onclick="shareOrDownload()">&#8595; Als Bild speichern</button>
     </div>
   </div>
 
@@ -402,49 +366,48 @@
         ey:'Eine kollektive Reflexion', ph:'was du daraus machst',
         sb:'Sag es jetzt!', ok:'Deine Worte sind jetzt Teil des Streams',
         no:'Dieser Beitrag entspricht nicht unseren Guidelines.',
-        em:'Sei der Erste der den Gedanken vervollständigt.',
-        ef:'Noch keine Beiträge in dieser Kategorie.',
-        er:'10 zufällige Gedanken',
-        pr:'Datenschutz', tm:'Nutzungsbedingungen', su:'☕ Projekt unterstützen', bk:'Zurück',
+        em:'Sei der Erste der den Gedanken vervollstaendigt.',
+        ef:'Noch keine Beitraege in dieser Kategorie.',
+        er:'10 zufaellige Gedanken',
+        pr:'Datenschutz', tm:'Nutzungsbedingungen', su:'Projekt unterstuetzen', bk:'Zurueck',
         vc:function(n){return n+' '+(n===1?'Stimme':'Stimmen');},
         ag:function(d){return d<60?'gerade eben':d<3600?'vor '+Math.floor(d/60)+'m':d<86400?'vor '+Math.floor(d/3600)+'h':'vor '+Math.floor(d/86400)+'d';},
-        mt:'Als Bild teilen', ml:'Hell', md:'Dunkel', mdl:navigator.share?'↑ Bild teilen':'⬇ Als Bild speichern', cp:'Kopiert',
-        ph2:'Datenschutzerklärung', tm2:'Nutzungsbedingungen',
-        dh:'2. Welche Daten wir erfassen',
-        d1:'Von dir verfasste Texte', d2:'Likes pro Eintrag', d3:'Zugriffsdaten durch Vercel',
-        ah:'Anonymität', an:'Beiträge werden ohne Nutzernamen gespeichert.',
-        th:'Drittanbieter', rh:'Deine Rechte', ri:'Anfragen per Post an die Adresse im Impressum.',
-        co:'Keine Tracking-Cookies.',
-        sh:'Geltungsbereich', sc:'Diese Bedingungen gelten für Life is… und alle damit verbundenen Dienste.',
-        uh:'Nutzung', us:'Die Plattform ist kostenfrei. Nutzung setzt Mindestalter 16 Jahre voraus.',
-        ch:'Inhalte & Nutzungsrechte', cn:'Du bist für deine Inhalte verantwortlich.',
-        fh:'Verbotene Inhalte',
-        f1:'Hassrede, Diskriminierung oder Beleidigungen', f2:'Inhalte die Minderjährige gefährden',
-        f3:'Spam, Werbung oder kommerzielle Inhalte', f4:'Inhalte gegen geltendes Recht',
-        lh:'Haftung', li:'Der Betreiber haftet nicht für Nutzerinhalte.',
-        g0:'Life is… ist ein Ort der Reflexion und Poesie.',
-        g1h:'Sei ehrlich', g1:'Teile echte Gedanken.',
-        g2h:'Sei respektvoll', g2:'Beiträge die Menschen herabsetzen werden entfernt.',
-        g3h:'Halte es poetisch', g3:'Kein Spam, keine Werbung.',
-        g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
-        g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
-        gr:'Verstöße per Post an die Adresse im Impressum.',
-        wd:'Zurückziehen',
-        qotdLabel:'Quote of the day',
-        qotdShare:'Teilen', qotdImg:'Als Bild',
+        mt:'Als Bild teilen', ml:'Hell', md:'Dunkel', mdl:'Als Bild speichern', cp:'Kopiert',
+        wd:'Zurueckziehen',
+        qotdLabel:'Quote of the day', qotdShare:'Teilen', qotdImg:'Als Bild',
         qotdCta1:'Dein Gedanke fehlt noch heute',
-        qotdCta2:'Poste jetzt – vielleicht bist du morgen Quote of the Day',
+        qotdCta2:'Poste jetzt - vielleicht bist du morgen Quote of the Day',
         qotdPost:'Posten',
-        fall:'Alle', ftop:'Top 10', frandom:'Zufällig',
+        fall:'Alle', ftop:'Top 10', frandom:'Zufaellig',
         fenc:'Ermutigend', fself:'Selbstliebe', fjoy:'Freude',
         flove:'Liebe', floss:'Verlust', fhumor:'Humor',
         fmot:'Motivation', fref:'Nachdenklich',
-        ba:'Zurück',
+        ph2:'Datenschutzerklaerung', tm2:'Nutzungsbedingungen',
+        dh:'2. Welche Daten wir erfassen',
+        d1:'Von dir verfasste Texte', d2:'Likes pro Eintrag', d3:'Zugriffsdaten durch Vercel',
+        ah:'Anonymitaet', an:'Beitraege werden ohne Nutzernamen gespeichert.',
+        th:'Drittanbieter', rh:'Deine Rechte', ri:'Anfragen per Post.',
+        co:'Keine Tracking-Cookies.',
+        sh:'Geltungsbereich', sc:'Diese Bedingungen gelten fuer Life is...',
+        uh:'Nutzung', us:'Die Plattform ist kostenfrei.',
+        ch:'Inhalte', cn:'Du bist fuer deine Inhalte verantwortlich.',
+        fh:'Verbotene Inhalte',
+        f1:'Hassrede oder Beleidigungen', f2:'Inhalte die Minderjaehrige gefaehrden',
+        f3:'Spam oder Werbung', f4:'Inhalte gegen geltendes Recht',
+        lh:'Haftung', li:'Der Betreiber haftet nicht fuer Nutzerinhalte.',
+        ba:'Zurueck',
+        g0:'Life is... ist ein Ort der Reflexion und Poesie.',
+        g1h:'Sei ehrlich', g1:'Teile echte Gedanken.',
+        g2h:'Sei respektvoll', g2:'Beitraege die Menschen herabsetzen werden entfernt.',
+        g3h:'Halte es poetisch', g3:'Kein Spam, keine Werbung.',
+        g4h:'Teile nichts Persoenliches', g4:'Keine Namen oder Adressen.',
+        g5h:'Kein Schaden', g5:'Schaedliche Inhalte werden sofort entfernt.',
+        gr:'Verstoesse per Post an die Adresse im Impressum.',
         about1:'Ein Satz den niemand alleine beenden kann.',
-        about2:'Life is… wurde mit einer einfachen Überzeugung gebaut: dass die ehrlichsten Dinge die wir über das Leben sagen oft unfertig sind. Ein offener Gedanke. Ein Satz der jemand anderen einlädt.',
-        about3:'Das ist kein soziales Netzwerk. Keine Profile, keine Follower, keine Algorithmen. Nur Menschen – von überall – die gemeinsam einen Satz vervollständigen. Anonym. Ehrlich.',
-        about4:'Jeder Beitrag ist eine kleine Wahrheit. Und zusammen werden sie zu etwas Größerem als jeder von uns alleine sagen könnte.',
-        about5:'Life is… was du daraus machst.'
+        about2:'Life is... wurde mit einer einfachen Ueberzeugung gebaut.',
+        about3:'Kein soziales Netzwerk. Keine Profile. Nur Menschen die gemeinsam einen Satz vervollstaendigen.',
+        about4:'Jeder Beitrag ist eine kleine Wahrheit.',
+        about5:'Life is... was du daraus machst.'
       },
       en: {
         ey:'A collective reflection', ph:'what you make of it',
@@ -453,46 +416,45 @@
         em:'Be the first to complete the thought.',
         ef:'No entries in this category yet.',
         er:'10 random thoughts',
-        pr:'Privacy', tm:'Terms of Use', su:'☕ Support the project', bk:'Back',
+        pr:'Privacy', tm:'Terms of Use', su:'Support the project', bk:'Back',
         vc:function(n){return n+' '+(n===1?'voice':'voices');},
         ag:function(d){return d<60?'just now':d<3600?Math.floor(d/60)+'m ago':d<86400?Math.floor(d/3600)+'h ago':Math.floor(d/86400)+'d ago';},
-        mt:'Share as image', ml:'Light', md:'Dark', mdl:navigator.share?'↑ Share image':'⬇ Save as image', cp:'Copied',
+        mt:'Share as image', ml:'Light', md:'Dark', mdl:'Save as image', cp:'Copied',
+        wd:'Withdraw',
+        qotdLabel:'Quote of the day', qotdShare:'Share', qotdImg:'As image',
+        qotdCta1:'Your thought is missing today',
+        qotdCta2:'Post now - you might be Quote of the Day tomorrow',
+        qotdPost:'Post',
+        fall:'All', ftop:'Top 10', frandom:'Random',
+        fenc:'Encouraging', fself:'Self-love', fjoy:'Joy',
+        flove:'Love', floss:'Loss', fhumor:'Humor',
+        fmot:'Motivation', fref:'Reflective',
         ph2:'Privacy Policy', tm2:'Terms of Use',
         dh:'2. Data we collect',
         d1:'Text you submit', d2:'Likes per entry', d3:'Access data via Vercel',
-        ah:'Anonymity', an:'Entries are stored without usernames.',
-        th:'Third parties', rh:'Your rights', ri:'Contact via post to the address in the imprint.',
+        ah:'Anonymity', an:'Entries stored without usernames.',
+        th:'Third parties', rh:'Your rights', ri:'Contact via post.',
         co:'No tracking cookies.',
-        sh:'Scope', sc:'These terms apply to Life is… and all related services and publications.',
-        uh:'Usage', us:'The platform is free. Usage requires a minimum age of 16.',
-        ch:'Content & Usage Rights', cn:'You are responsible for content you submit.',
+        sh:'Scope', sc:'These terms apply to Life is...',
+        uh:'Usage', us:'The platform is free.',
+        ch:'Content', cn:'You are responsible for content you submit.',
         fh:'Prohibited content',
-        f1:'Hate speech, discrimination or harassment', f2:'Content endangering minors',
-        f3:'Spam, advertising or commercial content', f4:'Content violating applicable law',
+        f1:'Hate speech or harassment', f2:'Content endangering minors',
+        f3:'Spam or advertising', f4:'Content violating applicable law',
         lh:'Liability', li:'The operator is not liable for user content.',
-        g0:'Life is… is a space for reflection and poetry.',
+        ba:'Back',
+        g0:'Life is... is a space for reflection and poetry.',
         g1h:'Be honest', g1:'Share real thoughts.',
         g2h:'Be respectful', g2:'Entries that demean people will be removed.',
         g3h:'Keep it poetic', g3:'No spam, no ads.',
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
         gr:'Report violations via post to the address in the imprint.',
-        wd:'Withdraw',
-        qotdLabel:'Quote of the day',
-        qotdShare:'Share', qotdImg:'As image',
-        qotdCta1:'Your thought is missing today',
-        qotdCta2:'Post now – you might be Quote of the Day tomorrow',
-        qotdPost:'Post',
-        fall:'All', ftop:'Top 10', frandom:'Random',
-        fenc:'Encouraging', fself:'Self-love', fjoy:'Joy',
-        flove:'Love', floss:'Loss', fhumor:'Humor',
-        fmot:'Motivation', fref:'Reflective',
-        ba:'Back',
         about1:'A sentence no one can finish alone.',
-        about2:'Life is… was built on a simple belief: that the most honest things we say about life are often unfinished. A thought left open. A sentence that invites someone else in.',
-        about3:'This is not a social network. There are no profiles, no followers, no algorithms. Just people — from anywhere — completing a sentence together. Anonymously. Honestly.',
-        about4:'Every entry is a small truth. And together, they become something larger than any one of us could say alone.',
-        about5:'Life is… what you make of it.'
+        about2:'Life is... was built on a simple belief: the most honest things we say about life are often unfinished.',
+        about3:'Not a social network. No profiles. Just people completing a sentence together. Anonymously. Honestly.',
+        about4:'Every entry is a small truth.',
+        about5:'Life is... what you make of it.'
       }
     };
 
@@ -503,8 +465,8 @@
       s('t-eyebrow',l.ey);
       document.getElementById('inp').placeholder=l.ph;
       document.getElementById('subBtn').textContent=l.sb;
-      s('t-priv',l.pr);s('t-terms',l.tm);s('t-sup',l.su);
-      ['t-b1','t-b2','t-b3','t-b4'].forEach(function(id){s(id,l.bk);});
+      s('t-priv',l.pr);s('t-terms',l.tm);s('t-sup','&#9749; '+l.su);
+      s('t-b1',l.bk);s('t-b2',l.bk);s('t-b3',l.bk);s('t-b4',l.bk);s('t-ba',l.bk);
       s('t-mt',l.mt);s('t-ml',l.ml);s('t-md',l.md);s('t-mdl',l.mdl);
       s('t-priv-h',l.ph2);s('t-terms-h',l.tm2);
       s('t-dh',l.dh);s('t-d1',l.d1);s('t-d2',l.d2);s('t-d3',l.d3);
@@ -513,34 +475,31 @@
       s('t-ch',l.ch);s('t-cn',l.cn);s('t-fh',l.fh);
       s('t-f1',l.f1);s('t-f2',l.f2);s('t-f3',l.f3);s('t-f4',l.f4);
       s('t-lh',l.lh);s('t-li',l.li);
-      s('t-g0',l.g0);
-      s('t-g1h',l.g1h);s('t-g1',l.g1);s('t-g2h',l.g2h);s('t-g2',l.g2);
+      s('t-g0',l.g0);s('t-g1h',l.g1h);s('t-g1',l.g1);s('t-g2h',l.g2h);s('t-g2',l.g2);
       s('t-g3h',l.g3h);s('t-g3',l.g3);s('t-g4h',l.g4h);s('t-g4',l.g4);
       s('t-g5h',l.g5h);s('t-g5',l.g5);s('t-gr',l.gr);
+      s('t-qotd-label',l.qotdLabel);s('t-qotd-share',l.qotdShare);s('t-qotd-img',l.qotdImg);
+      s('t-qotd-cta1',l.qotdCta1);s('t-qotd-cta2',l.qotdCta2);s('t-qotd-post',l.qotdPost);
+      s('t-about-link','About');s('t-about1',l.about1);s('t-about2',l.about2);
+      s('t-about3',l.about3);s('t-about4',l.about4);s('t-about5',l.about5);
       document.documentElement.lang=lang;
-      s('t-ba',l.ba);
-      s('t-qotd-label',l.qotdLabel);
-      s('t-qotd-share',l.qotdShare);
-      s('t-qotd-img',l.qotdImg);
-      s('t-qotd-cta1',l.qotdCta1);
-      s('t-qotd-cta2',l.qotdCta2);
-      s('t-qotd-post',l.qotdPost);
-      var fl=[['all',l.fall],['top10',l.ftop],['random',l.frandom],
-              ['encouraging',l.fenc],['self-love',l.fself],['joy',l.fjoy],
-              ['love',l.flove],['loss',l.floss],['humor',l.fhumor],
-              ['motivation',l.fmot],['reflective',l.fref]];
+      // Update filter labels
+      var fl=[
+        ['all',l.fall],['top10',l.ftop],['random',l.frandom],
+        ['encouraging',l.fenc],['self-love',l.fself],['joy',l.fjoy],
+        ['love',l.flove],['loss',l.floss],['humor',l.fhumor],
+        ['motivation',l.fmot],['reflective',l.fref]
+      ];
       document.querySelectorAll('.filter-btn').forEach(function(btn){
-        var cat=btn.getAttribute('onclick').match(/setFilter\('([^']+)'/);
-        if(cat){
-          var match=fl.find(function(f){return f[0]===cat[1];});
-          if(match){
-            var svg=btn.querySelector('svg');
-            btn.textContent=match[1];
-            if(svg)btn.insertBefore(svg,btn.firstChild);
-          }
-        }
+        var span=btn.querySelector('span');
+        var svg=btn.querySelector('svg');
+        if(!span)return;
+        var onclick=btn.getAttribute('onclick')||'';
+        var m=onclick.match(/setFilter\('([^']+)'/);
+        if(!m)return;
+        var found=fl.find(function(f){return f[0]===m[1];});
+        if(found)span.textContent=found[1];
       });
-      s('t-about1',l.about1);s('t-about2',l.about2);s('t-about3',l.about3);s('t-about4',l.about4);s('t-about5',l.about5);
       renderEntries();
     }
 
@@ -563,7 +522,12 @@
       var d=document.documentElement.getAttribute('data-theme')==='dark';
       document.documentElement.setAttribute('data-theme',d?'light':'dark');
       document.getElementById('darkTog').classList.toggle('on',!d);
-      document.getElementById('togKnob').innerHTML=d?'<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#2d5a40" stroke-width="2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="17.66" y2="6.34"/><line x1="6.34" y1="17.66" x2="4.22" y2="19.78"/></svg>':'<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#3d6b50" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      var knob=document.getElementById('togKnob');
+      if(d){
+        knob.innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#2d5a40" stroke-width="2"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="19.78" y1="4.22" x2="17.66" y2="6.34"/><line x1="6.34" y1="17.66" x2="4.22" y2="19.78"/></svg>';
+      } else {
+        knob.innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#3d6b50" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
       localStorage.setItem('lt',d?'light':'dark');
     }
     var st=localStorage.getItem('lt');
@@ -608,24 +572,17 @@
       html2canvas(document.getElementById('shareCard'),{scale:2,useCORS:true}).then(function(canvas){
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
-          if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
-            navigator.share({
-              title:'Life is…',
-              text:'Life is… '+document.getElementById('scText').textContent,
-              files:[file]
-            }).catch(function(err){
-              // Only download if it was NOT a user cancellation
-              if(err && err.name !== 'AbortError'){
-                var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
-              }
-            }).finally(function(){
-              btn.textContent=TX[lang].mdl;
-              btn.disabled=false;
-            });
+          if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+            navigator.share({title:'Life is...',text:'Life is... '+document.getElementById('scText').textContent,files:[file]})
+              .catch(function(err){
+                if(err&&err.name!=='AbortError'){
+                  var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
+                }
+              })
+              .finally(function(){btn.textContent=TX[lang].mdl;btn.disabled=false;});
           } else {
             var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
-            btn.textContent=TX[lang].mdl;
-            btn.disabled=false;
+            btn.textContent=TX[lang].mdl;btn.disabled=false;
           }
         },'image/png');
       });
@@ -640,37 +597,79 @@
       var em=document.getElementById('emptyMsg');
       var vc=document.getElementById('vcnt');
       el.innerHTML='';
-      var list=filter==='all'?allEntries:filter==='top10'?allEntries.slice().sort(function(a,b){return b.likes-a.likes;}).slice(0,10):filter==='random'?allEntries.slice().sort(function(){return Math.random()-.5;}).slice(0,10):allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
+      var list;
+      if(filter==='all') list=allEntries;
+      else if(filter==='top10') list=allEntries.slice().sort(function(a,b){return b.likes-a.likes;}).slice(0,10);
+      else if(filter==='random') list=allEntries.slice().sort(function(){return Math.random()-.5;}).slice(0,10);
+      else list=allEntries.filter(function(e){var cats=e.categories||[e.category]||[];return cats.indexOf(filter)!==-1;});
+
       em.style.display=list.length?'none':'block';
       em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
       vc.style.display=list.length?'block':'none';
       vc.textContent=filter==='random'?TX[lang].er:TX[lang].vc(list.length);
+
       list.forEach(function(entry,i){
         var lk=likedSet.has(entry.id);
         var ownPosts=JSON.parse(localStorage.getItem('own-posts')||'[]');
         var FIVE=5*60*1000;
         var isOwn=!!ownPosts.find(function(p){return p.id===entry.id&&(Date.now()-p.ts)<FIVE;});
+        var cats=entry.categories||[entry.category]||[];
+        var catTags=cats.filter(Boolean).map(function(cat){return '<span class="cat-tag">'+cat+'</span>';}).join(' ');
         var c=document.createElement('div');
         c.className='entry-card'+(entry.id===animId?' new':'');
-        c.innerHTML='<p class="entry-text"><span class="entry-prefix">Life is… </span>'+esc(entry.text)+'</p>'
-          +'<div class="entry-meta">'
-          +'<div class="entry-meta-left">'
-          +'<span class="timestamp">'+ago(entry.created_at)+'</span>'
-          +(function(){var cats=entry.categories||[entry.category]||[];return cats.filter(Boolean).map(function(cat){return '<span class="cat-tag">'+cat+'</span>';}).join(' ');})() 
-          +'</div>'
-          +'<div class="actions">'
-          +'<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(lk?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-          +(entry.likes&&entry.likes>0?'<span>'+entry.likes+'</span>':'')+'</button>'
-          +'<button class="img-btn" data-text="'+esc(entry.text)+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>'
-          +(isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'" data-action="withdraw">&#x2715; '+TX[lang].wd+'</button>':'')
-          +'<button class="share-btn" data-id="'+entry.id+'">'
-          +'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>'
-          +'</div></div>';
+        c.innerHTML=
+          '<p class="entry-text"><span class="entry-prefix">Life is... </span>'+esc(entry.text)+'</p>'+
+          '<div class="entry-meta">'+
+          '<div class="entry-meta-left"><span class="timestamp">'+ago(entry.created_at)+'</span>'+catTags+'</div>'+
+          '<div class="actions">'+
+          (isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'">&#215; '+TX[lang].wd+'</button>':'')+
+          '<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'+
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(lk?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+
+          (entry.likes&&entry.likes>0?'<span>'+entry.likes+'</span>':'')+
+          '</button>'+
+          '<button class="img-btn" data-text="'+esc(entry.text)+'">'+
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+          '</button>'+
+          '<button class="share-btn" data-id="'+entry.id+'">'+
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'+
+          '</button>'+
+          '</div></div>';
         el.appendChild(c);
         if(i<list.length-1){var hr=document.createElement('hr');hr.className='divider';el.appendChild(hr);}
       });
+    }
+
+    function loadQotd(){
+      var today=new Date().toISOString().slice(0,10);
+      db.from('entries').select('*').eq('is_qotd',true).eq('qotd_date',today).limit(1).then(function(r){
+        var entry=r.data&&r.data[0];
+        if(!entry){
+          var since=new Date(Date.now()-86400000).toISOString();
+          db.from('entries').select('*').gte('created_at',since).order('likes',{ascending:false}).limit(1).then(function(r2){
+            var e=r2.data&&r2.data[0];
+            if(e){
+              db.from('entries').update({is_qotd:true,qotd_date:today}).eq('id',e.id).then(function(){showQotd(e);});
+            }
+          });
+        } else {
+          showQotd(entry);
+        }
+      });
+    }
+
+    function showQotd(entry){
+      document.getElementById('qotdText').textContent=entry.text;
+      document.getElementById('qotdLikes').textContent=entry.likes+' likes';
+      var d=new Date();
+      document.getElementById('qotdDate').textContent=d.toLocaleDateString(lang==='de'?'de-DE':'en-GB',{day:'numeric',month:'long'});
+      document.getElementById('qotdCard').style.display='block';
+      document.getElementById('qotdCta').classList.add('show');
+      document.getElementById('qotdShareBtn').onclick=function(){
+        var txt='Life is... '+entry.text;
+        if(navigator.share){navigator.share({title:'Life is...',text:txt,url:'https://life-is.app'});}
+        else{navigator.clipboard.writeText(txt+'\nhttps://life-is.app');}
+      };
+      document.getElementById('qotdImgBtn').onclick=function(){openSharepic(entry.text);};
     }
 
     function loadEntries(){
@@ -708,55 +707,52 @@
       var text=inp.value.trim();
       if(!text)return;
       subBtn.disabled=true;
-      subBtn.textContent='…';
-      fetch('/api/moderate',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({text:text})
-      })
-      .then(function(r){return r.json();})
-      .catch(function(){return {approved:true,category:'reflective'};})
-      .then(function(res){
-        if(res.approved===false){
-          subBtn.disabled=false;
-          subBtn.textContent=TX[lang].sb;
-          conf.textContent=TX[lang].no;
-          conf.style.color='#c0392b';
-          conf.style.display='block';
-          return;
-        }
-        var cats=res.categories||[res.category||'reflective'];
-        db.from('entries').insert({text:text,likes:0,category:cats[0]||'reflective',categories:cats,approved:true}).select().then(function(r){
-          if(r.data&&r.data[0]){
-            var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
-            own.push({id:r.data[0].id,ts:Date.now()});
-            localStorage.setItem('own-posts',JSON.stringify(own));
-            if(!allEntries.find(function(e){return e.id===r.data[0].id;})){
-              allEntries=[r.data[0]].concat(allEntries);
-              renderEntries(r.data[0].id);
-            }
+      subBtn.textContent='...';
+      fetch('/api/moderate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
+        .then(function(r){return r.json();})
+        .catch(function(){return {approved:true,categories:['reflective']};})
+        .then(function(res){
+          if(res.approved===false){
+            subBtn.disabled=false;
+            subBtn.textContent=TX[lang].sb;
+            conf.textContent=TX[lang].no;
+            conf.style.color='#c0392b';
+            conf.style.display='block';
+            return;
           }
-          inp.value='';
-          ctr.textContent=MAX;
-          ctr.classList.remove('warn');
-          subBtn.textContent=TX[lang].sb;
-          conf.textContent=TX[lang].ok;
-          conf.style.color='var(--muted)';
-          conf.style.display='block';
-          document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'});
+          var cats=res.categories||[res.category||'reflective'];
+          db.from('entries').insert({text:text,likes:0,category:cats[0]||'reflective',categories:cats,approved:true}).select().then(function(r){
+            if(r.data&&r.data[0]){
+              var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
+              own.push({id:r.data[0].id,ts:Date.now()});
+              localStorage.setItem('own-posts',JSON.stringify(own));
+              if(!allEntries.find(function(e){return e.id===r.data[0].id;})){
+                allEntries=[r.data[0]].concat(allEntries);
+                renderEntries(r.data[0].id);
+              }
+            }
+            inp.value='';
+            ctr.textContent=MAX;
+            ctr.classList.remove('warn');
+            subBtn.textContent=TX[lang].sb;
+            conf.textContent=TX[lang].ok;
+            conf.style.color='var(--muted)';
+            conf.style.display='block';
+            document.getElementById('feed').scrollIntoView({behavior:'smooth',block:'start'});
+          });
         });
-        });
-      });
     });
 
     document.getElementById('entries').addEventListener('click',function(e){
+      var wb=e.target.closest('.withdraw-btn');
       var lb=e.target.closest('.like-btn');
       var sb=e.target.closest('.share-btn');
       var ib=e.target.closest('.img-btn');
-      var wb=e.target.closest('.withdraw-btn');
+
       if(wb){
         var id=wb.dataset.id;
-        if(confirm(lang==='de'?'Beitrag wirklich zurückziehen?':'Withdraw this entry?')){
+        var msg=lang==='de'?'Beitrag wirklich zurueckziehen?':'Withdraw this entry?';
+        if(confirm(msg)){
           db.from('entries').delete().eq('id',id).then(function(){
             allEntries=allEntries.filter(function(x){return x.id!==id;});
             var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
@@ -766,27 +762,30 @@
         }
         return;
       }
+
       if(lb){
-        var id=lb.dataset.id;
-        var entry=allEntries.find(function(x){return x.id===id;});
+        var id2=lb.dataset.id;
+        var entry=allEntries.find(function(x){return x.id===id2;});
         if(!entry)return;
-        var lk=likedSet.has(id);
+        var lk=likedSet.has(id2);
         var n=lk?Math.max(0,entry.likes-1):entry.likes+1;
-        if(lk){likedSet.delete(id);}else{likedSet.add(id);}
+        if(lk){likedSet.delete(id2);}else{likedSet.add(id2);}
         saveLiked();
-        allEntries=allEntries.map(function(x){return x.id===id?Object.assign({},x,{likes:n}):x;});
+        allEntries=allEntries.map(function(x){return x.id===id2?Object.assign({},x,{likes:n}):x;});
         renderEntries();
-        db.from('entries').update({likes:n}).eq('id',id);
+        db.from('entries').update({likes:n}).eq('id',id2);
       }
+
       if(ib){openSharepic(ib.dataset.text);}
+
       if(sb){
-        var id2=sb.dataset.id;
-        var e2=allEntries.find(function(x){return x.id===id2;});
-        if(!e2)return;
-        var txt='Life is… '+e2.text;
+        var id3=sb.dataset.id;
+        var e3=allEntries.find(function(x){return x.id===id3;});
+        if(!e3)return;
+        var txt='Life is... '+e3.text;
         if(navigator.share){
-          navigator.share({title:'Life is…',text:txt,url:window.location.href});
-        }else{
+          navigator.share({title:'Life is...',text:txt,url:window.location.href});
+        } else {
           navigator.clipboard.writeText(txt+'\n'+window.location.href);
           sb.innerHTML='<span style="font-size:12px">'+TX[lang].cp+'</span>';
           setTimeout(function(){
@@ -795,47 +794,6 @@
         }
       }
     });
-
-    function loadQotd(){
-      var today=new Date().toISOString().slice(0,10);
-      db.from('entries').select('*').eq('is_qotd',true).eq('qotd_date',today).limit(1).then(function(r){
-        var entry=r.data&&r.data[0];
-        if(!entry){
-          // Auto-pick: most liked in last 24h
-          var since=new Date(Date.now()-86400000).toISOString();
-          db.from('entries').select('*').gte('created_at',since).order('likes',{ascending:false}).limit(1).then(function(r2){
-            var e=r2.data&&r2.data[0];
-            if(e){
-              db.from('entries').update({is_qotd:true,qotd_date:today}).eq('id',e.id).then(function(){
-                showQotd(e);
-              });
-            }
-          });
-        } else {
-          showQotd(entry);
-        }
-      });
-    }
-
-    function showQotd(entry){
-      var card=document.getElementById('qotdCard');
-      var cta=document.getElementById('qotdCta');
-      document.getElementById('qotdText').textContent=entry.text;
-      document.getElementById('qotdLikes').textContent=entry.likes+' likes';
-      var d=new Date();
-      document.getElementById('qotdDate').textContent=d.toLocaleDateString(lang==='de'?'de-DE':'en-GB',{day:'numeric',month:'long'});
-      card.style.display='block';
-      cta.style.display='flex';
-
-      document.getElementById('qotdShare').onclick=function(){
-        var txt='Life is… '+entry.text;
-        if(navigator.share){navigator.share({title:'Life is…',text:txt,url:'https://life-is.app'});}
-        else{navigator.clipboard.writeText(txt+'\nhttps://life-is.app');}
-      };
-      document.getElementById('qotdImg').onclick=function(){
-        openSharepic(entry.text);
-      };
-    }
 
     loadQotd();
     loadEntries();
