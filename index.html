@@ -75,6 +75,23 @@
 
     .feed{max-width:640px;margin:0 auto;padding:0 24px clamp(60px,10vw,120px)}
     .voice-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;text-align:center;display:none}
+    .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:32px;display:none}
+    .qotd-header{background:var(--accent);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+    .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+    .qotd-date{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.5)}
+    .qotd-body{padding:20px 20px 16px;background:var(--bg)}
+    .qotd-text{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;line-height:1.6;color:var(--text);margin:0 0 16px}
+    .qotd-prefix{color:var(--accent)}
+    .qotd-footer{display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:12px}
+    .qotd-likes{display:flex;align-items:center;gap:6px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--accent);font-weight:500}
+    .qotd-actions{display:flex;gap:8px}
+    .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
+    .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+    .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;display:none}
+    .qotd-cta-text p{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+    .qotd-cta-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px!important}
+    .qotd-cta-sub{font-size:11px;color:var(--muted)}
+    .qotd-cta-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:7px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
     .empty{font-family:'Playfair Display',serif;text-align:center;color:var(--faint);font-style:italic;font-size:18px;padding:40px 0}
     .entry-card{padding:24px 0}
     .entry-card.new{animation:slideIn .5s cubic-bezier(.16,1,.3,1) forwards}
@@ -203,6 +220,32 @@
     </div>
 
     <section class="feed" id="feed">
+      <div class="qotd-card" id="qotdCard">
+        <div class="qotd-header">
+          <span class="qotd-label" id="t-qotd-label">Quote of the day</span>
+          <span class="qotd-date" id="qotdDate"></span>
+        </div>
+        <div class="qotd-body">
+          <p class="qotd-text"><span class="qotd-prefix">Life is… </span><span id="qotdText"></span></p>
+          <div class="qotd-footer">
+            <div class="qotd-likes">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span id="qotdLikes"></span>
+            </div>
+            <div class="qotd-actions">
+              <button class="qotd-btn" id="qotdShare">↑ <span id="t-qotd-share">Teilen</span></button>
+              <button class="qotd-btn2" id="qotdImg">⊡ <span id="t-qotd-img">Als Bild</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="qotd-cta" id="qotdCta">
+        <div class="qotd-cta-text">
+          <p class="qotd-cta-title" id="t-qotd-cta1">Dein Gedanke fehlt noch heute</p>
+          <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt – vielleicht bist du morgen Quote of the Day</p>
+        </div>
+        <button class="qotd-cta-btn" onclick="document.getElementById('inp').focus();window.scrollTo({top:0,behavior:'smooth'})" id="t-qotd-post">Posten</button>
+      </div>
       <p class="voice-count" id="vcnt"></p>
       <p class="empty" id="emptyMsg"></p>
       <div id="entries"></div>
@@ -384,6 +427,11 @@
         g4h:'Teile nichts Persönliches', g4:'Keine Namen oder Adressen.',
         g5h:'Kein Schaden', g5:'Schädliche Inhalte werden sofort entfernt.',
         gr:'Verstöße per Post an die Adresse im Impressum.',
+        qotdLabel:'Quote of the day',
+        qotdShare:'Teilen', qotdImg:'Als Bild',
+        qotdCta1:'Dein Gedanke fehlt noch heute',
+        qotdCta2:'Poste jetzt – vielleicht bist du morgen Quote of the Day',
+        qotdPost:'Posten',
         fall:'Alle', ftop:'Top 10', frandom:'Zufällig',
         fenc:'Ermutigend', fself:'Selbstliebe', fjoy:'Freude',
         flove:'Liebe', floss:'Verlust', fhumor:'Humor',
@@ -426,6 +474,11 @@
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
         gr:'Report violations via post to the address in the imprint.',
+        qotdLabel:'Quote of the day',
+        qotdShare:'Share', qotdImg:'As image',
+        qotdCta1:'Your thought is missing today',
+        qotdCta2:'Post now – you might be Quote of the Day tomorrow',
+        qotdPost:'Post',
         fall:'All', ftop:'Top 10', frandom:'Random',
         fenc:'Encouraging', fself:'Self-love', fjoy:'Joy',
         flove:'Love', floss:'Loss', fhumor:'Humor',
@@ -462,6 +515,12 @@
       s('t-g5h',l.g5h);s('t-g5',l.g5);s('t-gr',l.gr);
       document.documentElement.lang=lang;
       s('t-ba',l.ba);
+      s('t-qotd-label',l.qotdLabel);
+      s('t-qotd-share',l.qotdShare);
+      s('t-qotd-img',l.qotdImg);
+      s('t-qotd-cta1',l.qotdCta1);
+      s('t-qotd-cta2',l.qotdCta2);
+      s('t-qotd-post',l.qotdPost);
       var fl=[['all',l.fall],['top10',l.ftop],['random',l.frandom],
               ['encouraging',l.fenc],['self-love',l.fself],['joy',l.fjoy],
               ['love',l.flove],['loss',l.floss],['humor',l.fhumor],
@@ -706,6 +765,49 @@
       }
     });
 
+    function loadQotd(){
+      var today=new Date().toISOString().slice(0,10);
+      db.from('entries').select('*').eq('is_qotd',true).eq('qotd_date',today).limit(1).then(function(r){
+        var entry=r.data&&r.data[0];
+        if(!entry){
+          // Auto-pick: most liked in last 24h
+          var since=new Date(Date.now()-86400000).toISOString();
+          db.from('entries').select('*').gte('created_at',since).order('likes',{ascending:false}).limit(1).then(function(r2){
+            var e=r2.data&&r2.data[0];
+            if(e){
+              db.from('entries').update({is_qotd:true,qotd_date:today}).eq('id',e.id).then(function(){
+                showQotd(e);
+              });
+            }
+          });
+        } else {
+          showQotd(entry);
+        }
+      });
+    }
+
+    function showQotd(entry){
+      var card=document.getElementById('qotdCard');
+      var cta=document.getElementById('qotdCta');
+      document.getElementById('qotdText').textContent=entry.text;
+      document.getElementById('qotdLikes').textContent=entry.likes+' likes';
+      var d=new Date();
+      document.getElementById('qotdDate').textContent=d.toLocaleDateString(lang==='de'?'de-DE':'en-GB',{day:'numeric',month:'long'});
+      card.style.display='block';
+      cta.style.display='flex';
+
+      document.getElementById('qotdShare').onclick=function(){
+        var txt='Life is… '+entry.text;
+        if(navigator.share){navigator.share({title:'Life is…',text:txt,url:'https://life-is.app'});}
+        else{navigator.clipboard.writeText(txt+'
+https://life-is.app');}
+      };
+      document.getElementById('qotdImg').onclick=function(){
+        openSharepic(entry.text);
+      };
+    }
+
+    loadQotd();
     loadEntries();
   </script>
 </body>
