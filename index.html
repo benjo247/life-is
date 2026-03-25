@@ -102,6 +102,9 @@
     .share-btn:hover,.img-btn:hover{color:var(--text)}
     .withdraw-btn{background:none;border:1px solid #c0392b;border-radius:20px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#c0392b;padding:3px 10px;transition:all .2s}
     .withdraw-btn:hover{background:#c0392b;color:#fff}
+    .report-btn{background:none;border:none;cursor:pointer;color:var(--faint);padding:4px 0;transition:color .2s;display:flex;align-items:center}
+    .report-btn:hover{color:#c0392b}
+    .report-btn.reported{color:#c0392b;cursor:default}
     .divider{border:none;border-top:1px solid var(--border)}
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
     footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
@@ -358,6 +361,7 @@
     var db = supabase.createClient(SU, SK);
     var allEntries = [];
     var likedSet = new Set(JSON.parse(localStorage.getItem('ll') || '[]'));
+    var reportedSet = new Set(JSON.parse(localStorage.getItem('rr') || '[]'));
     var lang = 'de';
     var filter = 'all';
 
@@ -403,6 +407,9 @@
         g4h:'Teile nichts Persoenliches', g4:'Keine Namen oder Adressen.',
         g5h:'Kein Schaden', g5:'Schaedliche Inhalte werden sofort entfernt.',
         gr:'Verstoesse per Post an die Adresse im Impressum.',
+        rp:'Melden',
+        rpdone:'Gemeldet',
+        dup:'Dieser Beitrag wurde bereits gepostet.',
         about1:'Ein Satz den niemand alleine beenden kann.',
         about2:'Life is... wurde mit einer einfachen Ueberzeugung gebaut.',
         about3:'Kein soziales Netzwerk. Keine Profile. Nur Menschen die gemeinsam einen Satz vervollstaendigen.',
@@ -450,6 +457,9 @@
         g4h:"Don't share personal info", g4:'No names or addresses.',
         g5h:'Do no harm', g5:'Harmful content will be removed immediately.',
         gr:'Report violations via post to the address in the imprint.',
+        rp:'Report',
+        rpdone:'Reported',
+        dup:'This entry has already been posted.',
         about1:'A sentence no one can finish alone.',
         about2:'Life is... was built on a simple belief: the most honest things we say about life are often unfinished.',
         about3:'Not a social network. No profiles. Just people completing a sentence together. Anonymously. Honestly.',
@@ -630,7 +640,10 @@
           '<button class="img-btn" data-text="'+esc(entry.text)+'">'+
           '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
           '</button>'+
-          '<button class="share-btn" data-id="'+entry.id+'">'+
+          '<button class="report-btn'+(reportedSet.has(entry.id)?' reported':'')+'" data-id="'+entry.id+'" title="'+TX[lang].rp+'">'+
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>'+
+          '</button>'+
+          '<button class="share-btn" data-id="'+entry.id+'">'+ 
           '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'+
           '</button>'+
           '</div></div>';
@@ -708,6 +721,16 @@
       if(!text)return;
       subBtn.disabled=true;
       subBtn.textContent='...';
+      // Duplicate check
+      var dupExists=allEntries.some(function(e){return e.text.trim().toLowerCase()===text.trim().toLowerCase();});
+      if(dupExists){
+        subBtn.disabled=false;
+        subBtn.textContent=TX[lang].sb;
+        conf.textContent=TX[lang].dup;
+        conf.style.color='#c0392b';
+        conf.style.display='block';
+        return;
+      }
       fetch('/api/moderate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
         .then(function(r){return r.json();})
         .catch(function(){return {approved:true,categories:['reflective']};})
@@ -749,6 +772,17 @@
       var sb=e.target.closest('.share-btn');
       var ib=e.target.closest('.img-btn');
 
+      var rb=e.target.closest('.report-btn');
+      if(rb&&!rb.classList.contains('reported')){
+        var id=rb.dataset.id;
+        db.from('entries').update({reported:true}).eq('id',id).then(function(){
+          reportedSet.add(id);
+          localStorage.setItem('rr',JSON.stringify(Array.from(reportedSet)));
+          rb.classList.add('reported');
+          rb.title=TX[lang].rpdone;
+        });
+        return;
+      }
       if(wb){
         var id=wb.dataset.id;
         var msg=lang==='de'?'Beitrag wirklich zurueckziehen?':'Withdraw this entry?';
