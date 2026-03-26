@@ -33,7 +33,7 @@
       --tg:#2a2825;--ton:#3d6b50;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    #splash{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:#2d5a40;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease}
+    #splash{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:linear-gradient(160deg,#2d5a40 0%,#3AA7E6 100%);display:flex;align-items:center;justify-content:center;transition:opacity .4s ease}
     #splash-path{stroke-dasharray:2200;stroke-dashoffset:2200;animation:drawL 1.4s cubic-bezier(0.4,0,0.2,1) 0.2s forwards}
     @keyframes drawL{to{stroke-dashoffset:0}}
     html{scroll-behavior:smooth}
@@ -67,7 +67,7 @@
     .counter{font-size:13px;color:var(--muted);transition:color .2s}
     .counter.warn{color:#c0392b}
     .submit-btn{background:var(--bb);color:var(--bt);border:none;cursor:pointer;font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:10px 28px;transition:background .3s,opacity .2s,transform .1s}
-    .submit-btn:not(:disabled){background:linear-gradient(90deg,#2d5a40,#3AA7E6);color:#fff}
+    .submit-btn:not(:disabled){background:var(--accent);color:#fff}
     .submit-btn:hover{opacity:.8}
     .submit-btn:active{transform:scale(.98)}
     .submit-btn:disabled{opacity:.3;cursor:default}
@@ -76,7 +76,7 @@
     .filter-btn{background:none;border:1px solid var(--border);cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;padding:5px 14px;color:var(--muted);border-radius:20px;transition:all .2s;letter-spacing:.03em;display:flex;align-items:center;gap:5px}
     .filter-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
     .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
-    .filter-btn.active{background:linear-gradient(90deg,#2d5a40,#3AA7E6);color:#fff;border-color:transparent}
+    .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
     .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;display:none;background:var(--bg)}
     .qotd-header{background:linear-gradient(90deg,#2d5a40 0%,#3AA7E6 100%);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
     .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)}
@@ -87,7 +87,7 @@
     .qotd-footer{display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:12px}
     .qotd-likes{display:flex;align-items:center;gap:6px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--accent);font-weight:500}
     .qotd-actions{display:flex;gap:8px}
-    .qotd-btn{background:linear-gradient(90deg,#2d5a40,#3AA7E6);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
+    .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
     .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
     .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
     .qotd-cta.show{display:flex}
@@ -105,7 +105,7 @@
     .entry-meta{display:flex;align-items:center;justify-content:space-between}
     .entry-meta-left{display:flex;align-items:center;gap:8px}
     .timestamp{font-size:12px;color:var(--faint);letter-spacing:.03em;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
-    .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.6;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+    .cat-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#3AA7E6;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
     .actions{display:flex;gap:16px;align-items:center}
     .like-btn,.share-btn,.img-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:13px;font-family:'EB Garamond',serif;transition:color .2s;padding:4px 0;color:var(--muted)}
     .like-btn:hover,.like-btn.liked{color:var(--accent)}
@@ -197,7 +197,7 @@
     </header>
     <section class="input-section">
       <span class="prefix">Life is...</span>
-      <textarea id="inp" placeholder="was du daraus machst" rows="2" maxlength="200"></textarea>
+      <textarea id="inp" placeholder="Vervollständige den Gedanken" rows="2" maxlength="200"></textarea>
       <div class="input-footer">
         <span class="counter" id="ctr">200</span>
         <button class="submit-btn" id="subBtn" disabled>Sag es jetzt!</button>
@@ -392,7 +392,7 @@
 
     var TX = {
       de: {
-        ey:'Eine kollektive Reflexion', ph:'was du daraus machst',
+        ey:'Eine kollektive Reflexion', ph:'Vervollständige den Gedanken',
         sb:'Sag es jetzt!', ok:'Deine Worte sind jetzt Teil des Streams',
         no:'Dieser Beitrag entspricht nicht unseren Guidelines.',
         em:'Sei der Erste der den Gedanken vervollstaendigt.',
@@ -442,7 +442,7 @@
         about5:'Life is... was du daraus machst.'
       },
       en: {
-        ey:'A collective reflection', ph:'what you make of it',
+        ey:'A collective reflection', ph:'Complete the thought',
         sb:'Let them know!', ok:'Your words are now part of the stream',
         no:'This entry does not meet our community guidelines.',
         em:'Be the first to complete the thought.',
@@ -726,7 +726,26 @@
       if(window.scrollY===0&&e.touches[0].clientY-pullStart>60){pulling=true;}
     },{passive:true});
     document.addEventListener('touchend',function(){
-      if(pulling){pulling=false;loadEntries();}
+      if(pulling){
+        pulling=false;
+        ptrEl.classList.add('loading');
+        try{
+          var ac=new(window.AudioContext||window.webkitAudioContext)();
+          var osc=ac.createOscillator();
+          var gain=ac.createGain();
+          osc.connect(gain);gain.connect(ac.destination);
+          osc.type='sine';
+          osc.frequency.setValueAtTime(400,ac.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(650,ac.currentTime+0.15);
+          gain.gain.setValueAtTime(0.15,ac.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.3);
+          osc.start(ac.currentTime);osc.stop(ac.currentTime+0.3);
+        }catch(e){}
+        loadEntries();
+        setTimeout(function(){ptrEl.classList.remove('loading','visible');},900);
+      } else {
+        ptrEl.classList.remove('visible','loading');
+      }
       pullStart=0;
     });
 
@@ -867,16 +886,20 @@
       }
     });
 
-    // Splash screen
+    // Splash screen - only on first visit per session
     var splashEl=document.getElementById('splash');
     function hideSplash(){
       splashEl.style.opacity='0';
       splashEl.style.pointerEvents='none';
       setTimeout(function(){splashEl.remove();},500);
     }
-    setTimeout(hideSplash, 2000);
-    // Fallback: also hide on first user interaction
-    document.addEventListener('touchstart',function(){hideSplash();},{once:true,passive:true});
+    if(sessionStorage.getItem('seen')){
+      splashEl.remove();
+    } else {
+      sessionStorage.setItem('seen','1');
+      setTimeout(hideSplash, 2000);
+      document.addEventListener('touchstart',function(){hideSplash();},{once:true,passive:true});
+    }
 
     loadQotd();
     loadEntries();
