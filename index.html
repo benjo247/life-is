@@ -33,11 +33,9 @@
       --tg:#2a2825;--ton:#3d6b50;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    #splash{position:fixed;inset:0;z-index:9999;background:#2d5a40;display:flex;align-items:center;justify-content:center;transition:opacity .2s ease}
-    #splash.hide{opacity:0;pointer-events:none}
-    #splash-icon{width:120px;height:120px;border-radius:26%;background:#faf9f7;display:flex;align-items:center;justify-content:center;animation:splashPop .6s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
-    @keyframes splashPop{0%{opacity:0;transform:scale(.7)}60%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
-    #splash-l{font-family:'Meow Script',cursive;font-size:90px;color:#2d5a40;line-height:1;position:relative;left:-8px;top:4px}
+    #splash{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:#2d5a40;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease}
+    #splash-path{stroke-dasharray:2200;stroke-dashoffset:2200;animation:drawL 1.4s cubic-bezier(0.4,0,0.2,1) 0.2s forwards}
+    @keyframes drawL{to{stroke-dashoffset:0}}
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
     ::-webkit-scrollbar{width:4px}
@@ -79,18 +77,18 @@
     .filter-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
     .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
     .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-    .qotd-card{border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;display:none}
-    .qotd-header{background:var(--accent);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+    .qotd-card{border:none;border-radius:12px;overflow:hidden;margin-bottom:28px;display:none;background:linear-gradient(180deg,#2d5a40 0%,#3AA7E6 100%)}
+    .qotd-header{background:linear-gradient(180deg,#2d5a40 0%,#3AA7E6 100%);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
     .qotd-label{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)}
     .qotd-date{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.5)}
-    .qotd-body{padding:20px 20px 16px;background:var(--bg)}
-    .qotd-text{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;line-height:1.6;color:var(--text);margin:0 0 16px}
-    .qotd-prefix{color:var(--accent)}
-    .qotd-footer{display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:12px}
-    .qotd-likes{display:flex;align-items:center;gap:6px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--accent);font-weight:500}
+    .qotd-body{padding:20px 20px 16px;background:transparent}
+    .qotd-text{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;line-height:1.6;color:#fff;margin:0 0 16px}
+    .qotd-prefix{color:rgba(255,255,255,0.9);font-family:'Meow Script',cursive;font-size:1.4em;font-style:normal}
+    .qotd-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.15);padding-top:12px}
+    .qotd-likes{display:flex;align-items:center;gap:6px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.9);font-weight:500}
     .qotd-actions{display:flex;gap:8px}
-    .qotd-btn{background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
-    .qotd-btn2{background:none;border:0.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);cursor:pointer}
+    .qotd-btn{background:rgba(255,255,255,0.2);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;cursor:pointer}
+    .qotd-btn2{background:transparent;border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 14px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.8);cursor:pointer}
     .qotd-cta{background:var(--bg2);border-radius:8px;padding:14px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
     .qotd-cta.show{display:flex}
     .qotd-cta-title{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:500;color:var(--text);margin:0 0 2px}
@@ -161,9 +159,18 @@
 </head>
 <body>
   <div id="splash">
-    <div id="splash-icon">
-      <span id="splash-l">L</span>
-    </div>
+    <svg viewBox="0 0 210 165" width="180" height="140">
+      <g transform="translate(10,125) scale(0.19,-0.19)">
+        <path id="splash-path"
+          d="M908 -140Q859 -140 797.5 -122.5Q736 -105 670.5 -79.0Q605 -53 544.0 -25.5Q483 2 435 22Q390 -27 331.0 -59.5Q272 -92 196 -92Q123 -92 87.0 -63.0Q51 -34 51 3Q51 29 69.5 53.5Q88 78 125.0 94.0Q162 110 217 110Q274 110 325.0 96.5Q376 83 425 64Q451 96 474.0 134.5Q497 173 518 213Q485 210 451 210Q381 210 307 225Q246 238 214.5 271.5Q183 305 183 344Q183 390 226.0 432.5Q269 475 357 491H361Q369 491 374.5 485.5Q380 480 380 473Q380 460 365 457Q288 443 254.5 412.5Q221 382 221 350Q221 319 246.5 293.5Q272 268 315 260Q386 245 453 245Q496 245 536 251Q563 308 589.0 364.0Q615 420 642.5 468.5Q670 517 702 551Q736 586 769.0 602.0Q802 618 830 618Q872 618 899.5 589.5Q927 561 927 517Q927 486 911.0 451.0Q895 416 860 380Q796 314 720.5 274.5Q645 235 562 220Q555 205 548.5 191.5Q542 178 535 165Q519 136 500.0 106.5Q481 77 459 49Q492 34 525.5 18.5Q559 3 594 -11Q620 -21 659.0 -37.0Q698 -53 742.5 -69.0Q787 -85 830.5 -95.5Q874 -106 908 -106Q924 -106 936 -103Q938 -103 939.0 -102.5Q940 -102 941 -102Q949 -102 953.5 -108.0Q958 -114 958 -121Q958 -134 944 -137Q928 -140 908 -140ZM729 527Q699 495 673.0 450.5Q647 406 624.0 356.5Q601 307 580 259Q650 276 714.0 311.5Q778 347 833 403Q863 434 876.0 463.5Q889 493 889 517Q889 546 872.5 564.5Q856 583 829 583Q808 583 782.5 569.5Q757 556 729 527ZM88 3Q88 -20 114.5 -38.5Q141 -57 196 -57Q260 -57 310.5 -31.5Q361 -6 401 36H400Q356 53 310.0 64.5Q264 76 217 76Q154 76 121.0 53.0Q88 30 88 3Z"
+          fill="none"
+          stroke="#faf9f7"
+          stroke-width="28"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+    </svg>
   </div>
 
   <nav class="topbar">
@@ -246,7 +253,7 @@
       <span id="t-priv" onclick="showPage('datenschutz')">Datenschutz</span>
       <span id="t-terms" onclick="showPage('nutzung')">Nutzungsbedingungen</span>
       <span onclick="showPage('guidelines')">Community Guidelines</span>
-      <a href="https://paypal.me/Lifeisapp" target="_blank" id="t-sup" class="footer-support">&#9749; Projekt unterstuetzen</a>
+      <a href="https://paypal.me/Lifeisapp" target="_blank" id="t-sup" class="footer-support">Projekt unterstuetzen</a>
       <span style="width:100%;text-align:center;margin-top:8px;font-size:9px;color:var(--faint);text-transform:none;cursor:default;letter-spacing:.05em">&#169; 2026 Life is... All rights reserved. Unauthorized reproduction or distribution of content is prohibited.</span>
     </footer>
   </div>
@@ -353,7 +360,7 @@
   <div class="modal-overlay" id="shareModal">
     <div class="modal">
       <div class="modal-top">
-        <span class="modal-title" id="t-mt">Als Bild teilen</span>
+        <span class="modal-title" id="t-mt">Teilen</span>
         <button class="modal-close" onclick="closeModal()">&#215;</button>
       </div>
       <div id="shareCard">
@@ -368,7 +375,7 @@
         <button class="modal-style-btn active" id="t-ml" onclick="setCardStyle('light',this)">Hell</button>
         <button class="modal-style-btn" id="t-md" onclick="setCardStyle('dark',this)">Dunkel</button>
       </div>
-      <button class="modal-dl-btn" id="t-mdl" onclick="shareOrDownload()">&#8595; Als Bild speichern</button>
+      <button class="modal-dl-btn" id="t-mdl" onclick="shareOrDownload()">&#8593; Bild teilen</button>
     </div>
   </div>
 
@@ -394,9 +401,9 @@
         pr:'Datenschutz', tm:'Nutzungsbedingungen', su:'Projekt unterstuetzen', bk:'Zurueck',
         vc:function(n){return n+' '+(n===1?'Stimme':'Stimmen');},
         ag:function(d){return d<60?'gerade eben':d<3600?'vor '+Math.floor(d/60)+'m':d<86400?'vor '+Math.floor(d/3600)+'h':'vor '+Math.floor(d/86400)+'d';},
-        mt:'Als Bild teilen', ml:'Hell', md:'Dunkel', mdl:'Als Bild speichern', cp:'Kopiert',
+        mt:'Teilen', ml:'Hell', md:'Dunkel', mdl:'Bild teilen', cp:'Kopiert',
         wd:'Zurueckziehen',
-        qotdLabel:'Quote of the day', qotdShare:'Teilen', qotdImg:'Als Bild',
+        qotdLabel:'Gedanke des Tages', qotdShare:'Teilen', qotdImg:'Als Bild',
         qotdCta1:'Dein Gedanke fehlt noch heute',
         qotdCta2:'Poste jetzt - vielleicht bist du morgen Quote of the Day',
         qotdPost:'Posten',
@@ -444,7 +451,7 @@
         pr:'Privacy', tm:'Terms of Use', su:'Support the project', bk:'Back',
         vc:function(n){return n+' '+(n===1?'voice':'voices');},
         ag:function(d){return d<60?'just now':d<3600?Math.floor(d/60)+'m ago':d<86400?Math.floor(d/3600)+'h ago':Math.floor(d/86400)+'d ago';},
-        mt:'Share as image', ml:'Light', md:'Dark', mdl:'Save as image', cp:'Copied',
+        mt:'Share', ml:'Light', md:'Dark', mdl:'Share image', cp:'Copied',
         wd:'Withdraw',
         qotdLabel:'Quote of the day', qotdShare:'Share', qotdImg:'As image',
         qotdCta1:'Your thought is missing today',
@@ -601,7 +608,7 @@
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
           if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-            navigator.share({title:'Life is...',text:'Life is... '+document.getElementById('scText').textContent,files:[file]})
+            navigator.share({title:'Life is...',text:'Life is... '+document.getElementById('scText').textContent+' - life-is.app',files:[file]})
               .catch(function(err){
                 if(err&&err.name!=='AbortError'){
                   var a=document.createElement('a');a.download='life-is.png';a.href=canvas.toDataURL('image/png');a.click();
@@ -709,6 +716,19 @@
         applyLang();
       });
     }
+
+    // Pull to refresh
+    var pullStart=0;var pulling=false;
+    document.addEventListener('touchstart',function(e){
+      if(window.scrollY===0)pullStart=e.touches[0].clientY;
+    },{passive:true});
+    document.addEventListener('touchmove',function(e){
+      if(window.scrollY===0&&e.touches[0].clientY-pullStart>60){pulling=true;}
+    },{passive:true});
+    document.addEventListener('touchend',function(){
+      if(pulling){pulling=false;loadEntries();}
+      pullStart=0;
+    });
 
     db.channel('live')
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'entries'},function(p){
@@ -848,11 +868,15 @@
     });
 
     // Splash screen
-    setTimeout(function(){
-      var splash=document.getElementById('splash');
-      splash.classList.add('hide');
-      setTimeout(function(){splash.style.display='none';},200);
-    },1200);
+    var splashEl=document.getElementById('splash');
+    function hideSplash(){
+      splashEl.style.opacity='0';
+      splashEl.style.pointerEvents='none';
+      setTimeout(function(){splashEl.remove();},500);
+    }
+    setTimeout(hideSplash, 2000);
+    // Fallback: also hide on first user interaction
+    document.addEventListener('touchstart',function(){hideSplash();},{once:true,passive:true});
 
     loadQotd();
     loadEntries();
