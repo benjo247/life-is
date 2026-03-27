@@ -19,24 +19,26 @@ export default async function handler(req, res) {
     return res.status(200).json({ approved: false, categories: ['reflective'], category: 'reflective' })
   }
 
-  const prompt = `Complete the sentence "Life is… ${text}"
+  // Check API key exists
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('ANTHROPIC_API_KEY is not set!')
+    return res.status(200).json({ approved: true, categories: ['reflective'], category: 'reflective' })
+  }
 
-Pick the best 1-3 categories from this list: encouraging, self-love, joy, loss, love, humor, reflective, motivation
+  const prompt = `You are categorizing a "Life is… ${text}" post.
 
-Rules:
-- love/connection/relationship → love
-- funny/weird/ironic/sarcastic → humor  
-- pain/hard/brutal/grief/sad → loss
-- beautiful/happy/sunshine/dance → joy
-- keep going/strength/worth it → motivation
-- myself/enough/self-worth → self-love
-- uplifting/hope/positive → encouraging
-- philosophical/mystery/wonder → reflective (only if nothing else fits)
+Pick 1-3 categories from: encouraging, self-love, joy, loss, love, humor, reflective, motivation
 
-Reject ONLY if: direct insult to a person, real full name, URL, spam, hate speech targeting a group.
+- "to love yourself" / "myself" / "enough" → self-love
+- "love" / "connection" / "together" → love  
+- "funny" / "weird" / "absurd" / "lol" → humor
+- "pain" / "hard" / "brutal" / "grief" → loss
+- "beautiful" / "happy" / "sunshine" → joy
+- "keep going" / "strength" / "believe" → motivation
+- "hope" / "better" / "possible" → encouraging
+- philosophical only → reflective
 
-Reply with ONLY valid JSON, nothing else:
-{"approved":true,"categories":["joy","humor"]}`
+Reply ONLY with JSON like this: {"approved":true,"categories":["self-love","love"]}`
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -54,9 +56,21 @@ Reply with ONLY valid JSON, nothing else:
     })
 
     const data = await response.json()
+    
+    // Log full response for debugging
+    console.log('API response status:', response.status)
+    console.log('API response data:', JSON.stringify(data))
+
+    if (data.error) {
+      console.error('API error:', data.error)
+      return res.status(200).json({ approved: true, categories: ['reflective'], category: 'reflective' })
+    }
+
     const raw = (data.content && data.content[0] && data.content[0].text || '').trim()
+    console.log('Raw response:', raw)
+    
     const match = raw.match(/\{[\s\S]*?\}/)
-    if (!match) throw new Error('No JSON found')
+    if (!match) throw new Error('No JSON in: ' + raw)
 
     const result = JSON.parse(match[0])
     const valid = ['encouraging','self-love','joy','loss','love','humor','reflective','motivation']
@@ -69,7 +83,7 @@ Reply with ONLY valid JSON, nothing else:
     })
 
   } catch (err) {
-    console.error('Moderation error:', err)
+    console.error('Moderation catch error:', err.message)
     return res.status(200).json({ approved: true, categories: ['reflective'], category: 'reflective' })
   }
 }
