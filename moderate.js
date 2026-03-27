@@ -53,19 +53,27 @@ export default async function handler(req, res) {
           role: 'user',
           content: `You are a strict content moderator for a poetic platform where people complete "Life is… ${text}".
 
-Be STRICT. Reject anything that is negative, offensive, rude, harmful, or not suitable for a thoughtful public space.
+You moderate a creative, honest platform where people complete "Life is…". The tone ranges from poetic to funny to dark to sarcastic.
 
 Respond with ONLY a JSON object:
-{"approved":true,"categories":["joy","love"]}
+{"approved":true,"categories":["humor","reflective"]}
 
-Reject (approved: false) if the text:
-- Contains insults, profanity or offensive language in ANY language
-- Contains real names of people
+APPROVE (approved: true):
+- Humor, irony, sarcasm, cynicism, dark humor
+- Slang, casual language, youth language
+- Honest negative emotions (pain, anger, frustration)
+- Edgy or provocative but harmless thoughts
+- Anything that is a genuine human expression
+
+REJECT (approved: false) ONLY if:
+- Contains direct insults targeting a specific person
+- Contains real full names of people
 - Contains URLs or spam
-- Is aggressive, mean-spirited or harmful
-- Is not a genuine thoughtful completion of "Life is…"
+- Glorifies drink driving, hard drug use, or self-harm with intent to encourage others
+- Is pure hate speech targeting a group (racism, homophobia etc.)
+- Makes no sense as a completion of "Life is…"
 
-Approve only genuine, thoughtful, poetic or honest completions.
+When in doubt: APPROVE. Life is... celebrates all of human experience.
 Pick 1-3 categories from: ${categories.join(', ')}
 
 IMPORTANT: Only use "reflective" if no other category fits better. Most posts belong to a more specific category.
