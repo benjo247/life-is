@@ -163,18 +163,20 @@
 </head>
 <body>
   <div id="splash">
-    <svg viewBox="0 0 210 165" width="180" height="140">
-      <g transform="translate(10,125) scale(0.19,-0.19)">
-        <path id="splash-path"
-          d="M908 -140Q859 -140 797.5 -122.5Q736 -105 670.5 -79.0Q605 -53 544.0 -25.5Q483 2 435 22Q390 -27 331.0 -59.5Q272 -92 196 -92Q123 -92 87.0 -63.0Q51 -34 51 3Q51 29 69.5 53.5Q88 78 125.0 94.0Q162 110 217 110Q274 110 325.0 96.5Q376 83 425 64Q451 96 474.0 134.5Q497 173 518 213Q485 210 451 210Q381 210 307 225Q246 238 214.5 271.5Q183 305 183 344Q183 390 226.0 432.5Q269 475 357 491H361Q369 491 374.5 485.5Q380 480 380 473Q380 460 365 457Q288 443 254.5 412.5Q221 382 221 350Q221 319 246.5 293.5Q272 268 315 260Q386 245 453 245Q496 245 536 251Q563 308 589.0 364.0Q615 420 642.5 468.5Q670 517 702 551Q736 586 769.0 602.0Q802 618 830 618Q872 618 899.5 589.5Q927 561 927 517Q927 486 911.0 451.0Q895 416 860 380Q796 314 720.5 274.5Q645 235 562 220Q555 205 548.5 191.5Q542 178 535 165Q519 136 500.0 106.5Q481 77 459 49Q492 34 525.5 18.5Q559 3 594 -11Q620 -21 659.0 -37.0Q698 -53 742.5 -69.0Q787 -85 830.5 -95.5Q874 -106 908 -106Q924 -106 936 -103Q938 -103 939.0 -102.5Q940 -102 941 -102Q949 -102 953.5 -108.0Q958 -114 958 -121Q958 -134 944 -137Q928 -140 908 -140ZM729 527Q699 495 673.0 450.5Q647 406 624.0 356.5Q601 307 580 259Q650 276 714.0 311.5Q778 347 833 403Q863 434 876.0 463.5Q889 493 889 517Q889 546 872.5 564.5Q856 583 829 583Q808 583 782.5 569.5Q757 556 729 527ZM88 3Q88 -20 114.5 -38.5Q141 -57 196 -57Q260 -57 310.5 -31.5Q361 -6 401 36H400Q356 53 310.0 64.5Q264 76 217 76Q154 76 121.0 53.0Q88 30 88 3Z"
-          fill="none"
-          stroke="#faf9f7"
-          stroke-width="28"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </g>
-    </svg>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center">
+      <svg viewBox="0 0 210 165" width="180" height="140">
+        <g transform="translate(10,125) scale(0.19,-0.19)">
+          <path id="splash-path"
+            d="M908 -140Q859 -140 797.5 -122.5Q736 -105 670.5 -79.0Q605 -53 544.0 -25.5Q483 2 435 22Q390 -27 331.0 -59.5Q272 -92 196 -92Q123 -92 87.0 -63.0Q51 -34 51 3Q51 29 69.5 53.5Q88 78 125.0 94.0Q162 110 217 110Q274 110 325.0 96.5Q376 83 425 64Q451 96 474.0 134.5Q497 173 518 213Q485 210 451 210Q381 210 307 225Q246 238 214.5 271.5Q183 305 183 344Q183 390 226.0 432.5Q269 475 357 491H361Q369 491 374.5 485.5Q380 480 380 473Q380 460 365 457Q288 443 254.5 412.5Q221 382 221 350Q221 319 246.5 293.5Q272 268 315 260Q386 245 453 245Q496 245 536 251Q563 308 589.0 364.0Q615 420 642.5 468.5Q670 517 702 551Q736 586 769.0 602.0Q802 618 830 618Q872 618 899.5 589.5Q927 561 927 517Q927 486 911.0 451.0Q895 416 860 380Q796 314 720.5 274.5Q645 235 562 220Q555 205 548.5 191.5Q542 178 535 165Q519 136 500.0 106.5Q481 77 459 49Q492 34 525.5 18.5Q559 3 594 -11Q620 -21 659.0 -37.0Q698 -53 742.5 -69.0Q787 -85 830.5 -95.5Q874 -106 908 -106Q924 -106 936 -103Q938 -103 939.0 -102.5Q940 -102 941 -102Q949 -102 953.5 -108.0Q958 -114 958 -121Q958 -134 944 -137Q928 -140 908 -140ZM729 527Q699 495 673.0 450.5Q647 406 624.0 356.5Q601 307 580 259Q650 276 714.0 311.5Q778 347 833 403Q863 434 876.0 463.5Q889 493 889 517Q889 546 872.5 564.5Q856 583 829 583Q808 583 782.5 569.5Q757 556 729 527ZM88 3Q88 -20 114.5 -38.5Q141 -57 196 -57Q260 -57 310.5 -31.5Q361 -6 401 36H400Q356 53 310.0 64.5Q264 76 217 76Q154 76 121.0 53.0Q88 30 88 3Z"
+            fill="none" stroke="#faf9f7" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"
+          />
+        </g>
+      </svg>
+    </div>
+    <div id="splash-bottom" style="padding-bottom:48px;text-align:center;opacity:0;transition:opacity .6s ease">
+      <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;color:rgba(255,255,255,0.85);margin:0 0 10px;letter-spacing:.02em">join the stream</p>
+      <p style="font-family:-apple-system,sans-serif;font-size:10px;color:rgba(255,255,255,0.3);margin:0;letter-spacing:.18em;text-transform:uppercase">made by Benjo<br/>2026</p>
+    </div>
   </div>
 
   <div id="ptr">
@@ -898,11 +900,20 @@
       splashEl.style.pointerEvents='none';
       setTimeout(function(){splashEl.remove();},500);
     }
+    // Show bottom text after L is drawn
+    setTimeout(function(){
+      var bot=document.getElementById('splash-bottom');
+      if(bot)bot.style.opacity='1';
+    },1800);
     if(sessionStorage.getItem('seen')){
       splashEl.remove();
     } else {
       sessionStorage.setItem('seen','1');
-      setTimeout(hideSplash, 2000);
+      setTimeout(function(){
+        var bot=document.getElementById('splash-bottom');
+        if(bot)bot.style.opacity='1';
+      },1800);
+      setTimeout(hideSplash, 3000);
       document.addEventListener('touchstart',function(){hideSplash();},{once:true,passive:true});
     }
 
