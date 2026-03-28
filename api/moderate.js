@@ -1,19 +1,53 @@
 const BLACKLIST = [
   'scheiße','scheisse','arschloch','fick','ficken','wichser','hurensohn','hure','schlampe','fotze',
-  'nazi','hitler','nigger','kanake',
-  'fuck','fucking','fucker','shit','asshole','cunt','faggot',
+  'nazi','hitler','nigger','kanake','fuck','fucking','fucker','shit','asshole','cunt','faggot',
   'selbstmord','suizid','suicide','bomb','terrorist'
 ]
 
 const KEYWORDS = {
-  'self-love': ['yourself','myself','self','enough','worthy','worth','selbstliebe','selbst','selbstvertrauen','accept','healing','becoming','confidence','proud','dich selbst','mir selbst','sich selbst'],
-  'love': ['love','loved','loving','liebe','geliebt','zusammen','together','heart','herz','connection','relationship','partner','miss','kiss','belong','romance','du','you and me'],
-  'joy': ['beautiful','happy','happiness','joy','smile','laugh','dance','sunshine','wunderbar','schön','glück','glücklich','wonderful','amazing','magic','fun','grateful','bliss','spaß'],
-  'humor': ['funny','weird','absurd','ironic','witzig','seltsam','chaos','random','literally','basically','honestly','adulting','monday','lol','haha'],
-  'loss': ['pain','painful','hard','brutal','grief','sad','sadness','loss','lost','broken','hurt','lonely','alone','tears','cry','dark','difficult','tough','traurig','schmerz','verlust','einsam','gebrochen'],
-  'motivation': ['keep going','strength','strong','believe','possible','dream','fight','never give up','rise','power','achieve','goal','forward','courage','try','schaff','kämpf','stark','glaub','träum'],
-  'encouraging': ['better','hope','hopeful','worth it','positive','inspire','chance','opportunity','hoffnung','besser','möglich','can be','will be'],
-  'reflective': ['wonder','mystery','question','think','maybe','perhaps','meaning','purpose','existence','universe','why','how','what if','frag','vielleicht','sinn','bedeutung']
+  'self-love': [
+    'yourself','myself','self-love','selflove','selbstliebe','selbst lieben','dich selbst','mich selbst','sich selbst',
+    'selbstwert','selbstvertrauen','selbstfürsorge','ich bin genug','du bist genug','worthy','enough','accept',
+    'healing','mir selbst','inner peace','innerer frieden','selbstakzeptanz','wert','selbstrespekt'
+  ],
+  'love': [
+    'love','loved','loving','liebe','geliebt','lieben','zusammen','together','heart','herz',
+    'connection','beziehung','partner','vermissen','miss','kiss','kuss','belong','gehören',
+    'romance','romantisch','du und ich','you and me','füreinander','sehnsucht','zuneigung','verliebt'
+  ],
+  'joy': [
+    'beautiful','happy','happiness','joy','smile','laugh','dance','sunshine','wunderbar','schön',
+    'glück','glücklich','freude','wonderful','amazing','magic','fun','grateful','bliss','spaß',
+    'lachen','tanzen','strahlen','herrlich','fantastisch','großartig','wunderschön','lebensfreude',
+    'licht','leicht','leichtigkeit','fröhlich','heiter','genuss','lächeln'
+  ],
+  'humor': [
+    'funny','weird','absurd','ironic','witzig','seltsam','chaos','random','literally','basically',
+    'lustig','verrückt','ironie','kurios','skurril','komisch','lol','haha','quatsch','unsinn',
+    'kein ponyhof','ponyhof','auf und ab','achterbahn','durcheinander','chaotisch'
+  ],
+  'loss': [
+    'pain','painful','hard','brutal','grief','sad','sadness','loss','lost','broken','hurt',
+    'lonely','alone','tears','cry','dark','difficult','tough','traurig','schmerz','verlust',
+    'einsam','gebrochen','verloren','dunkel','schwer','hart','leid','trauer','weinen','allein',
+    'vermisse','fehlt mir','abschied','ende','vorbei','hoffnungslos','verzweiflung'
+  ],
+  'motivation': [
+    'keep going','strength','strong','believe','possible','dream','fight','never give up','rise',
+    'power','achieve','goal','forward','courage','try','niemals aufgeben','aufgeben','weitermachen',
+    'stark','stärke','kämpfen','kämpf','glaub','träum','schaff','möglich','vorwärts','durchhalten',
+    'nicht aufgeben','gib nicht auf','weiter','durchziehen','zieh durch','versuchen','probieren',
+    'ziel','wachsen','entwickeln','verändern','besser werden','weitergehen','tapfer','mutig'
+  ],
+  'encouraging': [
+    'better','hope','hopeful','worth it','positive','inspire','chance','opportunity',
+    'hoffnung','besser','möglich','can be','will be','alles wird gut','es wird besser',
+    'zuversicht','optimismus','aufmunterung','ermutigung','du schaffst','wir schaffen'
+  ],
+  'reflective': [
+    'wonder','mystery','question','think','maybe','perhaps','meaning','purpose','existence',
+    'universe','frag','vielleicht','sinn','bedeutung','nachdenken','philosophisch','tief'
+  ]
 }
 
 function keywordCategories(text) {
@@ -39,48 +73,12 @@ export default async function handler(req, res) {
     return res.status(200).json({ approved: false, categories: ['reflective'], category: 'reflective' })
   }
 
-  // Keyword categorization as primary (guaranteed to work)
-  const keywordCats = keywordCategories(text)
+  const cats = keywordCategories(text)
+  console.log('Text:', text, '→ Categories:', cats)
 
-  // Try AI for approval check + better categorization
-  if (process.env.ANTHROPIC_API_KEY) {
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 80,
-          messages: [{
-            role: 'user',
-            content: `Is "Life is… ${text}" appropriate to publish? Is it hate speech, spam, or a direct insult to a named person?
-Reply ONLY with JSON: {"approved":true} or {"approved":false}`
-          }]
-        })
-      })
-
-      const data = await response.json()
-      const raw = (data.content?.[0]?.text || '').trim()
-      const match = raw.match(/\{[\s\S]*?\}/)
-      if (match) {
-        const result = JSON.parse(match[0])
-        if (result.approved === false) {
-          return res.status(200).json({ approved: false, categories: keywordCats, category: keywordCats[0] })
-        }
-      }
-    } catch (err) {
-      console.error('AI check failed:', err.message)
-    }
-  }
-
-  // Use keyword categories
   return res.status(200).json({
     approved: true,
-    categories: keywordCats,
-    category: keywordCats[0]
+    categories: cats,
+    category: cats[0]
   })
 }
