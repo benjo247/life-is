@@ -948,7 +948,7 @@
       setTimeout(function(){
         var b=document.getElementById('installBanner');
         if(b)b.classList.remove('hidden');
-      },3000);
+      },6000);
     }
     // Install banner event listeners - safe with null checks
     var ilBtn=document.getElementById('installLater');
@@ -993,11 +993,6 @@
       splashEl.style.pointerEvents='none';
       setTimeout(function(){splashEl.remove();},500);
     }
-    // Show bottom text after L is drawn
-    setTimeout(function(){
-      var bot=document.getElementById('splash-bottom');
-      if(bot)bot.style.opacity='1';
-    },1800);
     if(sessionStorage.getItem('seen')){
       splashEl.remove();
     } else {
