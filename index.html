@@ -529,7 +529,7 @@
       s('t-eyebrow',l.ey);
       document.getElementById('inp').placeholder=l.ph;
       document.getElementById('subBtn').textContent=l.sb;
-      s('t-priv',l.pr);s('t-terms',l.tm);s('t-sup','&#9749; '+l.su);
+      s('t-priv',l.pr);s('t-terms',l.tm);s('t-sup',l.su);
       s('t-b1',l.bk);s('t-b2',l.bk);s('t-b3',l.bk);s('t-b4',l.bk);s('t-ba',l.bk);
       s('t-mt',l.mt);s('t-ml',l.ml);s('t-md',l.md);s('t-mdl',l.mdl);
       s('t-priv-h',l.ph2);s('t-terms-h',l.tm2);
@@ -686,7 +686,7 @@
           '<div class="entry-meta">'+
           '<div class="entry-meta-left"><span class="timestamp">'+ago(entry.created_at)+'</span>'+catTags+'</div>'+
           '<div class="actions">'+
-          (isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'">&#215; '+TX[lang].wd+'</button>':'')+
+          (isOwn?'<button class="withdraw-btn" data-id="'+entry.id+'">× '+TX[lang].wd+'</button>':'')+
           '<button class="like-btn'+(lk?' liked':'')+'" data-id="'+entry.id+'">'+
           '<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(lk?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'+
           (entry.likes&&entry.likes>0?'<span>'+entry.likes+'</span>':'')+
@@ -918,16 +918,16 @@
     // Install banner
     var installSteps={
       ios:[
-        {icon:'&#127760;',title:'Open in Safari',desc:'Does not work in Chrome or other browsers on iPhone.'},
-        {icon:'&#8593;',title:'Tap the Share button',desc:'The square with an arrow pointing up at the bottom of the screen.'},
-        {icon:'&#128242;',title:'Tap "Add to Home Screen"',desc:'Scroll down in the share menu and tap "Add to Home Screen".'},
-        {icon:'&#10003;',title:'Done!',desc:'Tap "Add" in the top right. Life is... appears on your home screen.'}
+        {icon:'[web]',title:'Open in Safari',desc:'Does not work in Chrome or other browsers on iPhone.'},
+        {icon:'[share]',title:'Tap the Share button',desc:'The square with an arrow pointing up at the bottom of the screen.'},
+        {icon:'[add]',title:'Tap "Add to Home Screen"',desc:'Scroll down in the share menu and tap "Add to Home Screen".'},
+        {icon:'[ok]',title:'Done!',desc:'Tap "Add" in the top right. Life is... appears on your home screen.'}
       ],
       android:[
-        {icon:'&#127760;',title:'Open in Chrome',desc:'Open life-is.app in Chrome on your Android device.'},
-        {icon:'&#8942;',title:'Open the menu',desc:'Tap the three dots in the top right corner of Chrome.'},
-        {icon:'&#128242;',title:'Tap "Add to Home Screen"',desc:'Tap "Add to Home Screen" or "Install App".'},
-        {icon:'&#10003;',title:'Done!',desc:'Life is... opens fullscreen like a native app.'}
+        {icon:'[web]',title:'Open in Chrome',desc:'Open life-is.app in Chrome on your Android device.'},
+        {icon:'[menu]',title:'Open the menu',desc:'Tap the three dots in the top right corner of Chrome.'},
+        {icon:'[add]',title:'Tap "Add to Home Screen"',desc:'Tap "Add to Home Screen" or "Install App".'},
+        {icon:'[ok]',title:'Done!',desc:'Life is... opens fullscreen like a native app.'}
       ]
     };
     var installOs='ios';
@@ -941,7 +941,7 @@
               '<span class="install-step-num">'+(i+1)+'</span>'+
               '<p style="font-family:-apple-system,sans-serif;font-size:14px;font-weight:600;color:var(--text);margin:0">'+s.title+'</p>'+
             '</div>'+
-            '<p style="font-family:'EB Garamond',serif;font-size:15px;color:var(--muted);margin:0;line-height:1.5">'+s.desc+'</p>'+
+            '<p style="font-family:Georgia,serif;font-size:15px;color:var(--muted);margin:0;line-height:1.5">'+s.desc+'</p>'+
           '</div>'+
         '</div>';
       }).join('');
