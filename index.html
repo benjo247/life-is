@@ -15,6 +15,43 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Meow+Script&family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <!-- INSTALL BANNER -->
+  <div id="installBanner" class="hidden">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:40px;height:40px;border-radius:18%;background:linear-gradient(135deg,#2d5a40,#4a8f6f);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-family:'Meow Script',cursive;font-size:28px;color:#fff;line-height:1">L</span>
+      </div>
+      <div>
+        <p style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;color:var(--text);margin:0 0 2px">Add to Home Screen</p>
+        <p style="font-family:-apple-system,sans-serif;font-size:11px;color:var(--faint);margin:0">Use it like a real app 📲</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0">
+      <button id="installLater" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:7px 12px;font-family:-apple-system,sans-serif;font-size:12px;color:var(--faint);cursor:pointer">Later</button>
+      <button id="installHow" style="background:linear-gradient(90deg,#2d5a40,#4a8f6f);border:none;border-radius:20px;padding:7px 14px;font-family:-apple-system,sans-serif;font-size:12px;color:#fff;cursor:pointer;font-weight:500">How to</button>
+    </div>
+  </div>
+
+  <!-- INSTALL HOW-TO MODAL -->
+  <div id="installOverlay">
+    <div id="installSheet">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h2 style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;margin:0;color:var(--text)">Add to Home Screen</h2>
+        <button id="installClose" style="background:none;border:none;font-size:20px;color:var(--faint);cursor:pointer;padding:4px">✕</button>
+      </div>
+      <div id="installOsToggle">
+        <button class="ios-btn active" id="iosBtn">🍎 iPhone</button>
+        <button class="android-btn" id="androidBtn">🤖 Android</button>
+      </div>
+      <div id="installSteps"></div>
+      <div style="margin-top:20px;padding:14px 16px;background:linear-gradient(90deg,#2d5a40,#4a8f6f);border-radius:12px;text-align:center">
+        <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.9);margin:0">
+          <span style="font-family:'Meow Script',cursive;font-size:1.3em">Life is... </span>better on your home screen 🌿
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
@@ -40,6 +77,19 @@
     body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
     ::-webkit-scrollbar{width:4px}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    #installBanner{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;background:var(--bg);border-top:0.5px solid var(--border);padding:14px 20px 28px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:transform .3s ease}
+    #installBanner.hidden{transform:translateX(-50%) translateY(110%)}
+    #installOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:50;display:none;align-items:flex-end;justify-content:center}
+    #installOverlay.show{display:flex}
+    #installSheet{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:640px;padding:24px 20px 48px;max-height:85vh;overflow-y:auto}
+    #installOsToggle{display:flex;gap:6px;background:var(--card);border-radius:10px;padding:3px;margin-bottom:20px}
+    .ios-btn,.android-btn{flex:1;padding:8px 0;border:none;border-radius:8px;font-family:-apple-system,sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+    .ios-btn.active,.android-btn.active{background:var(--bg);color:#2d5a40;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+    .ios-btn:not(.active),.android-btn:not(.active){background:transparent;color:var(--faint)}
+    .install-step{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border)}
+    .install-step:last-child{border-bottom:none}
+    .install-step-icon{width:36px;height:36px;border-radius:10px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .install-step-num{width:16px;height:16px;border-radius:50%;background:linear-gradient(90deg,#2d5a40,#4a8f6f);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     #ptr{position:fixed;top:64px;left:50%;transform:translateX(-50%) translateY(-60px);z-index:50;width:36px;height:36px;border-radius:50%;background:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;transition:transform .25s ease,opacity .25s ease;opacity:0;pointer-events:none}
     #ptr.visible{opacity:1;transform:translateX(-50%) translateY(0)}
     #ptr.loading svg{animation:spin .7s linear infinite}
@@ -239,10 +289,10 @@
         <div class="qotd-body">
           <p class="qotd-text"><span class="qotd-prefix">Life is... </span><span id="qotdText"></span></p>
           <div class="qotd-footer">
-            <div class="qotd-likes">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <button id="qotdLikeBtn" class="qotd-likes" style="background:none;border:none;cursor:pointer;padding:0">
+              <svg id="qotdLikeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               <span id="qotdLikes"></span>
-            </div>
+            </button>
             <div class="qotd-actions">
               <button class="qotd-btn" id="qotdShareBtn">&#8593; <span id="t-qotd-share">Teilen</span></button>
               <button class="qotd-btn2" id="qotdImgBtn">&#9633; <span id="t-qotd-img">Als Bild</span></button>
@@ -706,8 +756,13 @@
       });
     }
 
+    var qotdEntry=null;
     function showQotd(entry){
+      qotdEntry=entry;
       document.getElementById('qotdText').textContent=entry.text;
+      var lk=likedSet.has(entry.id);
+      var icon=document.getElementById('qotdLikeIcon');
+      if(icon){icon.setAttribute('fill',lk?'currentColor':'none');icon.setAttribute('stroke',lk?'none':'currentColor');}
       document.getElementById('qotdLikes').textContent=entry.likes+' likes';
       var d=new Date();
       document.getElementById('qotdDate').textContent=d.toLocaleDateString(lang==='de'?'de-DE':'en-GB',{day:'numeric',month:'long'});
@@ -892,6 +947,73 @@
         if(!e3)return;
         openSharepic(e3.text);
       }
+    });
+
+    // Install banner
+    var installSteps={
+      ios:[
+        {icon:'🌐',title:'Open in Safari',desc:'Does not work in Chrome or other browsers on iPhone.'},
+        {icon:'⬆️',title:'Tap the Share button',desc:'The square with an arrow pointing up at the bottom of the screen.'},
+        {icon:'📲',title:'Tap "Add to Home Screen"',desc:'Scroll down in the share menu and tap "Add to Home Screen".'},
+        {icon:'✅',title:'Done!',desc:'Tap "Add" in the top right. Life is... appears on your home screen.'}
+      ],
+      android:[
+        {icon:'🌐',title:'Open in Chrome',desc:'Open life-is.app in Chrome on your Android device.'},
+        {icon:'⋮',title:'Open the menu',desc:'Tap the three dots in the top right corner of Chrome.'},
+        {icon:'📲',title:'Tap "Add to Home Screen"',desc:'Tap "Add to Home Screen" or "Install App".'},
+        {icon:'✅',title:'Done!',desc:'Life is... opens fullscreen like a native app.'}
+      ]
+    };
+    var installOs='ios';
+    function renderInstallSteps(){
+      var el=document.getElementById('installSteps');
+      el.innerHTML=installSteps[installOs].map(function(s,i){
+        return '<div class="install-step">'+
+          '<div class="install-step-icon">'+s.icon+'</div>'+
+          '<div>'+
+            '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">'+
+              '<span class="install-step-num">'+(i+1)+'</span>'+
+              '<p style="font-family:-apple-system,sans-serif;font-size:14px;font-weight:600;color:var(--text);margin:0">'+s.title+'</p>'+
+            '</div>'+
+            '<p style="font-family:'EB Garamond',serif;font-size:15px;color:var(--muted);margin:0;line-height:1.5">'+s.desc+'</p>'+
+          '</div>'+
+        '</div>';
+      }).join('');
+    }
+    // Show banner after 3s if not dismissed
+    if(!localStorage.getItem('install-dismissed')){
+      setTimeout(function(){
+        var b=document.getElementById('installBanner');
+        if(b)b.classList.remove('hidden');
+      },3000);
+    }
+    document.getElementById('installLater').addEventListener('click',function(){
+      document.getElementById('installBanner').classList.add('hidden');
+      localStorage.setItem('install-dismissed','1');
+    });
+    document.getElementById('installHow').addEventListener('click',function(){
+      document.getElementById('installBanner').classList.add('hidden');
+      localStorage.setItem('install-dismissed','1');
+      renderInstallSteps();
+      document.getElementById('installOverlay').classList.add('show');
+    });
+    document.getElementById('installClose').addEventListener('click',function(){
+      document.getElementById('installOverlay').classList.remove('show');
+    });
+    document.getElementById('installOverlay').addEventListener('click',function(e){
+      if(e.target===this)this.classList.remove('show');
+    });
+    document.getElementById('iosBtn').addEventListener('click',function(){
+      installOs='ios';
+      this.classList.add('active');
+      document.getElementById('androidBtn').classList.remove('active');
+      renderInstallSteps();
+    });
+    document.getElementById('androidBtn').addEventListener('click',function(){
+      installOs='android';
+      this.classList.add('active');
+      document.getElementById('iosBtn').classList.remove('active');
+      renderInstallSteps();
     });
 
     // Splash screen - only on first visit per session
