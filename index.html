@@ -33,7 +33,7 @@
       --tg:#2a2825;--ton:#3d6b50;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    #splash{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:60px 20px 50px;box-sizing:border-box;transition:opacity .4s ease}
+    #splash{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:60px 20px 50px;box-sizing:border-box;transition:opacity .5s ease;overflow:hidden}
     #splash-path{stroke-dasharray:2200;stroke-dashoffset:2200;animation:drawL 1.4s cubic-bezier(0.4,0,0.2,1) 0.2s forwards}
     @keyframes drawL{to{stroke-dashoffset:0}}
     html{scroll-behavior:smooth}
@@ -57,6 +57,9 @@
     #ptr.visible{opacity:1;transform:translateX(-50%) translateY(0)}
     #ptr.loading svg{animation:spin .7s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes drawPath{to{stroke-dashoffset:0}}
+    #splash-path{stroke-dasharray:2200;stroke-dashoffset:2200;animation:drawPath 1.8s cubic-bezier(0.4,0,0.2,1) 0.3s forwards}
+    #splash-bottom{opacity:0;transition:opacity 0.8s ease}
     .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .3s,border-color .3s;gap:12px}
     .logo{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);cursor:pointer}
     .logo span{color:var(--faint)}
@@ -987,28 +990,33 @@
     });
 
     // Splash screen - only on first visit per session
-    var splashEl=document.getElementById('splash');
-    if(splashEl){
-      if(sessionStorage.getItem('seen')){
-        splashEl.style.display='none';
-      } else {
-        sessionStorage.setItem('seen','1');
-        setTimeout(function(){
-          var bot=document.getElementById('splash-bottom');
-          if(bot)bot.style.opacity='1';
-        },1600);
-        setTimeout(function(){
-          splashEl.style.opacity='0';
-          splashEl.style.pointerEvents='none';
-          setTimeout(function(){splashEl.style.display='none';},500);
-        },3000);
-        splashEl.addEventListener('click',function(){
-          splashEl.style.opacity='0';
-          splashEl.style.pointerEvents='none';
-          setTimeout(function(){splashEl.style.display='none';},400);
-        });
+    (function(){
+      var sp=document.getElementById('splash');
+      if(!sp)return;
+      function hide(){
+        sp.style.opacity='0';
+        sp.style.pointerEvents='none';
+        setTimeout(function(){sp.style.display='none';},500);
       }
-    }
+      if(sessionStorage.getItem('splash_seen')){
+        sp.style.display='none';
+        return;
+      }
+      sessionStorage.setItem('splash_seen','1');
+      document.body.style.overflow='hidden';
+      setTimeout(function(){
+        var b=document.getElementById('splash-bottom');
+        if(b)b.style.opacity='1';
+      },2000);
+      setTimeout(function(){
+        hide();
+        document.body.style.overflow='';
+      },3500);
+      sp.addEventListener('click',function(){
+        hide();
+        document.body.style.overflow='';
+      });
+    })();
 
     loadQotd();
     loadEntries();
