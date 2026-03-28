@@ -805,6 +805,7 @@
         .then(function(r){return r.json();})
         .catch(function(){return {approved:true,categories:['reflective']};})
         .then(function(res){
+          console.log('Moderate response:', JSON.stringify(res));
           if(res.approved===false){
             subBtn.disabled=false;
             subBtn.textContent=TX[lang].sb;
