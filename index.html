@@ -953,47 +953,56 @@
         if(b)b.classList.remove('hidden');
       },6000);
     }
-    // Install banner event listeners - safe with null checks
-    var ilBtn=document.getElementById('installLater');
-    var ihBtn=document.getElementById('installHow');
-    var icBtn=document.getElementById('installClose');
-    var iovEl=document.getElementById('installOverlay');
-    var iosB=document.getElementById('iosBtn');
-    var andB=document.getElementById('androidBtn');
-    if(ilBtn)ilBtn.addEventListener('click',function(){
-      document.getElementById('installBanner').classList.add('hidden');
-      localStorage.setItem('install-dismissed','1');
-    });
-    if(ihBtn)ihBtn.addEventListener('click',function(){
-      document.getElementById('installBanner').classList.add('hidden');
-      localStorage.setItem('install-dismissed','1');
-      renderInstallSteps();
-      iovEl.classList.add('show');
-    });
-    if(icBtn)icBtn.addEventListener('click',function(){
-      iovEl.classList.remove('show');
-    });
-    if(iovEl)iovEl.addEventListener('click',function(e){
-      if(e.target===this)this.classList.remove('show');
-    });
-    if(iosB)iosB.addEventListener('click',function(){
-      installOs='ios';
-      this.classList.add('active');
-      if(andB)andB.classList.remove('active');
-      renderInstallSteps();
-    });
-    if(andB)andB.addEventListener('click',function(){
-      installOs='android';
-      this.classList.add('active');
-      if(iosB)iosB.classList.remove('active');
-      renderInstallSteps();
+    // Install banner - init after DOM ready
+    window.addEventListener('load',function(){
+      var ilBtn=document.getElementById('installLater');
+      var ihBtn=document.getElementById('installHow');
+      var icBtn=document.getElementById('installClose');
+      var iovEl=document.getElementById('installOverlay');
+      var iosB=document.getElementById('iosBtn');
+      var andB=document.getElementById('androidBtn');
+      if(ilBtn)ilBtn.addEventListener('click',function(){
+        document.getElementById('installBanner').classList.add('hidden');
+        localStorage.setItem('install-dismissed','1');
+      });
+      if(ihBtn)ihBtn.addEventListener('click',function(){
+        document.getElementById('installBanner').classList.add('hidden');
+        localStorage.setItem('install-dismissed','1');
+        renderInstallSteps();
+        if(iovEl)iovEl.classList.add('show');
+      });
+      if(icBtn)icBtn.addEventListener('click',function(){
+        if(iovEl)iovEl.classList.remove('show');
+      });
+      if(iovEl)iovEl.addEventListener('click',function(e){
+        if(e.target===this)this.classList.remove('show');
+      });
+      if(iosB)iosB.addEventListener('click',function(){
+        installOs='ios';
+        this.classList.add('active');
+        if(andB)andB.classList.remove('active');
+        renderInstallSteps();
+      });
+      if(andB)andB.addEventListener('click',function(){
+        installOs='android';
+        this.classList.add('active');
+        if(iosB)iosB.classList.remove('active');
+        renderInstallSteps();
+      });
     });
 
     // Splash screen - only on first visit per session
     setTimeout(function(){
+      var bot=document.getElementById('splash-bottom');
+      if(bot)bot.style.opacity='1';
+    },2000);
+    setTimeout(function(){
       var sp=document.getElementById('splash');
-      if(sp)sp.style.display='none';
-    },3000);
+      if(sp){sp.style.opacity='0';setTimeout(function(){sp.style.display='none';},500);}
+    },3500);
+    document.getElementById('splash').addEventListener('click',function(){
+      this.style.opacity='0';var s=this;setTimeout(function(){s.style.display='none';},400);
+    });
 
     loadQotd();
     loadEntries();
