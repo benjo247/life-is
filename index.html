@@ -988,21 +988,26 @@
 
     // Splash screen - only on first visit per session
     var splashEl=document.getElementById('splash');
-    function hideSplash(){
-      splashEl.style.opacity='0';
-      splashEl.style.pointerEvents='none';
-      setTimeout(function(){splashEl.remove();},500);
-    }
-    if(sessionStorage.getItem('seen')){
-      splashEl.remove();
-    } else {
-      sessionStorage.setItem('seen','1');
-      setTimeout(function(){
-        var bot=document.getElementById('splash-bottom');
-        if(bot)bot.style.opacity='1';
-      },1800);
-      setTimeout(hideSplash, 3000);
-      document.addEventListener('touchstart',function(){hideSplash();},{once:true,passive:true});
+    if(splashEl){
+      if(sessionStorage.getItem('seen')){
+        splashEl.style.display='none';
+      } else {
+        sessionStorage.setItem('seen','1');
+        setTimeout(function(){
+          var bot=document.getElementById('splash-bottom');
+          if(bot)bot.style.opacity='1';
+        },1600);
+        setTimeout(function(){
+          splashEl.style.opacity='0';
+          splashEl.style.pointerEvents='none';
+          setTimeout(function(){splashEl.style.display='none';},500);
+        },3000);
+        splashEl.addEventListener('click',function(){
+          splashEl.style.opacity='0';
+          splashEl.style.pointerEvents='none';
+          setTimeout(function(){splashEl.style.display='none';},400);
+        });
+      }
     }
 
     loadQotd();
