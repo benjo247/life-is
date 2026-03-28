@@ -955,6 +955,26 @@
     }
     // Install banner - init after DOM ready
     window.addEventListener('load',function(){
+      // QOTD like button
+      var qlBtn=document.getElementById('qotdLikeBtn');
+      if(qlBtn)qlBtn.addEventListener('click',function(){
+        if(!qotdEntry)return;
+        var id=qotdEntry.id;
+        var lk=likedSet.has(id);
+        var n=lk?Math.max(0,qotdEntry.likes-1):qotdEntry.likes+1;
+        if(lk){likedSet.delete(id);}else{likedSet.add(id);}
+        saveLiked();
+        qotdEntry.likes=n;
+        var icon=document.getElementById('qotdLikeIcon');
+        if(icon){
+          icon.setAttribute('fill',!lk?'currentColor':'none');
+          icon.setAttribute('stroke-width',!lk?'0':'1.5');
+        }
+        document.getElementById('qotdLikes').textContent=n+' likes';
+        var ae=allEntries.find(function(x){return x.id===qotdEntry.id;});
+        if(ae)ae.likes=n;
+        db.from('entries').update({likes:n}).eq('id',id);
+      });
       var ilBtn=document.getElementById('installLater');
       var ihBtn=document.getElementById('installHow');
       var icBtn=document.getElementById('installClose');
