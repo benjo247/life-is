@@ -738,7 +738,7 @@
       em.style.display=list.length?'none':'block';
       em.textContent=filter==='all'?TX[lang].em:TX[lang].ef;
       vc.style.display=list.length?'block':'none';
-      vc.textContent=filter==='random'?TX[lang].er:TX[lang].vc(list.length);
+      vc.textContent=filter==='random'?TX[lang].er:TX[lang].vc(filter==='all'?totalEntryCount:list.length);
 
       list.forEach(function(entry,i){
         var lk=likedSet.has(entry.id);
@@ -811,11 +811,18 @@
     var currentPage=0;
     var isLoadingMore=false;
     var hasMore=true;
+    var totalEntryCount=0;
 
     function loadEntries(){
       currentPage=0;
       hasMore=true;
       allEntries=[];
+      // Get real total count
+      db.from('entries').select('id',{count:'exact',head:true}).then(function(r){
+        totalEntryCount=r.count||0;
+        var vc=document.getElementById('vcnt');
+        if(vc&&filter==='all')vc.textContent=TX[lang].vc(totalEntryCount);
+      });
       fetchPage(true);
     }
 
