@@ -133,8 +133,8 @@
     .withdraw-btn{background:none;border:1px solid #c0392b;border-radius:20px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#c0392b;padding:3px 10px;transition:all .2s}
     .withdraw-btn:hover{background:#c0392b;color:#fff}
     .report-btn{background:none;border:none;cursor:pointer;color:var(--faint);padding:4px 0;transition:color .2s;display:flex;align-items:center}
-    .report-btn:hover{color:#c0392b}
-    .report-btn.reported{color:#c0392b;cursor:default}
+    .report-btn:hover{color:#e05252}
+    .report-btn.reported{color:#e05252 !important;opacity:1 !important}
     .divider{border:none;border-top:1px solid var(--border)}
     footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
     footer span,footer a{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
@@ -309,9 +309,9 @@
       <h3>Verantwortlich</h3>
       <p>Benjamin Linge<br/>Nikolaus-Otto-Ring 21<br/>34225 Baunatal<br/>Deutschland</p>
       <h3>Kontakt</h3>
-      <p>E-Mail: hello@life-is.app</p>
+      <p>E-Mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f171a1313103f1316191a52160c511e0f0f">[email&#160;protected]</a></p>
       <h3>Kooperationen &amp; Business</h3>
-      <p>Für Kooperationsanfragen und geschäftliche Anfragen wenden Sie sich bitte ausschließlich per E-Mail an: hello@life-is.app</p>
+      <p>Für Kooperationsanfragen und geschäftliche Anfragen wenden Sie sich bitte ausschließlich per E-Mail an: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c1a9a4adadae81ada8a7a4eca8b2efa0b1b1">[email&#160;protected]</a></p>
       <hr class="legal-divider"/>
       <h3>Haftung fuer Inhalte</h3>
       <p>Als Diensteanbieter sind wir gemaess Paragraph 7 Abs.1 TMG fuer eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>
@@ -324,7 +324,7 @@
       <button class="legal-back" onclick="showPage('home')">&#8592; <span id="t-b2">Zurueck</span></button>
       <h2 id="t-priv-h">Datenschutzerklaerung</h2>
       <h3>1. Verantwortlicher</h3>
-      <p><span class="ph">[Name, Adresse]</span></p>
+      <p>Benjamin Linge<br/>Nikolaus-Otto-Ring 21<br/>34225 Baunatal<br/>E-Mail: hello@life-is.app</p>
       <h3 id="t-dh">2. Welche Daten wir erfassen</h3>
       <ul>
         <li id="t-d1">Von dir verfasste Texte</li>
@@ -354,9 +354,14 @@
       <h3>1. <span id="t-sh">Geltungsbereich</span></h3>
       <p id="t-sc">Diese Bedingungen gelten fuer Life is... und alle damit verbundenen Dienste.</p>
       <h3>2. <span id="t-uh">Nutzung</span></h3>
-      <p id="t-us">Die Plattform ist kostenfrei. Nutzung setzt Mindestalter 16 Jahre voraus.</p>
-      <h3>3. <span id="t-ch">Inhalte und Nutzungsrechte</span></h3>
-      <p id="t-cn">Du bist fuer deine Inhalte verantwortlich.</p>
+      <p id="t-us">Die Plattform ist kostenfrei und anonym nutzbar. Mindestalter: 16 Jahre.</p>
+      <h3>3. Haftungsausschluss fuer Inhalte</h3>
+      <p>Life is... ist eine offene, anonyme Plattform fuer nutzergenerierte Kurzinhalte. Saemtliche veroffentlichten Beitraege stammen ausschliesslich von den Nutzern und werden automatisiert verarbeitet. Der Betreiber macht sich diese Inhalte <strong>ausdruecklich nicht zu eigen</strong> und uebernimmt keinerlei Haftung fuer deren Richtigkeit, Vollstaendigkeit, Aktualitaet oder Rechtmaessigkeit.</p>
+      <p>Gemaess &sect; 10 TMG haftet der Betreiber als Hostprovider nicht fuer nutzergenerierte Inhalte, solange ihm keine Kenntnis von rechtswidrigen Inhalten vorliegt. Nach Kenntnisnahme wird der Betreiber rechtswidrige Inhalte unverzueglich entfernen. Nutzer koennen rechtswidrige Inhalte jederzeit per Melde-Button oder per E-Mail an hello@life-is.app melden.</p>
+      <p>Eine vorangehende manuelle Pruefung der Nutzerbeitraege findet nicht statt. Der Betreiber ist gemaess &sect; 7 Abs. 2 TMG nicht verpflichtet, die auf der Plattform gespeicherten Informationen zu ueberwachen oder nach Umstaenden zu forschen, die auf eine rechtswidrige Taetigkeit hinweisen.</p>
+      <p>Fuer Schaeden, die durch die Nutzung oder Nichtnutzung der angebotenen Informationen entstehen, haftet der Betreiber nur bei Vorsatz oder grober Fahrlaessigkeit.</p>
+      <h3>4. <span id="t-ch">Inhalte und Nutzungsrechte</span></h3>
+      <p id="t-cn">Du bist als Nutzer allein verantwortlich fuer die von dir veroffentlichten Inhalte. Du sicherst zu, dass deine Beitraege keine Rechte Dritter verletzen und nicht gegen geltendes Recht verstossen.</p>
       <p>Mit der Veroeffentlichung eines Beitrags raeumst du dem Betreiber ein unwiderrufliches, weltweites, nicht-exklusives und kostenloses Nutzungsrecht ein. Dieses umfasst die Darstellung auf der Plattform sowie die kommerzielle Zweitverwertung einschliesslich Merchandise, Printmedien, digitale Publikationen und Lizenzierungen an Dritte.</p>
       <h3>4. <span id="t-fh">Verbotene Inhalte</span></h3>
       <ul>
@@ -368,6 +373,13 @@
       </ul>
       <h3>5. <span id="t-lh">Haftung</span></h3>
       <p id="t-li">Der Betreiber haftet nicht fuer Nutzerinhalte und behaelt sich das Recht vor, Inhalte zu entfernen.</p>
+      <hr class="legal-divider"/>
+      <h3>Haftungsausschluss für Nutzerinhalte</h3>
+      <p>Alle auf dieser Plattform veröffentlichten Beiträge stammen ausschließlich von den Nutzern. Der Betreiber macht sich diese Inhalte ausdrücklich nicht zu eigen und übernimmt keinerlei Haftung für deren Richtigkeit, Vollständigkeit oder Rechtmäßigkeit. Gemäß § 10 TMG ist der Betreiber als Hostingprovider erst nach Kenntnis einer konkreten Rechtsverletzung zur Entfernung verpflichtet.</p>
+      <h3>Meldung von Inhalten</h3>
+      <p>Rechtswidrige oder unangemessene Inhalte können über den Melde-Button direkt in der App gemeldet werden. Der Betreiber wird gemeldete Inhalte prüfen und gegebenenfalls entfernen. Meldungen können auch per E-Mail an <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8b0bdb4b4b798b4b1bebdf5b1abf6b9a8a8">[email&#160;protected]</a> erfolgen.</p>
+      <h3>Keine redaktionelle Kontrolle</h3>
+      <p>Die Plattform wird als automatisierter Dienst betrieben. Eine vollständige redaktionelle Vorabkontrolle aller Beiträge findet nicht statt. Der Betreiber distanziert sich ausdrücklich von allen Inhalten, die gegen geltendes Recht verstoßen.</p>
     </div>
   </div>
 
@@ -410,7 +422,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     var SU = 'https://acdiodygerxvxewiqpox.supabase.co';
     var SK = 'sb_publishable_I8u8f38wKnoPLJkRUATD5A_dsSNgJ7y';
     var MAX = 200;
@@ -904,7 +916,10 @@
         saveLiked();
         allEntries=allEntries.map(function(x){return x.id===id2?Object.assign({},x,{likes:n}):x;});
         renderEntries();
-        db.from('entries').update({likes:n}).eq('id',id2);
+        db.from('entries').update({likes:n}).eq('id',id2).then(function(r){
+          if(r.error){console.error('Like error:',r.error.message,r.error.code);}
+          else{console.log('Like saved:',n);}
+        });
       }
 
       if(ib){openSharepic(ib.dataset.text);}
@@ -948,13 +963,17 @@
         '</div>';
       }).join('');
     }
-    // Show banner after 3s if not dismissed
-    if(!localStorage.getItem('install-dismissed')){
-      setTimeout(function(){
-        var b=document.getElementById('installBanner');
-        if(b)b.classList.remove('hidden');
-      },6000);
-    }
+    // Show banner - every 7 days
+    (function(){
+      var last=localStorage.getItem('install-dismissed');
+      var show=!last||(Date.now()-parseInt(last))>7*24*60*60*1000;
+      if(show){
+        setTimeout(function(){
+          var b=document.getElementById('installBanner');
+          if(b)b.classList.remove('hidden');
+        },6000);
+      }
+    })();
     // Install banner - init after DOM ready
     window.addEventListener('load',function(){
       // QOTD like button
@@ -975,7 +994,7 @@
         document.getElementById('qotdLikes').textContent=n+' likes';
         var ae=allEntries.find(function(x){return x.id===qotdEntry.id;});
         if(ae)ae.likes=n;
-        db.from('entries').update({likes:n}).eq('id',id);
+        db.from('entries').update({likes:n}).eq('id',id).then(function(r){console.log('QOTD like:',JSON.stringify(r.error||'ok'));});
       });
       var ilBtn=document.getElementById('installLater');
       var ihBtn=document.getElementById('installHow');
@@ -985,11 +1004,11 @@
       var andB=document.getElementById('androidBtn');
       if(ilBtn)ilBtn.addEventListener('click',function(){
         document.getElementById('installBanner').classList.add('hidden');
-        localStorage.setItem('install-dismissed','1');
+        localStorage.setItem('install-dismissed',Date.now().toString());
       });
       if(ihBtn)ihBtn.addEventListener('click',function(){
         document.getElementById('installBanner').classList.add('hidden');
-        localStorage.setItem('install-dismissed','1');
+        localStorage.setItem('install-dismissed',Date.now().toString());
         renderInstallSteps();
         if(iovEl)iovEl.classList.add('show');
       });
@@ -1058,18 +1077,3 @@
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <h2 style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;margin:0;color:var(--text)">Add to Home Screen</h2>
         <button id="installClose" style="background:none;border:none;font-size:20px;color:var(--faint);cursor:pointer;padding:4px">✕</button>
-      </div>
-      <div id="installOsToggle">
-        <button class="ios-btn active" id="iosBtn">🍎 iPhone</button>
-        <button class="android-btn" id="androidBtn">🤖 Android</button>
-      </div>
-      <div id="installSteps"></div>
-      <div style="margin-top:20px;padding:14px 16px;background:linear-gradient(90deg,#2d5a40,#4a8f6f);border-radius:12px;text-align:center">
-        <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.9);margin:0">
-          <span style="font-family:'Meow Script',cursive;font-size:1.3em">Life is... </span>better on your home screen 🌿
-        </p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
