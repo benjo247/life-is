@@ -278,8 +278,10 @@
               <span id="qotdLikes"></span>
             </button>
             <div class="qotd-actions">
-              <button class="qotd-btn" id="qotdShareBtn">&#8593; <span id="t-qotd-share">Teilen</span></button>
-              <button class="qotd-btn2" id="qotdImgBtn">&#9633; <span id="t-qotd-img">Als Bild</span></button>
+              <button class="qotd-btn" id="qotdShareBtn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:middle;margin-right:4px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <span id="t-qotd-share">Teilen</span>
+              </button>
             </div>
           </div>
         </div>
@@ -798,12 +800,9 @@
       document.getElementById('qotdCard').style.display='block';
       document.getElementById('qotdCta').classList.add('show');
       document.getElementById('qotdShareBtn').onclick=function(){
-        var txt='Life is... '+entry.text;
-        if(navigator.share){navigator.share({title:'Life is...',text:txt,url:'https://life-is.app'});}
-        else{navigator.clipboard.writeText(txt+'\nhttps://life-is.app');}
+        openSharepic(entry.text);
       };
-      document.getElementById('qotdImgBtn').onclick=function(){openSharepic(entry.text);};
-    }
+          }
 
     function loadEntries(){
       db.from('entries').select('*').order('created_at',{ascending:false}).limit(200).then(function(r){
