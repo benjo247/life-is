@@ -40,6 +40,15 @@
     body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;min-height:100vh}
     ::-webkit-scrollbar{width:4px}
     ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    #streakBadge{display:flex;align-items:center;gap:4px;background:var(--card);border:0.5px solid rgba(240,160,60,0.4);border-radius:20px;padding:3px 8px;cursor:default}
+    #streakBadge span{font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;color:#f0a03c}
+    #newThoughtsBanner{border:0.5px solid rgba(45,90,64,0.2);border-radius:12px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card)}
+    .dark #newThoughtsBanner{border-color:rgba(45,90,64,0.4)}
+    #streakCard{border:0.5px solid rgba(240,160,60,0.3);border-radius:12px;background:var(--card);padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+    .streak-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+    .streak-dot.active{background:#f0a03c}
+    #qotdCountdown{font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:4px}
+    #qotdCountdown span{color:#2d5a40;font-weight:600;font-variant-numeric:tabular-nums}
     #installBanner{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;background:var(--bg);border-top:0.5px solid var(--border);padding:14px 20px 28px;box-shadow:0 -4px 24px rgba(0,0,0,0.08);z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:transform .3s ease}
     #installBanner.hidden{transform:translateX(-50%) translateY(110%)}
     #installOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:50;display:none;align-items:flex-end;justify-content:center}
@@ -203,6 +212,10 @@
 
   <nav class="topbar">
     <span class="logo" onclick="showPage('home')">Life is<span>...</span></span>
+    <div id="streakBadge" style="display:none">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="#f0a03c"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
+      <span id="streakCount">1</span>
+    </div>
     <div class="topbar-right">
       <span id="t-about-link" onclick="showPage('about')" style="font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">About</span>
       <div class="lang-toggle">
@@ -255,6 +268,10 @@
         </div>
         <div class="qotd-body">
           <p class="qotd-text"><span class="qotd-prefix">Life is... </span><span id="qotdText"></span></p>
+          <div id="qotdCountdown" style="display:none">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Neuer Gedanke in <span id="cdTimer">--:--:--</span>
+          </div>
           <div class="qotd-footer">
             <button id="qotdLikeBtn" class="qotd-likes" style="background:none;border:none;cursor:pointer;padding:0">
               <svg id="qotdLikeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -273,6 +290,28 @@
           <p class="qotd-cta-sub" id="t-qotd-cta2">Poste jetzt - vielleicht bist du morgen Quote of the Day</p>
         </div>
         <button class="qotd-cta-btn" onclick="document.getElementById('inp').focus();window.scrollTo({top:0,behavior:'smooth'})" id="t-qotd-post">Posten</button>
+      </div>
+      <div id="newThoughtsBanner" style="display:none">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2d5a40,#4a8f6f);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <p style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:500;color:var(--text);margin:0 0 1px"><span id="newThoughtsCount" style="color:#2d5a40;font-weight:700">0</span> <span id="newThoughtsLabel">neue Gedanken seit gestern</span></p>
+            <p style="font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted);margin:0" id="newThoughtsSub">Schau was die Welt heute denkt</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('newThoughtsBanner').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;flex-shrink:0">&#215;</button>
+      </div>
+      <div id="streakCard" style="display:none">
+        <div style="width:44px;height:44px;border-radius:50%;background:#f0a03c;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
+        </div>
+        <div style="flex:1">
+          <p style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;color:var(--text);margin:0 0 2px"><span id="streakDays">1</span> Tage dabei</p>
+          <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:var(--muted);margin:0" id="streakSub">Komm morgen wieder um den Streak zu halten</p>
+        </div>
+        <div style="display:flex;gap:4px" id="streakDots"></div>
       </div>
       <p class="voice-count" id="vcnt"></p>
       <p class="empty" id="emptyMsg"></p>
@@ -1054,6 +1093,99 @@
     document.getElementById('splash').addEventListener('click',function(){
       this.style.opacity='0';var s=this;setTimeout(function(){s.style.display='none';},400);
     });
+
+    // ── FOMO FEATURES ──────────────────────────────────────────
+    (function(){
+      var now=Date.now();
+      var today=new Date().toDateString();
+
+      // Streak
+      var lastVisit=localStorage.getItem('last-visit-date');
+      var streak=parseInt(localStorage.getItem('visit-streak')||'0');
+      var yesterday=new Date(now-86400000).toDateString();
+      if(lastVisit===today){
+        // same day, keep streak
+      } else if(lastVisit===yesterday){
+        streak+=1;
+        localStorage.setItem('visit-streak',streak);
+        localStorage.setItem('last-visit-date',today);
+      } else if(!lastVisit){
+        streak=1;
+        localStorage.setItem('visit-streak',1);
+        localStorage.setItem('last-visit-date',today);
+      } else {
+        streak=1;
+        localStorage.setItem('visit-streak',1);
+        localStorage.setItem('last-visit-date',today);
+      }
+      if(streak>=2){
+        var sb=document.getElementById('streakBadge');
+        if(sb){sb.style.display='flex';document.getElementById('streakCount').textContent=streak;}
+        var sc=document.getElementById('streakCard');
+        var sd=document.getElementById('streakDays');
+        var ss=document.getElementById('streakSub');
+        if(sc&&streak>=2){
+          sc.style.display='flex';
+          if(sd)sd.textContent=streak;
+          if(ss)ss.textContent=streak>=7?'Eine ganze Woche – du bist ein Stammgast!':streak>=3?'Stark! Bleib dabei.':'Komm morgen wieder um den Streak zu halten';
+          var dots=document.getElementById('streakDots');
+          if(dots){
+            var html='';
+            for(var d=1;d<=7;d++){html+='<div class="streak-dot'+(d<=streak?' active':'')+'"></div>';}
+            dots.innerHTML=html;
+          }
+        }
+      }
+
+      // New thoughts banner
+      var lastCount=parseInt(localStorage.getItem('last-entry-count')||'0');
+      var lastCountTime=parseInt(localStorage.getItem('last-count-time')||'0');
+      var hoursSince=(now-lastCountTime)/3600000;
+      if(lastCount>0&&hoursSince>6){
+        db.from('entries').select('id',{count:'exact',head:true}).then(function(r){
+          var current=r.count||0;
+          var diff=current-lastCount;
+          if(diff>0){
+            var nb=document.getElementById('newThoughtsBanner');
+            var nc=document.getElementById('newThoughtsCount');
+            var nl=document.getElementById('newThoughtsLabel');
+            var ns=document.getElementById('newThoughtsSub');
+            if(nb&&nc){
+              nc.textContent=diff;
+              if(nl)nl.textContent=lang==='de'?(diff===1?'neuer Gedanke seit gestern':'neue Gedanken seit gestern'):(diff===1?'new thought since yesterday':'new thoughts since yesterday');
+              if(ns)ns.textContent=lang==='de'?'Schau was die Welt heute denkt':'See what the world thinks today';
+              nb.style.display='flex';
+            }
+          }
+          localStorage.setItem('last-entry-count',current);
+          localStorage.setItem('last-count-time',now);
+        });
+      } else if(lastCount===0){
+        db.from('entries').select('id',{count:'exact',head:true}).then(function(r){
+          localStorage.setItem('last-entry-count',r.count||0);
+          localStorage.setItem('last-count-time',now);
+        });
+      }
+
+      // Countdown to midnight
+      function updateCountdown(){
+        var n=new Date();
+        var midnight=new Date(n);
+        midnight.setHours(24,0,0,0);
+        var diff=Math.floor((midnight-n)/1000);
+        var h=Math.floor(diff/3600);
+        var m=Math.floor((diff%3600)/60);
+        var s=diff%60;
+        var pad=function(x){return String(x).padStart(2,'0');};
+        var el=document.getElementById('cdTimer');
+        if(el)el.textContent=pad(h)+'h '+pad(m)+'m';
+      }
+      updateCountdown();
+      setInterval(updateCountdown,30000);
+      var cd=document.getElementById('qotdCountdown');
+      if(cd)cd.style.display='flex';
+    })();
+    // ────────────────────────────────────────────────────────────
 
     loadQotd();
     loadEntries();
