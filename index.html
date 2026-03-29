@@ -679,7 +679,31 @@
       filter=cat;
       document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
-      renderEntries();
+
+      if(cat==='all'){
+        // Reset to paginated infinite scroll
+        currentPage=0;hasMore=true;allEntries=[];
+        fetchPage(true);
+      } else if(cat==='top10'){
+        // Top 10 from all entries by likes
+        db.from('entries').select('*').order('likes',{ascending:false}).limit(10).then(function(r){
+          allEntries=r.data||[];
+          renderEntries();
+        });
+      } else if(cat==='random'){
+        // Random 10
+        db.from('entries').select('*').then(function(r){
+          var all=r.data||[];
+          allEntries=all.sort(function(){return Math.random()-.5;}).slice(0,10);
+          renderEntries();
+        });
+      } else {
+        // Category filter - fetch from Supabase directly
+        db.from('entries').select('*').contains('categories',[cat]).order('created_at',{ascending:false}).limit(100).then(function(r){
+          allEntries=r.data||[];
+          renderEntries();
+        });
+      }
     }
 
     function openSharepic(text){
