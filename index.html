@@ -340,7 +340,6 @@
           </div>
           <span id="ownCardLikes" style="font-family:-apple-system,sans-serif;font-size:12px;color:#2d5a40"></span>
         </div>
-        <p class="own-tagline" id="ownTagline">Dein Gedanke ist im Stream. Jemand hat ihn gelesen. Das reicht. 🌿</p>
       </div>
       <p class="empty" id="emptyMsg"></p>
       <div id="entries"></div>
@@ -735,48 +734,48 @@
     function toggleOwnPost(){
       var btn=document.getElementById('ownBtn');
       var card=document.getElementById('ownCard');
-      var ownPosts=JSON.parse(localStorage.getItem('own-posts')||'[]');
-      // Find most recent own post
-      var recent=ownPosts.sort(function(a,b){return b.ts-a.ts;})[0];
-      if(!recent){
-        // No post yet
-        btn.classList.toggle('active');
-        card.style.display='none';
-        document.getElementById('ownBtnLabel').textContent='Noch kein Beitrag';
-        setTimeout(function(){
-          btn.classList.remove('active');
-          document.getElementById('ownBtnLabel').textContent='Mein Beitrag';
-        },2000);
-        return;
-      }
       var isShowing=card.style.display==='block';
       if(isShowing){
         card.style.display='none';
         btn.classList.remove('active');
-        document.getElementById('ownBtnLabel').textContent='Mein Beitrag';
-      } else {
-        // Find entry in allEntries or fetch from supabase
-        var entry=allEntries.find(function(e){return e.id===recent.id;});
-        if(entry){
-          showOwnCard(entry);
-        } else {
-          db.from('entries').select('*').eq('id',recent.id).single().then(function(r){
-            if(r.data)showOwnCard(r.data);
-          });
-        }
-        btn.classList.add('active');
-        document.getElementById('ownBtnLabel').textContent='Mein Beitrag';
+        return;
       }
+      var ownPosts=JSON.parse(localStorage.getItem('own-posts')||'[]');
+      if(ownPosts.length===0){
+        document.getElementById('ownBtnLabel').textContent='Noch kein Beitrag';
+        setTimeout(function(){document.getElementById('ownBtnLabel').textContent='Mein Beitrag';},2000);
+        return;
+      }
+      var ids=ownPosts.map(function(p){return p.id;});
+      db.from('entries').select('*').in('id',ids).order('created_at',{ascending:false}).then(function(r){
+        if(r.data&&r.data.length>0){
+          showOwnCard(r.data);
+          btn.classList.add('active');
+          card.style.display='block';
+        }
+      });
     }
 
-    function showOwnCard(entry){
+    function showOwnCard(entries){
       var card=document.getElementById('ownCard');
-      var cats=entry.categories||[entry.category]||[];
-      document.getElementById('ownCardText').innerHTML='<span style="font-family:Georgia,cursive;font-size:1.3em;color:#2d5a40;font-style:normal">Life is... </span>'+esc(entry.text);
-      document.getElementById('ownCardTime').textContent=ago(entry.created_at);
-      document.getElementById('ownCardCat').textContent=cats[0]||'';
-      document.getElementById('ownCardLikes').textContent='♥ '+(entry.likes||0);
-      card.style.display='block';
+      var container=document.getElementById('ownCardText');
+      container.innerHTML='';
+      entries.forEach(function(entry,i){
+        var cats=entry.categories||[entry.category]||[];
+        var div=document.createElement('div');
+        div.style.cssText=i>0?'padding-top:12px;margin-top:12px;border-top:0.5px solid var(--border)':'';
+        div.innerHTML=
+          '<p style="font-family:'Playfair Display',serif;font-style:italic;font-size:17px;line-height:1.6;color:var(--text);margin-bottom:6px">'+
+          '<span class="entry-prefix">Life is... </span>'+esc(entry.text)+'</p>'+
+          '<div style="display:flex;justify-content:space-between;align-items:center">'+
+          '<div style="display:flex;gap:8px">'+
+          '<span style="font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted)">'+ago(entry.created_at)+'</span>'+
+          '<span style="font-family:-apple-system,sans-serif;font-size:10px;color:#3AA7E6;text-transform:uppercase;letter-spacing:.1em">'+(cats[0]||'')+'</span>'+
+          '</div>'+
+          '<span style="font-family:-apple-system,sans-serif;font-size:12px;color:#2d5a40">&#9825; '+(entry.likes||0)+'</span>'+
+          '</div>';
+        container.appendChild(div);
+      });
     }
 
     function openSharepic(text){
