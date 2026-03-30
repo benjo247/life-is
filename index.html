@@ -772,7 +772,7 @@
     function showOwnCard(entry){
       var card=document.getElementById('ownCard');
       var cats=entry.categories||[entry.category]||[];
-      document.getElementById('ownCardText').innerHTML='<span style="font-family:'Meow Script',cursive;font-size:1.3em;color:#2d5a40;font-style:normal">Life is... </span>'+esc(entry.text);
+      document.getElementById('ownCardText').innerHTML='<span style="font-family:Georgia,cursive;font-size:1.3em;color:#2d5a40;font-style:normal">Life is... </span>'+esc(entry.text);
       document.getElementById('ownCardTime').textContent=ago(entry.created_at);
       document.getElementById('ownCardCat').textContent=cats[0]||'';
       document.getElementById('ownCardLikes').textContent='♥ '+(entry.likes||0);
@@ -845,9 +845,9 @@
         var cats=entry.categories||[entry.category]||[];
         var catTags=cats.filter(Boolean).map(function(cat){return '<span class="cat-tag">'+cat+'</span>';}).join(' ');
         if(isOwn)catTags='<span class="own-badge">MEIN</span>'+catTags;
-        var c=document.createElement('div');
-        c.className='entry-card'+(entry.id===animId?' new':'');
-        c.innerHTML=
+        var div=document.createElement('div');
+        div.className='entry-card'+(entry.id===animId?' new':'');
+        div.innerHTML=
           '<p class="entry-text"><span class="entry-prefix">Life is... </span>'+esc(entry.text)+'</p>'+
           '<div class="entry-meta">'+
           '<div class="entry-meta-left"><span class="timestamp">'+ago(entry.created_at)+'</span>'+catTags+'</div>'+
@@ -865,7 +865,7 @@
           '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'+
           '</button>'+
           '</div></div>';
-        el.appendChild(c);
+        el.appendChild(div);
         if(i<list.length-1){var hr=document.createElement('hr');hr.className='divider';el.appendChild(hr);}
       });
     }
