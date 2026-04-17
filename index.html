@@ -155,7 +155,7 @@
     .modal-top{display:flex;justify-content:space-between;align-items:center;width:100%}
     .modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text)}
     .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1}
-    #shareCard{width:100%;aspect-ratio:4/5;max-width:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 48px 32px;background:#faf9f7;text-align:center}
+    #shareCard{width:380px;height:475px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 48px 32px;background:#faf9f7;text-align:center;overflow:hidden;flex-shrink:0}
     #shareCard.dark{background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)}
     #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:-20px}
     #shareCard .sc-prefix{font-family:'Meow Script',cursive;font-size:96px;line-height:.6;padding:20px 0 4px;color:#2d5a40;display:block;margin-bottom:8px;overflow:visible;max-width:240px;word-break:break-word;margin-left:-8px;letter-spacing:-1px}
@@ -310,8 +310,8 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
         </div>
         <div style="flex:1">
-          <p style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;color:var(--text);margin:0 0 2px"><span id="streakDays">1</span> Tage dabei</p>
-          <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:var(--muted);margin:0" id="streakSub">Komm morgen wieder um den Streak zu halten</p>
+          <p style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:600;color:var(--text);margin:0 0 2px"><span id="streakDays">1</span></p>
+          <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:var(--muted);margin:0" id="streakSub"></p>
         </div>
         <div style="display:flex;gap:4px" id="streakDots"></div>
       </div>
@@ -695,20 +695,20 @@
         fetchPage(true);
       } else if(cat==='top10'){
         // Top 10 from all entries by likes
-        db.from('entries').select('*').order('likes',{ascending:false}).limit(10).then(function(r){
+        db.from('entries').select('*').eq('approved',true).order('likes',{ascending:false}).limit(10).then(function(r){
           allEntries=r.data||[];
           renderEntries();
         });
       } else if(cat==='random'){
         // Random 10
-        db.from('entries').select('*').then(function(r){
+        db.from('entries').select('*').eq('approved',true).then(function(r){
           var all=r.data||[];
           allEntries=all.sort(function(){return Math.random()-.5;}).slice(0,10);
           renderEntries();
         });
       } else {
         // Category filter - fetch from Supabase directly
-        db.from('entries').select('*').contains('categories',[cat]).order('created_at',{ascending:false}).limit(100).then(function(r){
+        db.from('entries').select('*').eq('approved',true).contains('categories',[cat]).order('created_at',{ascending:false}).limit(100).then(function(r){
           allEntries=r.data||[];
           renderEntries();
         });
@@ -747,7 +747,7 @@
       var btn=document.getElementById('t-mdl');
       btn.textContent='...';
       btn.disabled=true;
-      html2canvas(document.getElementById('shareCard'),{scale:2,useCORS:true}).then(function(canvas){
+      html2canvas(document.getElementById('shareCard'),{scale:3,useCORS:true,width:380,height:475,windowWidth:380,windowHeight:475}).then(function(canvas){
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
           if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
@@ -865,7 +865,7 @@
       hasMore=true;
       allEntries=[];
       // Get real total count
-      db.from('entries').select('id',{count:'exact',head:true}).then(function(r){
+      db.from('entries').select('id',{count:'exact',head:true}).eq('approved',true).then(function(r){
         totalEntryCount=r.count||0;
         var vc=document.getElementById('vcnt');
         if(vc&&filter==='all')vc.textContent=TX[lang].vc(totalEntryCount);
@@ -877,7 +877,7 @@
       if(isLoadingMore)return;
       isLoadingMore=true;
       var from=currentPage*PAGE_SIZE;
-      db.from('entries').select('*').order('created_at',{ascending:false}).range(from,from+PAGE_SIZE-1).then(function(r){
+      db.from('entries').select('*').eq('approved',true).order('created_at',{ascending:false}).range(from,from+PAGE_SIZE-1).then(function(r){
         var newEntries=r.data||[];
         if(newEntries.length<PAGE_SIZE)hasMore=false;
         if(reset){
@@ -1081,7 +1081,8 @@
         var id=wb.dataset.id;
         var msg=lang==='de'?'Beitrag wirklich zurueckziehen?':'Withdraw this entry?';
         if(confirm(msg)){
-          db.from('entries').delete().eq('id',id).then(function(){
+          db.from('entries').update({approved:false}).eq('id',id).then(function(r){
+            if(r.error){console.error('Withdraw error:',r.error.message);return;}
             allEntries=allEntries.filter(function(x){return x.id!==id;});
             var own=JSON.parse(localStorage.getItem('own-posts')||'[]');
             localStorage.setItem('own-posts',JSON.stringify(own.filter(function(p){return p.id!==id;})));
