@@ -155,7 +155,7 @@
     .modal-top{display:flex;justify-content:space-between;align-items:center;width:100%}
     .modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text)}
     .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1}
-    #shareCard{width:380px;height:475px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 48px 32px;background:#faf9f7;text-align:center;overflow:hidden;flex-shrink:0}
+    #shareCard{width:360px;height:450px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden;flex-shrink:0}
     #shareCard.dark{background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)}
     #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:-20px}
     #shareCard .sc-prefix{font-family:'Meow Script',cursive;font-size:96px;line-height:.6;padding:20px 0 4px;color:#2d5a40;display:block;margin-bottom:8px;overflow:visible;max-width:240px;word-break:break-word;margin-left:-8px;letter-spacing:-1px}
@@ -747,7 +747,7 @@
       var btn=document.getElementById('t-mdl');
       btn.textContent='...';
       btn.disabled=true;
-      html2canvas(document.getElementById('shareCard'),{scale:3,useCORS:true,width:380,height:475,windowWidth:380,windowHeight:475}).then(function(canvas){
+      html2canvas(document.getElementById('shareCard'),{scale:3,useCORS:true,width:360,height:450,windowWidth:360,windowHeight:450}).then(function(canvas){
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
           if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
