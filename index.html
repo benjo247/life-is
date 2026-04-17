@@ -736,10 +736,7 @@
 
     function openSharepic(text){
       document.getElementById('scText').textContent=text;
-      document.getElementById('scTextPreview').textContent=text;
       document.getElementById('shareCard').classList.remove('dark');
-      document.getElementById('shareCardPreview').style.background='#faf9f7';
-      document.getElementById('shareCardPreview').classList.remove('dark');
       document.querySelectorAll('.modal-style-btn').forEach(function(b,i){b.classList.toggle('active',i===0);});
       document.getElementById('shareModal').classList.add('open');
     }
@@ -751,8 +748,6 @@
       document.querySelectorAll('.modal-style-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
       document.getElementById('shareCard').classList.toggle('dark',mode==='dark');
-      document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');
-      document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'#faf9f7';
     }
     function shareOrDownload(){
       var btn=document.getElementById('t-mdl');
