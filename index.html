@@ -735,7 +735,12 @@
       document.getElementById('scText').textContent=text;
       if(document.getElementById('scTextPreview'))document.getElementById('scTextPreview').textContent=text;
       document.getElementById('scTextPreview').textContent=text;
-      document.getElementById('shareCard').classList.remove('dark');
+      var sc=document.getElementById('shareCard');
+      sc.style.background='#faf9f7';
+      var sp=document.getElementById('scPrefix');if(sp)sp.style.color='#2d5a40';
+      var st=document.getElementById('scText');if(st)st.style.color='#1a1a1a';
+      var sl=document.getElementById('scLine');if(sl)sl.style.background='#2d5a40';
+      var sf=document.getElementById('scFooter');if(sf)sf.style.color='#aaa';
       var prev=document.getElementById('shareCardPreview');
       if(prev){prev.classList.remove('dark');prev.style.background='#faf9f7';}
       document.getElementById('shareCardPreview').style.background='#faf9f7';
@@ -750,9 +755,15 @@
     function setCardStyle(mode,btn){
       document.querySelectorAll('.modal-style-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
-      document.getElementById('shareCard').classList.toggle('dark',mode==='dark');
+      var sc=document.getElementById('shareCard');
+      var isDark=mode==='dark';
+      sc.style.background=isDark?'linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)':'#faf9f7';
+      var sp=document.getElementById('scPrefix');if(sp)sp.style.color=isDark?'rgba(255,255,255,0.9)':'#2d5a40';
+      var st=document.getElementById('scText');if(st)st.style.color=isDark?'rgba(255,255,255,0.92)':'#1a1a1a';
+      var sl=document.getElementById('scLine');if(sl)sl.style.background=isDark?'rgba(255,255,255,0.4)':'#2d5a40';
+      var sf=document.getElementById('scFooter');if(sf)sf.style.color=isDark?'rgba(255,255,255,0.45)':'#aaa';
       var prev=document.getElementById('shareCardPreview');
-      if(prev){prev.classList.toggle('dark',mode==='dark');prev.style.background=mode==='dark'?'':'';}
+      if(prev){prev.classList.toggle('dark',isDark);prev.style.background=isDark?'':'#faf9f7';}
       document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');
       document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'#faf9f7';
     }
@@ -1419,15 +1430,15 @@
     }
   </script>
 
-  <!-- Offscreen shareCard - isolated capture target, no parent elements -->
-  <div id="shareCapture" style="position:fixed;left:-9999px;top:0;width:360px;height:450px;overflow:hidden;z-index:-1;pointer-events:none">
-    <div id="shareCard" style="width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;text-align:center;overflow:hidden">
-      <div class="sc-content" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%">
-        <span class="sc-prefix">Life is...</span>
-        <p class="sc-text" id="scText"></p>
+  <!-- Offscreen shareCard - fully inline for html2canvas reliability -->
+  <div id="shareCapture" style="position:fixed;left:-9999px;top:0;width:360px;height:450px;z-index:-1;pointer-events:none;overflow:hidden">
+    <div id="shareCard" style="width:360px;height:450px;background:#faf9f7;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;text-align:center;overflow:hidden;box-sizing:border-box">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%">
+        <span id="scPrefix" style="font-family:'Meow Script',cursive;font-size:96px;line-height:0.6;padding:20px 0 4px;color:#2d5a40;display:block;margin-bottom:8px;overflow:visible;margin-left:-8px;letter-spacing:-1px">Life is...</span>
+        <p id="scText" style="font-family:'Playfair Display',serif;font-size:22px;font-style:italic;line-height:1.55;color:#1a1a1a;margin:0;padding:0 8px"></p>
       </div>
-      <div class="sc-line"></div>
-      <span class="sc-footer">Created with Life is... - life-is.app</span>
+      <div id="scLine" style="width:28px;height:1px;background:#2d5a40;margin:12px auto 10px"></div>
+      <span id="scFooter" style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;text-align:center">CREATED WITH LIFE IS... - LIFE-IS.APP</span>
     </div>
   </div>
 </body>
