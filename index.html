@@ -155,7 +155,7 @@
     .modal-top{display:flex;justify-content:space-between;align-items:center;width:100%}
     .modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text)}
     .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1}
-    #shareCard{width:360px;height:450px;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden;flex-shrink:0}
+    #shareCard{width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden}
     #shareCard.dark{background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)}
     #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:-20px}
     #shareCard .sc-prefix{font-family:'Meow Script',cursive;font-size:96px;line-height:.6;padding:20px 0 4px;color:#2d5a40;display:block;margin-bottom:8px;overflow:visible;max-width:240px;word-break:break-word;margin-left:-8px;letter-spacing:-1px}
@@ -465,10 +465,11 @@
         <span class="modal-title" id="t-mt">Teilen</span>
         <button class="modal-close" onclick="closeModal()">&#215;</button>
       </div>
-      <div id="shareCard">
-        <div class="sc-content">
+      <!-- Sharepic preview (visual only, capture uses offscreen #shareCard) -->
+      <div id="shareCardPreview" style="width:300px;height:375px;border-radius:8px;overflow:hidden;background:#faf9f7;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;text-align:center">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
           <span class="sc-prefix">Life is...</span>
-          <p class="sc-text" id="scText"></p>
+          <p class="sc-text" id="scTextPreview"></p>
         </div>
         <div class="sc-line"></div>
         <span class="sc-footer">Created with Life is... - life-is.app</span>
@@ -730,7 +731,12 @@
 
     function openSharepic(text){
       document.getElementById('scText').textContent=text;
+      if(document.getElementById('scTextPreview'))document.getElementById('scTextPreview').textContent=text;
+      document.getElementById('scTextPreview').textContent=text;
       document.getElementById('shareCard').classList.remove('dark');
+      if(document.getElementById('shareCardPreview')){document.getElementById('shareCardPreview').style.background='#faf9f7';}
+      document.getElementById('shareCardPreview').style.background='#faf9f7';
+      document.getElementById('shareCardPreview').classList.remove('dark');
       document.querySelectorAll('.modal-style-btn').forEach(function(b,i){b.classList.toggle('active',i===0);});
       document.getElementById('shareModal').classList.add('open');
     }
@@ -742,12 +748,35 @@
       document.querySelectorAll('.modal-style-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
       document.getElementById('shareCard').classList.toggle('dark',mode==='dark');
+      if(document.getElementById('shareCardPreview')){document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'';;document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');}
+      document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');
+      document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'#faf9f7';
     }
     function shareOrDownload(){
       var btn=document.getElementById('t-mdl');
       btn.textContent='...';
       btn.disabled=true;
-      html2canvas(document.getElementById('shareCard'),{scale:3,useCORS:true,width:360,height:450,windowWidth:360,windowHeight:450}).then(function(canvas){
+      var sc=document.getElementById('shareCapture');
+      sc.style.top='0';
+      sc.style.left='0';
+      sc.style.zIndex='9999';
+      html2canvas(document.getElementById('shareCard'),{
+        scale:3,
+        useCORS:true,
+        allowTaint:true,
+        width:360,
+        height:450,
+        x:0,
+        y:0,
+        scrollX:0,
+        scrollY:0,
+        windowWidth:360,
+        windowHeight:450,
+        logging:false
+      }).then(function(canvas){
+        sc.style.top='-9999px';
+        sc.style.left='0';
+        sc.style.zIndex='-1';
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
           if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
@@ -1348,4 +1377,48 @@
     </div>
     <div style="display:flex;gap:8px;flex-shrink:0">
       <button id="installLater" style="background:none;border:0.5px solid var(--border);border-radius:20px;padding:7px 12px;font-family:-apple-system,sans-serif;font-size:12px;color:var(--faint);cursor:pointer">Got it</button>
-      <button id="installHow" style="backgro
+      <button id="installHow" style="background:linear-gradient(90deg,#2d5a40,#4a8f6f);border:none;border-radius:20px;padding:7px 14px;font-family:-apple-system,sans-serif;font-size:12px;color:#fff;cursor:pointer;font-weight:500">How to</button>
+    </div>
+  </div>
+
+  <!-- INSTALL HOW-TO MODAL -->
+  <div id="installOverlay">
+    <div id="installSheet">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h2 style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;margin:0;color:var(--text)">Add to Home Screen</h2>
+        <button id="installClose" style="background:none;border:none;font-size:20px;color:var(--faint);cursor:pointer;padding:4px">&#215;</button>
+      </div>
+      <div id="installOsToggle">
+        <button class="ios-btn active" id="iosBtn">🍎 iPhone</button>
+        <button class="android-btn" id="androidBtn">🤖 Android</button>
+      </div>
+      <div id="installSteps"></div>
+      <div style="margin-top:20px;padding:14px 16px;background:linear-gradient(90deg,#2d5a40,#4a8f6f);border-radius:12px;text-align:center">
+        <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.9);margin:0">
+          <span style="font-family:'Meow Script',cursive;font-size:1.3em">Life is... </span>better on your home screen 🌿
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').catch(function(){});
+    }
+  </script>
+
+  <!-- Offscreen shareCard - isolated capture target, no parent elements -->
+  <div id="shareCapture" style="position:fixed;left:-9999px;top:0;width:360px;height:450px;overflow:hidden;z-index:-1;pointer-events:none">
+    <div id="shareCard" style="width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden">
+      <div class="sc-content" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%">
+        <span class="sc-prefix">Life is...</span>
+        <p class="sc-text" id="scText"></p>
+      </div>
+      <div class="sc-line"></div>
+      <span class="sc-footer">Created with Life is... - life-is.app</span>
+    </div>
+  </div>
+</body>
+</html>
