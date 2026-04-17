@@ -157,6 +157,8 @@
     .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:22px;line-height:1}
     #shareCard{width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden}
     #shareCard.dark{background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)}
+    #shareCardPreview{background:#faf9f7}
+    #shareCardPreview.dark{background:linear-gradient(160deg,#2d5a40 0%,#3a7a60 40%,#3AA7E6 100%)}
     #shareCard .sc-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-top:-20px}
     #shareCard .sc-prefix{font-family:'Meow Script',cursive;font-size:96px;line-height:.6;padding:20px 0 4px;color:#2d5a40;display:block;margin-bottom:8px;overflow:visible;max-width:240px;word-break:break-word;margin-left:-8px;letter-spacing:-1px}
     #shareCard.dark .sc-prefix{color:rgba(255,255,255,0.9)}
@@ -734,7 +736,8 @@
       if(document.getElementById('scTextPreview'))document.getElementById('scTextPreview').textContent=text;
       document.getElementById('scTextPreview').textContent=text;
       document.getElementById('shareCard').classList.remove('dark');
-      if(document.getElementById('shareCardPreview')){document.getElementById('shareCardPreview').style.background='#faf9f7';}
+      var prev=document.getElementById('shareCardPreview');
+      if(prev){prev.classList.remove('dark');prev.style.background='#faf9f7';}
       document.getElementById('shareCardPreview').style.background='#faf9f7';
       document.getElementById('shareCardPreview').classList.remove('dark');
       document.querySelectorAll('.modal-style-btn').forEach(function(b,i){b.classList.toggle('active',i===0);});
@@ -748,7 +751,8 @@
       document.querySelectorAll('.modal-style-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
       document.getElementById('shareCard').classList.toggle('dark',mode==='dark');
-      if(document.getElementById('shareCardPreview')){document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'';;document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');}
+      var prev=document.getElementById('shareCardPreview');
+      if(prev){prev.classList.toggle('dark',mode==='dark');prev.style.background=mode==='dark'?'':'';}
       document.getElementById('shareCardPreview').classList.toggle('dark',mode==='dark');
       document.getElementById('shareCardPreview').style.background=mode==='dark'?'':'#faf9f7';
     }
@@ -760,23 +764,29 @@
       sc.style.top='0';
       sc.style.left='0';
       sc.style.zIndex='9999';
+      var sc=document.getElementById('shareCapture');
+      sc.style.position='fixed';
+      sc.style.top='0px';
+      sc.style.left='0px';
+      sc.style.zIndex='10000';
+      sc.style.visibility='hidden';
+      var reflow=sc.offsetHeight;
       html2canvas(document.getElementById('shareCard'),{
         scale:3,
         useCORS:true,
-        allowTaint:true,
         width:360,
         height:450,
         x:0,
         y:0,
         scrollX:0,
         scrollY:0,
-        windowWidth:360,
-        windowHeight:450,
         logging:false
       }).then(function(canvas){
-        sc.style.top='-9999px';
-        sc.style.left='0';
+        sc.style.top='';
+        sc.style.left='-9999px';
         sc.style.zIndex='-1';
+        sc.style.visibility='';
+
         canvas.toBlob(function(blob){
           var file=new File([blob],'life-is.png',{type:'image/png'});
           if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
@@ -1411,7 +1421,7 @@
 
   <!-- Offscreen shareCard - isolated capture target, no parent elements -->
   <div id="shareCapture" style="position:fixed;left:-9999px;top:0;width:360px;height:450px;overflow:hidden;z-index:-1;pointer-events:none">
-    <div id="shareCard" style="width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;background:#faf9f7;text-align:center;overflow:hidden">
+    <div id="shareCard" style="width:360px;height:450px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 44px 28px;text-align:center;overflow:hidden">
       <div class="sc-content" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%">
         <span class="sc-prefix">Life is...</span>
         <p class="sc-text" id="scText"></p>
